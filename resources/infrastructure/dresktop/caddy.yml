@@ -1,0 +1,24 @@
+services:
+  caddy:
+    image: lucaslorentz/caddy-docker-proxy:ci-alpine
+    container_name: dresktop-caddy
+    ports:
+      - 80:80
+      - 443:443
+      - 8025:8025
+      - 1025:1025
+    environment:
+      - CADDY_INGRESS_NETWORKS=dresktop_network_external
+    networks:
+      - dresktop_network_external
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - caddy_data:/data
+    restart: unless-stopped
+
+networks:
+  dresktop_network_external:
+    external: true
+
+volumes:
+  caddy_data: {}

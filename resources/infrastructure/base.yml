@@ -1,0 +1,68 @@
+services:
+
+  drupal:
+    image: jdeg/dresktop:latest
+    container_name: 'project.drt'
+    volumes:
+      - /var/www/html/modules 
+    restart: always
+    networks:
+      - dresktop_network_external
+      - dresktop_network_internal
+    labels:
+      dresktop: true
+      caddy: project.drt.localhost
+      caddy.reverse_proxy: "{{ upstreams 80 }}"
+      caddy.tls: internal
+
+  database:
+    image: mariadb
+    container_name: 'db.project.drt'
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: drupal
+      MARIADB_DATABASE: drupal
+      MARIADB_USER: drupal
+      MARIADB_PASSWORD: drupal
+      MARIADB_TRANSACTION_ISOLATION: READ-COMMITTED
+    networks:
+      - dresktop_network_internal      
+  
+  adminer:
+    image: adminer
+    container_name: 'adminer.project.drt'
+    restart: always
+    networks:
+      - dresktop_network_external
+      - dresktop_network_internal
+    environment:
+      ADMINER_DEFAULT_DRIVER: mysql
+      ADMINER_DEFAULT_SERVER: database
+    labels:
+      caddy: adminer.project.drt.localhost
+      caddy.reverse_proxy: "{{ upstreams 8080 }}"
+      caddy.tls: internal
+
+  mail:
+    image: axllent/mailpit
+    container_name: mailpit
+    restart: unless-stopped
+    volumes:
+      - ./data:/data
+    labels:
+      caddy: mail.project.drt.localhost
+      caddy.reverse_proxy: "{{ upstreams 8025 }}"
+      caddy.tls: internal
+    networks:
+      - dresktop_network_external      
+    environment:
+      MP_MAX_MESSAGES: 5000
+      MP_DATABASE: /data/mailpit.db
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+
+networks:
+  dresktop_network_external:
+    external: true      
+  dresktop_network_internal:
+    internal: true

@@ -1,0 +1,71 @@
+/**
+ * @see https://www.electron.build/configuration/configuration
+ */
+{
+  "$schema": "https://raw.githubusercontent.com/electron-userland/electron-builder/master/packages/app-builder-lib/scheme.json",
+  "appId": "com.dresktop.dresktop",
+  "publish": [
+    {
+      "provider": "github",
+      "owner": "dresktop",
+      "repo": "dresktop",
+      "private": false
+    }
+  ],
+  "asar": true,
+  "productName": "Dresktop",
+  "directories": {
+    "output": "release/${version}"
+  },
+  "files": [
+    "dist",
+    "dist-electron",
+    "node_modules/**/*"
+  ],
+  "asarUnpack": [
+    "node_modules/better-sqlite3/**"
+  ],
+  "extraResources": [
+    "resources/**/*"
+  ],
+  "mac": {
+    "target": [
+      "dmg"
+    ],
+    "artifactName": "${productName}-Mac-${version}-Installer.${ext}",
+    "hardenedRuntime": true,
+    "gatekeeperAssess": false,
+    "entitlements": "./entitlements.plist",
+    "entitlementsInherit": "./entitlements.plist"
+  },
+  "win": {
+    "target": [
+      {
+        "target": "nsis",
+        "arch": [
+          "arm64"
+        ]
+      }
+    ],
+    "artifactName": "${productName}-Windows-${version}-Setup.${ext}"
+  },
+  "nsis": {
+    "oneClick": false,
+    "perMachine": false,
+    "allowToChangeInstallationDirectory": true,
+    "deleteAppDataOnUninstall": false
+  },
+  "linux": {
+    "target": [
+      {
+        "target": "deb",
+        "arch": [
+          "arm64"
+        ]
+      }
+    ],
+    "artifactName": "${productName}-Linux-${version}.${ext}",
+    "icon": "build/icon.png"
+  },
+  "icon": "build/icon.png"
+}

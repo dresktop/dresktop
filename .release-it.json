@@ -1,0 +1,19 @@
+{
+    "git": {
+        "tagName": "v${version}",
+        "requireCleanWorkingDir": false,
+        "requireBranch": "main",
+        "commitMessage": "chore: release v${version}"
+    },
+    "github": {
+        "release": false
+    },
+    "plugins": {
+        "@release-it/conventional-changelog": {
+            "preset": {
+                "name": "angular"
+            },
+            "infile": "CHANGELOG.md"
+        }
+    }
+}

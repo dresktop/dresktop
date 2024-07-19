@@ -1,0 +1,219 @@
+name: Release
+on:
+  workflow_dispatch
+jobs:
+  version:
+
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install release-it
+        run: npm install -g release-it
+
+      - name: Initialize Git user
+        run: |
+          git config --global user.email "josedanielestrada@gmail.com"
+          git config --global user.name "Jose Daniel Estrada"
+
+      - name: Install changelog
+        run: npm install @release-it/conventional-changelog
+
+      - name: Run release-it
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+        run: release-it --preRelease=beta
+
+  # macos:
+  #   needs: version
+
+  #   permissions:
+  #     contents: write
+  #     issues: write
+  #     pull-requests: write
+
+  #   runs-on: ${{ matrix.os }}
+
+  #   strategy:
+  #     matrix:
+  #       os: [macos-latest]
+  #       arch: [arm64]
+
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v3
+  #       with:
+  #         fetch-depth: 0
+
+  #     - name: Pull latest changes
+  #       run: git pull origin main
+
+  #     - name: Setup Node.js
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: '20'
+
+  #     - name: Remove package-lock.json and node_modules
+  #       run: rm -rf package-lock.json node_modules
+
+  #     - name: Setup Python and create virtual environment (macOS only)
+  #       run: |
+  #         brew install python@3.12
+  #         python3 -m venv venv
+  #         source venv/bin/activate
+  #         python3 -m ensurepip --upgrade
+  #         brew install python-setuptools
+  #         pip install --upgrade wheel
+  #         pip install --upgrade pip
+
+  #     - name: Install distutils (macOS only)
+  #       run: |
+  #         source venv/bin/activate
+  #         pip install --upgrade setuptools
+  #         python3 -c "import distutils"
+
+  #     - name: Set environment variables
+  #       run: export npm_config_arch=arm64
+
+  #     - name: Cleanup OS specific packages from package.json
+  #       run: |
+  #         jq 'del(.devDependencies["@rollup/rollup-darwin-arm64"], 
+  #           .devDependencies["dmg-license"], 
+  #           .devDependencies["@rollup/rollup-linux-arm64-gnu"])' package.json > tmp.json && mv tmp.json package.json        
+
+  #     - name: Add OS specific packages to package.json
+  #       run: |
+  #         jq '.devDependencies["@rollup/rollup-darwin-arm64"] = "^4.18.0" | .devDependencies["dmg-license"] = "^1.0.11"' package.json > tmp.json && mv tmp.json package.json
+
+  #     - name: Install dependencies
+  #       run: |
+  #         source venv/bin/activate
+  #         npm install
+
+  #     - name: Cleanup OS specific packages from package.json
+  #       run: |
+  #         jq 'del(.devDependencies["@rollup/rollup-darwin-arm64"], 
+  #           .devDependencies["dmg-license"], 
+  #           .devDependencies["@rollup/rollup-linux-arm64-gnu"])' package.json > tmp.json && mv tmp.json package.json                
+      
+  #     - name: Rebuild better-sqlite3 for ARM64
+  #       run: npm rebuild better-sqlite3 --build-from-source --target_arch=arm64
+
+  #     - name: Run postinstall script
+  #       run: npm run postinstall
+
+  #     - name: Initialize Git user
+  #       run: |
+  #         git config --global user.email "josedanielestrada@gmail.com"
+  #         git config --global user.name "Jose Daniel Estrada"
+
+  #     - name: Build App
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+  #         # These variables are for the signing
+  #         CSC_LINK: ${{ secrets.APPLE_CERTIFICATE }}
+  #         CSC_KEY_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+          
+  #         # These variables are required to notarize
+  #         # APPLE_ID: ${{ secrets.APPLE_ID }}
+  #         # APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}          
+  #       run: |
+  #         source venv/bin/activate
+  #         npm run build:mac -- --publish always --${{ matrix.arch }}
+
+  ubuntu:
+    # needs: [version, macos]
+    needs: [version]
+
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [Ubuntu]
+        arch: [arm64]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Pull latest changes
+        run: git pull origin main
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Remove package-lock.json and node_modules
+        run: rm -rf package-lock.json node_modules
+
+      - name: Set environment variables
+        run: export npm_config_arch=arm64
+
+      - name: Cleanup OS specific packages from package.json
+        run: |
+          jq 'del(.devDependencies["@rollup/rollup-darwin-arm64"], 
+            .devDependencies["dmg-license"], 
+            .devDependencies["@rollup/rollup-linux-arm64-gnu"])' package.json > tmp.json && mv tmp.json package.json        
+  
+      - name: Add OS specific packages to package.json
+        run: |
+          jq '.devDependencies["@rollup/rollup-linux-arm64-gnu"] = "^4.18.0"' package.json > tmp.json && mv tmp.json package.json
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Cleanup OS specific packages from package.json
+        run: |
+          jq 'del(.devDependencies["@rollup/rollup-darwin-arm64"], 
+            .devDependencies["dmg-license"], 
+            .devDependencies["@rollup/rollup-linux-arm64-gnu"])' package.json > tmp.json && mv tmp.json package.json                        
+  
+      - name: Install FPM dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ruby ruby-dev build-essential jq
+          sudo gem install --no-document fpm
+
+      - name: Set environment variables
+        run: |
+          echo "USE_SYSTEM_FPM=true" >> $GITHUB_ENV
+          echo "GEM_HOME=$(ruby -e 'puts Gem.user_dir')" >> $GITHUB_ENV
+          echo "PATH=$PATH:$GEM_HOME/bin" >> $GITHUB_ENV
+
+      - name: Rebuild better-sqlite3 for ARM64
+        run: npm rebuild better-sqlite3 --build-from-source --target_arch=arm64
+
+      - name: Run postinstall script
+        run: npm run postinstall
+
+      - name: Initialize Git user
+        run: |
+          git config --global user.email "josedanielestrada@gmail.com"
+          git config --global user.name "Jose Daniel Estrada"
+
+      - name: Build App
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run build:linux -- --publish always --${{ matrix.arch }}
