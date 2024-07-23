@@ -46,6 +46,7 @@ Dresktop is a cross-platform desktop application designed to streamline the mana
 ### Prerequisites
 - Application: Docker and git.
 - Cloud environments: SSH access, Git, Rsync.
+- **Note:** Currently, Dresktop supports only the ARM64 architecture.
 
 ### Installation
 
