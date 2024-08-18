@@ -46,7 +46,6 @@ Dresktop is a cross-platform desktop application designed to streamline the mana
 ### Prerequisites
 - Application: Docker and git.
 - Cloud environments: SSH access, Git, Rsync.
-- **Note:** Currently, Dresktop supports only MacOS and Linux operating systems and the ARM64 architecture.
 
 ### Installation
 
@@ -88,6 +87,13 @@ Download the latest version of Dresktop from the [GitHub releases](https://githu
     - [ ] Custom deploy tags
 - [ ] Multilanguage
 - [ ] Apply patches
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- LIMITATIONS -->
+## Limitations
+- Dresktop currently supports only macOS and Linux operating systems and the ARM64 architecture.
+- **Port Requirements:** Ports 80 and 443 are required for ACME HTTP and TLS-ALPN challenges to obtain publicly trusted TLS certificates, so using non-standard ports is not possible at the moment.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
