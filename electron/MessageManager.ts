@@ -81,8 +81,11 @@ export class MessageManager {
         ipcMain.handle('runCommand', async function (_, command: string, project: any, environment: any, identifier?: string) {
             return await that.core.runCommand(command, project, environment, identifier);
         });
-        ipcMain.handle('runOS', async function (_, command: string, environment?: any, identifier?: string) {
+        ipcMain.handle('runOS', async function (_, command: string, environment: any, identifier?: string) {
             return await that.core.runOS(command, environment, identifier);
+        });
+        ipcMain.handle('execDesktop', async function (_, command: string) {
+            return await that.core.execDesktop(command);
         });
         ipcMain.handle('exportDatabase', async function (_, project: any, environment: any, path: string, identifier?: string) {
             return await that.core.exportDatabase(project, environment, path, identifier);

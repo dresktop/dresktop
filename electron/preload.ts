@@ -70,8 +70,11 @@ contextBridge.exposeInMainWorld('backendAPI', {
   async runCommand(command: string, project: any, environment: any, identifier?: string) {
     return await ipcRenderer.invoke('runCommand', command, project, environment, identifier);
   },
-  async runOS(command: string, environment?: any, identifier?: string) {
+  async runOS(command: string, environment: any, identifier?: string) {
     return await ipcRenderer.invoke('runOS', command, environment, identifier);
+  },
+  async execDesktop(command: string) {
+    return await ipcRenderer.invoke('execDesktop', command);
   },
   async exportDatabase(project: any, environment: any, path: string, identifier?: string) {
     return await ipcRenderer.invoke('exportDatabase', project, environment, path, identifier);

@@ -9,8 +9,6 @@ log.initialize();
 import { Command } from "./Command";
 import { Message } from './Message';
 import { BrowserWindow } from 'electron'
-// const { version } = require('../package.json');
-
 
 export class Core {
 
@@ -39,8 +37,12 @@ export class Core {
     // Commands
     // ------------------------------------------------------------
 
-    public async runOS(command: string, environment?: any, identifier?: any) {
+    public async runOS(command: string, environment: any, identifier?: any) {
         return this.command.runOS(command, environment, identifier);
+    }
+
+    public async execDesktop(command: string) {
+        return this.command.execDesktop(command);
     }
 
     public async runCommand(command: string, project: any, environment: any, identifier?: string) {
@@ -761,20 +763,20 @@ export class Core {
         const resourcesPath = path.join(app.getPath('home'), 'Dresktop', '.resources');
         const caddyPath = path.join(resourcesPath, 'infrastructure', 'dresktop', 'caddy.yml')
         const command = `docker compose -f ${caddyPath} up -d`;
-        return await this.runOS(command);
+        return await this.command.execDesktop(command);
     }
 
     public async checkNetwork() {
 
         let command = `docker network ls --filter name=dresktop_network_external -q`;
-        let result = await this.runOS(command);
+        let result = await this.command.execDesktop(command);
 
         // If the network does not exists, the message will be empty
         if (!result.message) {
 
             // Creates the network
             command = `docker network create dresktop_network_external`;
-            result = await this.runOS(command);
+            result = await this.command.execDesktop(command);
         }
 
         return result;
@@ -782,7 +784,7 @@ export class Core {
 
     public async checkRsync() {
         let command = `docker pull jdeg/dresktop-rsync`;
-        return await this.runOS(command);
+        return await this.command.execDesktop(command);
     }
 
     // ------------------------------------------------------------
