@@ -90,8 +90,8 @@ const isUpToDate = computed(function () {
                     </div>
                 </div>
                 <div class="w-full">
-                    <Button @click="useUriBrowser('www.dresktop.com')" text="Help" type="tertiary" icon="externalLink"
-                        class="
+                    <Button @click="useUriBrowser('https://dresktop.com/docs/intro/getting-started.html')" text="Help"
+                        type="tertiary" icon="externalLink" class="
                           w-full 
                         text-slate-700 dark:text-white
                         hover:bg-blue-700 hover:text-white " />
