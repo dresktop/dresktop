@@ -132,7 +132,7 @@ export class Command {
             rsync -av /source/ /destination/
         `;
 
-        return await this.execDesktop(command, identifier);
+        return await this.execDesktop(command, undefined, identifier);
     }
 
     /**
@@ -154,7 +154,7 @@ export class Command {
             rsync -avz --no-perms --no-owner --no-group -e "ssh -i /keys/id_rsa -o StrictHostKeyChecking=no" \
             ${environmentSource.user}@${environmentSource.host}:${environmentSource.root}/sites/default/files/ /destination/`;
 
-        return await this.execDesktop(command, identifier);
+        return await this.execDesktop(command, undefined, identifier);
     }
 
     /**
@@ -176,7 +176,7 @@ export class Command {
             rsync -avz --no-perms --no-owner --no-group -e "ssh -i /keys/id_rsa -o StrictHostKeyChecking=no" \
             /source/ ${environmentDestination.user}@${environmentDestination.host}:${environmentDestination.root}/sites/default/files/`;
 
-        return await this.execDesktop(command, identifier);
+        return await this.execDesktop(command, undefined, identifier);
     }
 
     /**
@@ -212,7 +212,7 @@ export class Command {
             -var ${environmentSource.root}/sites/default/files/ ${environmentDestination.user}@${tunnel_host}:${environmentDestination.root}/sites/default/files'
         `;
 
-        return await this.execDesktop(command, identifier);
+        return await this.execDesktop(command, undefined, identifier);
     }
 
     // ------------------------------------------------------------
@@ -244,7 +244,7 @@ export class Command {
      */
     async copyFileDesktop(project: any, environment: any, localPath: string, remotePath: string, identifier?: any): Promise<Message> {
         const command = `docker cp ${localPath} db.${environment.machine_name}.${project.machine_name}.drt:${remotePath}`
-        return await this.execDesktop(command, identifier);
+        return await this.execDesktop(command, undefined, identifier);
     }
 
     /**
@@ -258,7 +258,7 @@ export class Command {
      */
     async removeFileDesktop(project: any, environment: any, remotePath: string, identifier?: any): Promise<Message> {
         const commandDelete = `docker exec db.${environment.machine_name}.${project.machine_name}.drt rm ${remotePath}`
-        return await this.execDesktop(commandDelete, identifier);
+        return await this.execDesktop(commandDelete, undefined, identifier);
     }
 
     /**
@@ -327,7 +327,7 @@ export class Command {
         } else {
             command = prefix + " " + `"/usr/bin/mariadb -udrupal -pdrupal drupal < ${remotePath}"`;
         }
-        return await this.execDesktop(command, identifier);
+        return await this.execDesktop(command, undefined, identifier);
     }
 
     /**
@@ -375,7 +375,7 @@ export class Command {
             gzip > ${dumpPath}`;
 
         const command = prefix + " " + sufix;
-        return await this.execDesktop(command, identifier);
+        return await this.execDesktop(command, undefined, identifier);
     }
 
     /**
@@ -412,7 +412,7 @@ export class Command {
     async runDesktop(command: string, project: any, environment: any, identifier?: string): Promise<Message> {
         const prefix = `docker exec -i ${environment.machine_name}.${project.machine_name}.drt bash`
         command = prefix + " " + `<<'EOF'\n${command}\nEOF`;
-        return await this.execDesktop(command, identifier);
+        return await this.execDesktop(command, undefined, identifier);
     }
 
     /**
@@ -527,7 +527,6 @@ export class Command {
             processEnv.PATH = processEnv.PATH + ":/usr/local/bin"
 
             const subProcess = spawn(command, {
-                // cwd: process.cwd(),
                 cwd: (environment && environment.app_root) ? environment.app_root : process.cwd(),
                 env: processEnv,
                 stdio: 'pipe',
