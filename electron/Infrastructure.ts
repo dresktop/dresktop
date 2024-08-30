@@ -38,25 +38,43 @@ export class Infrastructure {
      * @returns {Promise<Array<any>>} Array with the container statuses
      */
     public async status(infrastructureFile: string): Promise<Array<any>> {
+
         const result: any = await this.command.status(infrastructureFile);
 
-        return result.message
+        // MacOS returns this result as 2 objects, but in Ubuntu they are returned
+        // as an array
+        try {
 
-            // First we have to separate the results per line
-            .split(/\r?\n|\r|\n/g)
+            // First, attempt to parse the entire result as a JSON array.
+            const parsed = JSON.parse(result.message);
 
-            // Then filter the results that are not empty
-            .filter((line: string) => line)
+            // If successful and the parsed result is an array, return it.
+            if (Array.isArray(parsed)) {
+                return parsed;
+            }
 
-            // Then convert the string lines to object
-            .map(function (line: string) {
+            // If it's not an array, it means it's a single object.
+            return [parsed];
+        } catch (error) {
 
-                try {
-                    return JSON.parse(line); // Try to parse the line as JSON
-                } catch (error) {
-                    return { log: line }; // If parsing fails, return the line as a log entry
-                }
-            });
+            // If JSON.parse fails, fallback to line-by-line processing.
+            return result.message
+
+                // Split the results per line
+                .split(/\r?\n|\r|\n/g)
+
+                // Filter out empty lines
+                .filter((line: string) => line)
+
+                // Parse each line as JSON
+                .map(function (line: string) {
+                    try {
+                        return JSON.parse(line); // Try to parse the line as JSON
+                    } catch (error) {
+                        return { log: line }; // If parsing fails, return the line as a log entry
+                    }
+                });
+        }
     }
 
     /**
