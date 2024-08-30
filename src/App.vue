@@ -43,7 +43,7 @@ async function checkRsyncIsRunning() {
 
 async function checkDockerIsRunning() {
     applicationStore.setLoader(true, "Checking Docker");
-    const result = await window.backendAPI.runOS("docker info");
+    const result = await window.backendAPI.execDesktop("docker info");
     if (!result.success) {
         throw new Error("Docker is not running. Please check if Docker is installed and running correctly. <p class='my-3'><a class='p-1 rounded font-bold w-fit hover:bg-blue-400' href='#' onclick='window.backendAPI.reloadApp()'>Try again</a></p>");
     }

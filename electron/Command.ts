@@ -438,9 +438,9 @@ export class Command {
      * @param identifier Action identifier
      * @returns {Promise<Message>} A Promise Message object
      */
-    async runOS(command: string, environment?: any, identifier?: any): Promise<Message> {
+    async runOS(command: string, environment: any, identifier?: any): Promise<Message> {
         if (!environment || environment.type == 'desktop') {
-            return await this.execDesktop(command, identifier);
+            return await this.execDesktop(command, environment, identifier);
         } else {
             return await this.execCloud(command, environment, identifier);
         }
@@ -517,7 +517,7 @@ export class Command {
      * @param identifier Action identifier
      * @returns {Promise<Message>} A Promise Message object
      */
-    public async execDesktop(command: string, identifier?: string): Promise<Message> {
+    public async execDesktop(command: string, environment?: any, identifier?: string): Promise<Message> {
 
         return new Promise((resolve) => {
 
@@ -527,7 +527,8 @@ export class Command {
             processEnv.PATH = processEnv.PATH + ":/usr/local/bin"
 
             const subProcess = spawn(command, {
-                cwd: process.cwd(),
+                // cwd: process.cwd(),
+                cwd: (environment && environment.app_root) ? environment.app_root : process.cwd(),
                 env: processEnv,
                 stdio: 'pipe',
                 shell: true
