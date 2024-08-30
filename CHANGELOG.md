@@ -1,5 +1,12 @@
 
 
+## [1.0.1-beta.2](https://github.com/dresktop/dresktop/compare/v1.0.1-beta.1...v1.0.1-beta.2) (2024-08-30)
+
+
+### Bug Fixes
+
+* fix download link ([151939f](https://github.com/dresktop/dresktop/commit/151939f6a39cf683a6a93070f98d4199ff52904a))
+
 ## [1.0.1-beta.1](https://github.com/dresktop/dresktop/compare/v1.0.1-beta.0...v1.0.1-beta.1) (2024-08-30)
 
 
