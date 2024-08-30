@@ -34,12 +34,17 @@ const newVersionAvailable = computed(function () {
  * work if the app was not signed
  */
 const newVersionAvailableUrl = computed(function () {
-    if (applicationStore.getNewAppVersionObject) {
-        const asset = applicationStore.getNewAppVersionObject.assets.find(function (asset: any) {
-            return asset.name == applicationStore.getNewAppVersionObject.path;
-        });
-        return asset.browser_download_url;
-    }
+
+    // if (applicationStore.getNewAppVersionObject) {
+    //     const asset = applicationStore.getNewAppVersionObject.assets.find(function (asset: any) {
+    //         return asset.name == applicationStore.getNewAppVersionObject.path;
+    //     });
+    //     return asset.browser_download_url;
+    // }
+
+    const baseUrl = "https://github.com/dresktop/dresktop/releases/download/"; // Update this with your actual base URL
+
+    return `${baseUrl}${applicationStore.getNewAppVersionObject.tag}/${applicationStore.getNewAppVersionObject.path}`;
 });
 
 </script>
