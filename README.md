@@ -51,6 +51,14 @@ Dresktop is a cross-platform desktop application designed to streamline the mana
 
 Download the latest version of Dresktop from the [GitHub releases](https://github.com/dresktop/dresktop/releases) page. 
 
+### Database Configuration
+
+When creating a new Drupal local environment with Dresktop, the following default database credentials are used:
+
+- **Database Name**: `drupal`
+- **Username**: `drupal`
+- **Password**: `drupal`
+- **Host**: `database`
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
