@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import Modal from './../Modal.vue';
 import NewProjectForm from './../form/NewProjectForm.vue';
+import useInternationalization from '../../composables/translation';
 import Button from './../Button.vue';
 const props = defineProps(['show']);
 const emit = defineEmits(['update:show']);
@@ -15,15 +16,17 @@ const formValidation = ref(false);
         leave-to-class="transform opacity-0">
         <Modal @show="emit('update:show', false)" v-if="props.show" closable="true">
             <template #title>
-                <h2 class="mb-2 text-xl font-bold"> New Application </h2>
+                <h2 class="mb-2 text-xl font-bold">{{ useInternationalization('titles.new_application') }} </h2>
             </template>
             <template #content>
                 <NewProjectForm ref="form" v-model:formValidation="formValidation" />
             </template>
             <template #footer>
-                <Button text="Create" @click="form.onSave(); emit('update:show', false)" :disabled="!formValidation"
+                <Button :text="useInternationalization('buttons.create')"
+                    @click="form.onSave(); emit('update:show', false)" :disabled="!formValidation"
                     class="mr-2 disabled:opacity-75" />
-                <Button @click="emit('update:show', false)" text="Cancel" type="secondary" />
+                <Button @click="emit('update:show', false)" :text="useInternationalization('buttons.cancel')"
+                    type="secondary" />
             </template>
         </Modal>
     </Transition>

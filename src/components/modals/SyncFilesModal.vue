@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
 import _ from 'lodash';
+import useInternationalization from '../../composables/translation';
 
 import Modal from './../Modal.vue';
 import Button from './../Button.vue';
@@ -39,30 +40,33 @@ watch(() => props.projectEnvironments, (_value) => {
         leave-to-class="transform opacity-0">
         <Modal @show="emit('update:show', false)" v-if="props.show" closable="true">
             <template #title>
-                <h2 class="mb-2 text-xl font-bold"> Sync Files</h2>
+                <h2 class="mb-2 text-xl font-bold"> {{ useInternationalization('titles.sync_files') }} </h2>
             </template>
             <template #content>
 
                 <Alert :show="!props.projectEnvironments.length" type="error"
-                    :text="`You need to create an environment to be the source of the sync.`" class="mb-4" />
+                    :text="useInternationalization('alerts.sync_files').value" class="mb-4" />
 
                 <div class="flex flex-row gap-4 h-full items-center">
                     <div class="basis-1/2 h-full">
-                        <Select label="From:" :items="props.projectEnvironments" v-model:selected="selected" />
+                        <Select :label="useInternationalization('labels.from').value + `:`"
+                            :items="props.projectEnvironments" v-model:selected="selected" />
                     </div>
                     <div>
                         <Icon name="right" class="" />
                     </div>
                     <div class="basis-1/2 h-full">
-                        <Input label="To:" v-model="props.currentEnvironment.name" :readonly='true'
-                            message="Full path of the file. Allowed formats .sql and .gz" />
+                        <Input :label="useInternationalization('labels.to').value + `:`"
+                            v-model="props.currentEnvironment.name" :readonly='true'
+                            :message="useInternationalization('messages.database_path')" />
                     </div>
                 </div>
             </template>
             <template #footer>
-                <Button text="Sync" @click="onSave" class="mr-2 disabled:opacity-75"
+                <Button :text="useInternationalization('buttons.sync')" @click="onSave" class="mr-2 disabled:opacity-75"
                     :disabled="!props.projectEnvironments.length" />
-                <Button @click="emit('update:show', false)" text="Cancel" type="secondary" />
+                <Button @click="emit('update:show', false)" :text="useInternationalization('buttons.cancel')"
+                    type="secondary" />
             </template>
         </Modal>
     </Transition>

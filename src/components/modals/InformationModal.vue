@@ -4,7 +4,7 @@ import useUriBrowser from '../../composables/uriBrowser'
 import Modal from './../Modal.vue';
 import Button from './../Button.vue';
 import Logo from './../logo/Logo.vue'
-
+import useInternationalization from '../../composables/translation';
 import { useApplicationStore } from './../../store/application';
 const applicationStore = useApplicationStore();
 
@@ -59,20 +59,25 @@ const newVersionAvailableUrl = computed(function () {
                 <div class="flex flex-col items-center">
                     <Logo class="max-w-32" />
 
-                    <div v-if="isUpToDate && applicationStore.getAppVersion" class="my-8">You are up to date. <span
-                            class="font-medium">Version {{ applicationStore.getAppVersion }}</span></div>
-                    <div v-if="!isUpToDate" class="my-8">New version
-                        <span class="font-medium">{{ newVersionAvailable }}</span> is available.
+                    <div v-if="isUpToDate && applicationStore.getAppVersion" class="my-8">
+                        {{ useInternationalization('labels.up_to_date') }}. <span class="font-medium">{{
+                            useInternationalization('labels.version') }} {{
+                                applicationStore.getAppVersion }}</span></div>
+                    <div v-if="!isUpToDate" class="my-8">{{ useInternationalization('labels.new_version') }}
+                        <span class="font-medium">{{ newVersionAvailable }}</span> {{
+                            useInternationalization('labels.is_available') }}.
                     </div>
 
                 </div>
                 <div class="flex flex-col items-center">
                     <div class="flex flex-row items-center">
-                        <Button v-if="!isUpToDate && applicationStore.getNewAppVersionObject" text="Download"
+                        <Button v-if="!isUpToDate && applicationStore.getNewAppVersionObject"
+                            :text="useInternationalization('buttons.download')"
                             @click="useUriBrowser(newVersionAvailableUrl)" class="mr-2 disabled:opacity-75" />
                         <!-- <Button v-if="!isUpToDate && applicationStore.getNewAppVersionObject" text="Install now"
                             @click="installUpdates()" class="mr-2 disabled:opacity-75" /> -->
-                        <Button v-if="isUpToDate" @click="emit('update:show', false)" text="Ok" />
+                        <Button v-if="isUpToDate" @click="emit('update:show', false)"
+                            :text="useInternationalization('buttons.ok')" />
                     </div>
                 </div>
             </template>

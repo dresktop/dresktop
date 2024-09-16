@@ -15,6 +15,9 @@ export class MessageManager {
         ipcMain.handle('getAppVersion', async function (_) {
             return await that.core.getAppVersion();
         });
+        ipcMain.handle('getTranslations', async function (_) {
+            return await that.core.getTranslations();
+        });
         ipcMain.handle('reloadApp', async function (_) {
             return await that.core.reloadApp();
         });

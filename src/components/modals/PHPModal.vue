@@ -4,6 +4,7 @@ import _ from 'lodash';
 import { useVuelidate } from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
 import { php } from '@codemirror/lang-php'
+import useInternationalization from '../../composables/translation';
 
 import Modal from './../Modal.vue';
 import Button from './../Button.vue';
@@ -52,7 +53,7 @@ async function onSave() {
         leave-to-class="transform opacity-0">
         <Modal @show="emit('update:show', false)" v-if="props.show" closable="true">
             <template #title>
-                <h2 class="mb-2 text-xl font-bold"> Run PHP code </h2>
+                <h2 class="mb-2 text-xl font-bold"> {{ useInternationalization('titles.run_php_code') }} </h2>
             </template>
             <template #content>
                 <codemirror v-if="extensions.length" ref="myEditor" v-model="payload.code" :options="editorOptions"
@@ -60,8 +61,10 @@ async function onSave() {
                     :extensions="extensions" />
             </template>
             <template #footer>
-                <Button text="Run" @click="onSave" :disabled="validator$.$invalid" class="mr-2 disabled:opacity-75" />
-                <Button @click="emit('update:show', false)" text="Cancel" type="secondary" />
+                <Button :text="useInternationalization('buttons.run')" @click="onSave" :disabled="validator$.$invalid"
+                    class="mr-2 disabled:opacity-75" />
+                <Button @click="emit('update:show', false)" :text="useInternationalization('buttons.cancel')"
+                    type="secondary" />
             </template>
         </Modal>
     </Transition>

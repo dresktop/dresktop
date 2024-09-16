@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import useInternationalization from '../../composables/translation';
 import Modal from './../Modal.vue';
 import Button from './../Button.vue';
 
@@ -19,9 +20,10 @@ const emit = defineEmits(['update:show', 'onAccept']);
                 {{ props.content }}
             </template>
             <template #footer>
-                <Button text="Accept" @click="emit('onAccept'); emit('update:show', false)"
-                    class="mr-2 disabled:opacity-75" />
-                <Button @click="emit('update:show', false)" text="Cancel" type="secondary" />
+                <Button :text="useInternationalization('buttons.accept')"
+                    @click="emit('onAccept'); emit('update:show', false)" class="mr-2 disabled:opacity-75" />
+                <Button @click="emit('update:show', false)" :text="useInternationalization('buttons.cancel')"
+                    type="secondary" />
             </template>
         </Modal>
     </Transition>

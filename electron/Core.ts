@@ -29,6 +29,22 @@ export class Core {
         return version;
     }
 
+    public async getTranslations() {
+
+        // Application resources path. This path contains migrations directory 
+        const resourcesPath = path.join(app.getPath('home'), 'Dresktop', '.resources');
+
+        // Path to the translations
+        const jsonFilePath = path.join(resourcesPath, 'locales', 'lang.json');
+
+        try {
+            const data = fs.readFileSync(jsonFilePath, 'utf8');
+            return JSON.parse(data);
+        } catch (err) {
+            console.error('Error loading the JSON file:', err);
+        }
+    }
+
     public async reloadApp() {
         return this.window.reload();
     }
@@ -228,7 +244,7 @@ export class Core {
         // Backup all databases
         if (actionsObject['backup-database'].value && actionsObject['backup-database'].type == 'pre-deployment') {
 
-            logStepTitle = this.logStepTitle("Database backup")
+            logStepTitle = this.logStepTitle(actionsObject['backup-database'].name)
 
             this.window.webContents.send('on-logger-response', {
                 identifier: identifier,
@@ -237,13 +253,12 @@ export class Core {
             output += logStepTitle;
             message = await this.exportDatabase(project, environment, actionsObject['backup-database'].path, identifier);
             output += message?.message;
-
         }
 
         // Turn on Drupal maintenance mode
         if (actionsObject['turnon-maintenance-mode'].value && actionsObject['turnon-maintenance-mode'].type == 'pre-deployment') {
 
-            logStepTitle = this.logStepTitle("Turn on Drupal maintenance mode");
+            logStepTitle = this.logStepTitle(actionsObject['turnon-maintenance-mode'].name);
 
             const command = `drush state:set system.maintenance_mode 1 --input-format=integer`;
             this.window.webContents.send('on-logger-response', {
@@ -259,7 +274,7 @@ export class Core {
         // Clear all Drupal caches
         if (actionsObject['clear-cache'].value && actionsObject['clear-cache'].type == 'pre-deployment') {
 
-            logStepTitle = this.logStepTitle("Clear all Drupal caches")
+            logStepTitle = this.logStepTitle(actionsObject['clear-cache'].name);
 
             const command = `drush cr`;
             this.window.webContents.send('on-logger-response', {
@@ -269,7 +284,6 @@ export class Core {
             output += logStepTitle;
             message = await this.runCommand(command, project, environment, identifier);
             output += message?.message;
-
         }
 
         // ---------------------------------------------
@@ -328,7 +342,6 @@ export class Core {
             message = await this.runOS(command, environmentSource, identifier);
             output += message?.message;
 
-
             // Pull the tag in the destination
             logStepTitle = this.logStepTitle("Pulls new tags in destination environment");
             command = `git fetch --tags`;
@@ -339,7 +352,6 @@ export class Core {
             output += logStepTitle;
             message = await this.runOS(command, environment, identifier);
             output += message?.message;
-
 
             // Checkout to the new tag in the destination environment
             logStepTitle = this.logStepTitle("Checkout new tag");
@@ -389,7 +401,7 @@ export class Core {
 
         // Run database updates
         if (actionsObject['database-updates'].value && actionsObject['database-updates'].type == 'post-deployment') {
-            logStepTitle = this.logStepTitle("Run database updates");
+            logStepTitle = this.logStepTitle(actionsObject['database-updates'].name);
             const command = `drush updatedb`;
             this.window.webContents.send('on-logger-response', {
                 identifier: identifier,
@@ -403,7 +415,7 @@ export class Core {
 
         // Import configuration
         if (actionsObject['import-configuration'].value && actionsObject['import-configuration'].type == 'post-deployment') {
-            logStepTitle = this.logStepTitle("Import configuration");
+            logStepTitle = this.logStepTitle(actionsObject['import-configuration'].name);
             const command = `drush config:import`;
             this.window.webContents.send('on-logger-response', {
                 identifier: identifier,
@@ -417,7 +429,7 @@ export class Core {
 
         // Sanitize Database
         if (actionsObject['sanitize-database'].value && actionsObject['sanitize-database'].type == 'post-deployment') {
-            logStepTitle = this.logStepTitle("Sanitize database");
+            logStepTitle = this.logStepTitle(actionsObject['sanitize-database'].name);
             const command = `drush sql:sanitize`;
             this.window.webContents.send('on-logger-response', {
                 identifier: identifier,
@@ -430,7 +442,7 @@ export class Core {
 
         // Clear all Drupal caches
         if (actionsObject['clear-cache'].value && actionsObject['clear-cache'].type == 'post-deployment') {
-            logStepTitle = this.logStepTitle("Clear all Drupal caches");
+            logStepTitle = this.logStepTitle(actionsObject['clear-cache'].name);
             const command = `drush cr`;
             this.window.webContents.send('on-logger-response', {
                 identifier: identifier,
@@ -443,7 +455,7 @@ export class Core {
 
         // Turn off Drupal maintenance mode
         if (actionsObject['turnoff-maintenance-mode'].value && actionsObject['turnoff-maintenance-mode'].type == 'post-deployment') {
-            logStepTitle = this.logStepTitle("Turn off Drupal maintenance mode");
+            logStepTitle = this.logStepTitle(actionsObject['turnoff-maintenance-mode'].name);
             const command = `drush state:set system.maintenance_mode 0 --input-format=integer`;
             this.window.webContents.send('on-logger-response', {
                 identifier: identifier,
@@ -807,8 +819,7 @@ export class Core {
     }
 
     private logStepTitle(message: string) {
-        const line = "-----------------------------------------------";
-        return `\n${line}\n${message}\n${line}\n`;
+        return `\n>> ${message.toUpperCase()} <<\n\n`;
     }
 
     // ------------------------------------------------------------

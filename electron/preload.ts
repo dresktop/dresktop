@@ -4,6 +4,9 @@ contextBridge.exposeInMainWorld('backendAPI', {
   async getAppVersion() {
     return await ipcRenderer.invoke('getAppVersion');
   },
+  async getTranslations() {
+    return await ipcRenderer.invoke('getTranslations');
+  },
   async reloadApp() {
     return await ipcRenderer.invoke('reloadApp');
   },
@@ -145,7 +148,6 @@ contextBridge.exposeInMainWorld('backendAPI', {
   async editGroup(group: any) {
     return await ipcRenderer.invoke('editGroup', group);
   },
-
 })
 
 contextBridge.exposeInMainWorld('ipcRenderer', {

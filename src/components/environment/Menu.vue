@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import useInternationalization from '../../composables/translation';
 import Tooltip from './../../components/Tooltip.vue';
 import Icon from './../../components/Icon.vue';
 const props = defineProps(['disabled', 'gitIsEnabled', 'rsyncIsEnabled']);
@@ -7,7 +8,7 @@ const emit = defineEmits(['onClick']);
 
 <template>
 
-    <Tooltip content="Clear log">
+    <Tooltip :content="useInternationalization('toolbar.clear_log')">
         <div @click="!props.disabled ? emit('onClick', 'clear') : null"
             class="cursor-pointer rounded p-1 hover:bg-slate-700 dark:hover:bg-slate-800"
             :class="props.disabled ? 'opacity-50' : ''">
@@ -15,7 +16,7 @@ const emit = defineEmits(['onClick']);
         </div>
     </Tooltip>
 
-    <Tooltip content="Cache rebuild">
+    <Tooltip :content="useInternationalization('toolbar.cache_rebuild')">
         <div @click="!props.disabled ? emit('onClick', 'cr') : null"
             class="cursor-pointer rounded p-1 hover:bg-slate-700 dark:hover:bg-slate-800"
             :class="props.disabled ? 'opacity-50' : ''">
@@ -23,7 +24,7 @@ const emit = defineEmits(['onClick']);
         </div>
     </Tooltip>
 
-    <Tooltip content="Run cron">
+    <Tooltip :content="useInternationalization('toolbar.run_cron')">
         <div @click="!props.disabled ? emit('onClick', 'cron') : null"
             class="cursor-pointer rounded p-1 hover:bg-slate-700 dark:hover:bg-slate-800"
             :class="props.disabled ? 'opacity-50' : ''">
@@ -31,7 +32,7 @@ const emit = defineEmits(['onClick']);
         </div>
     </Tooltip>
 
-    <Tooltip content="Bash script">
+    <Tooltip :content="useInternationalization('toolbar.bash_script')">
         <div @click="!props.disabled ? emit('onClick', 'script') : null"
             class="cursor-pointer rounded p-1 hover:bg-slate-700 dark:hover:bg-slate-800"
             :class="props.disabled ? 'opacity-50' : ''">
@@ -39,7 +40,7 @@ const emit = defineEmits(['onClick']);
         </div>
     </Tooltip>
 
-    <Tooltip content="PHP code">
+    <Tooltip :content="useInternationalization('toolbar.php_code')">
         <div @click="!props.disabled ? emit('onClick', 'php') : null"
             class="cursor-pointer rounded p-1 hover:bg-slate-700 dark:hover:bg-slate-800"
             :class="props.disabled ? 'opacity-50' : ''">
@@ -47,7 +48,7 @@ const emit = defineEmits(['onClick']);
         </div>
     </Tooltip>
 
-    <Tooltip v-if="gitIsEnabled && rsyncIsEnabled" content="Deploy">
+    <Tooltip :content="useInternationalization('toolbar.deploy')">
         <div @click="!props.disabled ? emit('onClick', 'deploy') : null"
             class="cursor-pointer rounded p-1 hover:bg-slate-700 dark:hover:bg-slate-800"
             :class="props.disabled ? 'opacity-50' : ''">
@@ -55,7 +56,7 @@ const emit = defineEmits(['onClick']);
         </div>
     </Tooltip>
 
-    <Tooltip content="Update">
+    <Tooltip :content="useInternationalization('toolbar.update')">
         <div @click="!props.disabled ? emit('onClick', 'update') : null"
             class="cursor-pointer rounded p-1 hover:bg-slate-700 dark:hover:bg-slate-800"
             :class="props.disabled ? 'opacity-50' : ''">
@@ -64,5 +65,3 @@ const emit = defineEmits(['onClick']);
     </Tooltip>
 
 </template>
-
-<style></style>

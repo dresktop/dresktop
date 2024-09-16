@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { ref, toRaw, watch } from 'vue';
 import _ from 'lodash';
+import useInternationalization from '../../composables/translation';
 
 import Modal from './../Modal.vue';
 import Button from './../Button.vue';
@@ -22,23 +23,23 @@ const settingsStore = useSettingsStore();
 const downloads: any = settingsStore.settings.find((setting: any) => setting.key == 'downloads');
 
 const actions = ref([{
-    name: "Backup database",
+    name: useInternationalization('labels.backup_database'),
     type: "pre-deployment",
     key: "backup-database",
     path: downloads && downloads.value ? downloads.value : "",
     value: true
 }, {
-    name: "Turn on Drupal maintenance mode",
+    name: useInternationalization('labels.turn_on_maintenance_mode'),
     type: "pre-deployment",
     key: "turnon-maintenance-mode",
     value: true
 }, {
-    name: "Clear all Drupal caches",
+    name: useInternationalization('labels.clear_drupal_caches'),
     type: "pre-deployment",
     key: "clear-cache",
     value: true
 }, {
-    name: "Vendor updates",
+    name: useInternationalization('labels.vendor_updates_option'),
     type: "deployment",
     key: "vendor",
     vendor: {
@@ -46,37 +47,33 @@ const actions = ref([{
         options: [
             {
                 key: 'composer',
-                name: 'Run Composer install'
+                name: useInternationalization('labels.run_composer_install'),
             },
-            // {
-            //     key: 'rsync',
-            //     name: 'Sync vendor folder'
-            // }
         ]
     },
     value: true
 }, {
-    name: "Run database updates",
+    name: useInternationalization('labels.run_database_updates'),
     type: "post-deployment",
     key: "database-updates",
     value: true
 }, {
-    name: "Import configuration",
+    name: useInternationalization('labels.import_configuration'),
     type: "post-deployment",
     key: "import-configuration",
     value: true
 }, {
-    name: "Sanitize Database",
+    name: useInternationalization('labels.sanitize_database'),
     type: "post-deployment",
     key: "sanitize-database",
     value: false
 }, {
-    name: "Clear all Drupal caches",
+    name: useInternationalization('labels.clear_all_drupal_caches'),
     type: "post-deployment",
     key: "clear-cache",
     value: true
 }, {
-    name: "Turn off Drupal maintenance mode",
+    name: useInternationalization('labels.turn_off_maintenance_mode'),
     type: "post-deployment",
     key: "turnoff-maintenance-mode",
     value: true
@@ -106,9 +103,43 @@ async function openDialog(action: any) {
 
 async function onDeploy() {
 
+    // We need to do this updates in the values of the object, because i18next
+    // creates references in the values I have to display the text so they need to be
+    // raw and sometimes is not in the top level
+    const actionsRaw = toRaw(actions.value).map(function (action: any) {
+
+        // Updates the name of the current action
+        // This is because i18next created references
+        let result = {
+            ...action,
+            name: toRaw(action.name.value)
+        }
+
+        // Vendor has more references nested
+        if (typeof action.vendor !== "undefined") {
+
+            // Inside the property vendor, there is an array with option values. We also need to
+            // raw the values in those options
+            const optionsRaw = toRaw(action.vendor.options).map(function (option: any) {
+                return {
+                    ...option,
+                    name: toRaw(option.name.value)
+                }
+            });
+
+            // Opdates the original array
+            result = {
+                ...result,
+                vendor: optionsRaw
+            }
+        }
+
+        return result;
+    });
+
     const payload = {
         environmentFrom: toRaw(selectedEnvironmentFrom.value),
-        actions: toRaw(actions.value),
+        actions: actionsRaw,
         commitMessage: toRaw(commitMessage.value)
     };
 
@@ -127,6 +158,7 @@ showError.value = (props.projectEnvironments && !props.projectEnvironments.lengt
 
 // This watch is to assign a default value when the component is displayed
 watch(() => props.projectEnvironments, (_value) => {
+
     if (props.projectEnvironments.length) {
         selectedEnvironmentFrom.value = props.projectEnvironments[0];
     }
@@ -140,43 +172,45 @@ watch(() => props.projectEnvironments, (_value) => {
         leave-to-class="transform opacity-0">
         <Modal @show="emit('update:show', false)" v-if="props.show" closable="true">
             <template #title>
-                <h2 class="mb-2 text-xl font-bold"> Deploy </h2>
+                <h2 class="mb-2 text-xl font-bold"> {{ useInternationalization('titles.deploy') }} </h2>
             </template>
             <template #content>
 
                 <Alert :show="!props.projectEnvironments.length" type="error"
-                    :text="`You need to create an environment to be the source of the deployment.`" class="mb-4" />
+                    :text="useInternationalization('alerts.deploy_environment_source').value" class="mb-4" />
 
                 <Alert v-if="(selectedEnvironmentFrom && typeof selectedEnvironmentFrom.name !== 'undefined')"
                     v-model:show="showAlert" type="warning"
-                    :text="`A new tag will be created from <strong>${selectedEnvironmentFrom.name}</strong> and deployed to <strong>${props.currentEnvironment.name}</strong>`"
+                    :text="useInternationalization('alerts.deploy_new_tag').value + ` <strong>${selectedEnvironmentFrom.name}</strong>. ` + useInternationalization('alerts.deploy_to').value + ` <strong>${props.currentEnvironment.name}</strong>`"
                     class="mb-4" closable="true" />
 
                 <div class="flex flex-row gap-4 h-full items-center">
                     <div class="basis-1/2 h-full">
-                        <Select label="From:" :items="props.projectEnvironments"
-                            v-model:selected="selectedEnvironmentFrom" />
+                        <Select :label="useInternationalization('labels.from').value + `:`"
+                            :items="props.projectEnvironments" v-model:selected="selectedEnvironmentFrom" />
                     </div>
                     <div>
                         <Icon name="right" class="" />
                     </div>
                     <div class="basis-1/2 h-full">
-                        <Input label="To:" v-model="props.currentEnvironment.name" :readonly='true'
-                            message="Full path of the file. Allowed formats .sql and .gz" />
+                        <Input :label="useInternationalization('labels.to').value + `:`"
+                            v-model="props.currentEnvironment.name" :readonly='true'
+                            :message="useInternationalization('messages.database_path')" />
                     </div>
                 </div>
                 <div class="mb-3">
-                    <Textarea v-model="commitMessage" rows="3" label="Optional commit message" />
+                    <Textarea v-model="commitMessage" rows="3"
+                        :label="useInternationalization('labels.commit_message')" />
                 </div>
                 <div>
                     <Card color="bg-slate-100" colorDark="dark:bg-slate-900" classes="shadow-none" class="mb-4">
                         <template #content>
                             <div class="mb-5">
                                 <div class="text-lg font-semibold">
-                                    Deployment steps
+                                    {{ useInternationalization('labels.deployment_steps') }}
                                 </div>
                                 <div>
-                                    The following steps will be run in the order of the list.
+                                    {{ useInternationalization('labels.deployment_steps_description') }}
                                 </div>
                             </div>
                             <template v-for="(action, _index) in actions" :key="_index">
@@ -184,13 +218,15 @@ watch(() => props.projectEnvironments, (_value) => {
                                     class="mb-4" />
                                 <div v-if="action.value && (typeof action.path !== 'undefined')"
                                     class="mb-4 py-1 px-5 dar">
-                                    <Input label="Folder path" v-model="action.path" @click="openDialog(action)"
-                                        :readonly='true' message="Path where the database dump will be downloaded." />
+                                    <Input :label="useInternationalization('labels.folder_path')" v-model="action.path"
+                                        @click="openDialog(action)" :readonly='true'
+                                        :message="useInternationalization('labels.database_path_download')" />
                                 </div>
                                 <div v-if="action.value && (typeof action.vendor !== 'undefined')"
                                     class="mb-4 py-1 px-5">
-                                    <Radio label="Select how to deploy vendor updates" v-model="action.vendor.selected"
-                                        :options="action.vendor.options" class="" direction="col" />
+                                    <Radio :label="useInternationalization('labels.vendor_updates_option')"
+                                        v-model="action.vendor.selected" :options="action.vendor.options" class=""
+                                        direction="col" />
                                 </div>
                             </template>
                         </template>
@@ -198,11 +234,11 @@ watch(() => props.projectEnvironments, (_value) => {
                 </div>
             </template>
             <template #footer>
-                <Button text="Deploy" @click="onDeploy" class="mr-2 disabled:opacity-75"
-                    :disabled="!props.projectEnvironments.length" />
-                <Button @click="emit('update:show', false)" text="Cancel" type="secondary" />
+                <Button :text="useInternationalization('buttons.deploy')" @click="onDeploy"
+                    class="mr-2 disabled:opacity-75" :disabled="!props.projectEnvironments.length" />
+                <Button @click="emit('update:show', false)" :text="useInternationalization('buttons.cancel')"
+                    type="secondary" />
             </template>
         </Modal>
     </Transition>
 </template>
-<style></style>
