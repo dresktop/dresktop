@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { ref, onMounted, computed } from 'vue';
+import useInternationalization from '../composables/translation';
 
 // Store
 import { useEnvironmentStore } from './../store/environment';
@@ -70,9 +71,9 @@ async function onDeleteProject() {
 
     if (projectEnvironments.length) {
         showSnackbar.value = true;
-        snackbarValue.value = "Project needs to be empty. Please delete the environments first";
+        snackbarValue.value = useInternationalization('snackbars.project_cannot_be_deleted').value;
     } else {
-        applicationStore.setLoader(true, 'Deleting the project');
+        applicationStore.setLoader(true, useInternationalization('loaders.deleting_project').value);
         await projectStore.delete(clickedDeleteProject);
         applicationStore.setLoader(false, '');
     }
@@ -94,7 +95,7 @@ function onClickEnvironmentEdit(environment: any) {
 }
 
 async function onDeleteEnvironment() {
-    applicationStore.setLoader(true, 'Deleting the environment');
+    applicationStore.setLoader(true, useInternationalization('loaders.deleting_environment').value);
     await environmentStore.delete(clickedDeleteEnvironment);
     applicationStore.setLoader(false, '');
 }
@@ -118,10 +119,12 @@ onMounted(async () => {
     <!-- Modal Edit Environment -->
     <EditEnvironmentModal v-model:show="showEditEnvironmentModal" :environment="clickedEditEnvironment" />
 
-    <CancelAcceptModal title="Delete environment" content="Do you want to delete the environment?"
+    <CancelAcceptModal :title="useInternationalization('titles.delete_environment').value"
+        :content="useInternationalization('labels.do_you_want_to_delete_environment').value"
         v-model:show="showCancelAcceptModalDeleteEnvironment" @onAccept="onDeleteEnvironment" />
 
-    <CancelAcceptModal title="Delete project" content="Do you want to delete the project?"
+    <CancelAcceptModal :title="useInternationalization('titles.delete_application').value"
+        :content="useInternationalization('labels.do_you_want_to_delete_application').value"
         v-model:show="showCancelAcceptModalDeleteProject" @onAccept="onDeleteProject" />
 
     <!-- Modal Edit Project -->
@@ -207,7 +210,7 @@ onMounted(async () => {
                                 hover:text-blue-500
                                 cursor-pointer">
                     <Icon name="plus" class="mr-2" />
-                    <span class="font-normal">Add environment</span>
+                    <span class="font-normal">{{ useInternationalization('buttons.add_environment') }}</span>
                 </div>
             </div>
         </div>

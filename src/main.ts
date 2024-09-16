@@ -5,12 +5,41 @@ import App from './App.vue'
 import router from './router'
 import VueCodemirror from 'vue-codemirror'
 
+import i18next from 'i18next';
+import I18NextVue from 'i18next-vue';
+
+const translations = await window.backendAPI.getTranslations();
+
+const languages: any = {};
+
+for (const lang in translations) {
+  if (translations.hasOwnProperty(lang)) {
+    languages[lang] = {
+      frontend: {
+        frontend: translations[lang].frontend
+      }
+    };
+  }
+}
+
+i18next.init({
+  lng: 'en',
+  interpolation: {
+    escapeValue: false
+  },
+  defaultNS: "frontend",
+  debug: true,
+  fallbackLng: 'en',
+  resources: languages
+});
+
 // ---------------------------------
 // Typings
 // https://www.electronjs.org/docs/latest/tutorial/context-isolation#usage-with-typescript
 // ---------------------------------
 export interface IBackendAPI {
   getAppVersion: () => Promise<string>,
+  getTranslations: () => Promise<any>,
   reloadApp: () => Promise<string>,
   openDialog: (type: string) => Promise<any>,
   pathJoin: (paths: Array<string>) => Promise<any>,
@@ -71,4 +100,5 @@ createApp(App)
   .use(pinia)
   .use(router)
   .use(VueCodemirror)
+  .use(I18NextVue, { i18next })
   .mount('#app');

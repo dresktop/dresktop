@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { ref, toRaw, watch } from 'vue';
+import useInternationalization from '../../composables/translation';
 
 import { useVuelidate } from '@vuelidate/core'
 import { required, minLength, maxLength, requiredIf } from '@vuelidate/validators'
@@ -112,43 +113,49 @@ async function onSave() {
 
         <Modal @show="emit('update:show', false)" v-if="props.show" closable="true">
             <template #title>
-                <h2 v-if="props.environment" class="mb-2 text-xl font-bold"> Edit Environment </h2>
+                <h2 v-if="props.environment" class="mb-2 text-xl font-bold">
+                    {{ useInternationalization('titles.edit_environment') }} </h2>
             </template>
             <template #content>
-                <Input label="Name" v-model="formValues.name" message="Name must be at least 3 characters."
-                    :validator="$formValidation.name" />
+                <Input :label="useInternationalization('labels.name')" v-model="formValues.name"
+                    :message="useInternationalization('messages.name_min_chars')" :validator="$formValidation.name" />
 
-                <Checkbox label="Enable production mode" v-model="formValues.production_mode" class="mb-4" />
+                <Checkbox :label="useInternationalization('labels.enable_production_mode')"
+                    v-model="formValues.production_mode" class="mb-4" />
 
                 <Card color="bg-slate-100" colorDark="dark:bg-slate-900" classes="shadow-none">
                     <template #content>
 
                         <div v-if="formValues.type == 'desktop'">
-                            <div class="font-bold mb-3">Desktop options</div>
-                            <Input label="Path of the project" v-model="formValues.root"
-                                :validator="$formValidation.root" />
+                            <div class="font-bold mb-3">{{ useInternationalization('labels.desktop_options') }}</div>
+                            <Input :label="useInternationalization('labels.applications_root_path')"
+                                v-model="formValues.root" :validator="$formValidation.root" />
                         </div>
 
                         <!-- Shows cloud form -->
                         <div v-if="formValues.type == 'cloud'">
-                            <div class="font-bold mb-3">Cloud options</div>
-                            <Input label="Uri" v-model="formValues.uri" :validator="$formValidation.uri" />
-                            <Input label="Host" v-model="formValues.host" :validator="$formValidation.host" />
-                            <Input label="User" v-model="formValues.user" :validator="$formValidation.user" />
-                            <Input label="Ssh key path" v-model="formValues.ssh_key_path"
-                                :validator="$formValidation.ssh_key_path" />
-                            <Input label="Root of the project" v-model="formValues.root"
-                                :validator="$formValidation.root" />
-                            <Input label="Drush path" v-model="formValues.drush_path"
+                            <div class="font-bold mb-3">{{ useInternationalization('labels.cloud_options') }}</div>
+                            <Input :label="useInternationalization('labels.uri')" v-model="formValues.uri"
+                                :validator="$formValidation.uri" />
+                            <Input :label="useInternationalization('labels.host')" v-model="formValues.host"
+                                :validator="$formValidation.host" />
+                            <Input :label="useInternationalization('labels.user')" v-model="formValues.user"
+                                :validator="$formValidation.user" />
+                            <Input :label="useInternationalization('labels.ssh_key_path')"
+                                v-model="formValues.ssh_key_path" :validator="$formValidation.ssh_key_path" />
+                            <Input :label="useInternationalization('labels.applications_root_path')"
+                                v-model="formValues.root" :validator="$formValidation.root" />
+                            <Input :label="useInternationalization('labels.drush_path')" v-model="formValues.drush_path"
                                 :validator="$formValidation.drush_path" />
                         </div>
                     </template>
                 </Card>
             </template>
             <template #footer>
-                <Button text="Edit" @click="onSave(); emit('update:show', false)" :disabled="$formValidation.$invalid"
-                    class="mr-2 disabled:opacity-75" />
-                <Button @click="emit('update:show', false)" text="Cancel" type="secondary" />
+                <Button :text="useInternationalization('buttons.edit')" @click="onSave(); emit('update:show', false)"
+                    :disabled="$formValidation.$invalid" class="mr-2 disabled:opacity-75" />
+                <Button @click="emit('update:show', false)" :text="useInternationalization('buttons.cancel')"
+                    type="secondary" />
             </template>
         </Modal>
     </Transition>

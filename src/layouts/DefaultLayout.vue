@@ -6,6 +6,7 @@ import Button from '../components/Button.vue';
 import { useApplicationStore } from './../store/application';
 import { useDark, useToggle } from '@vueuse/core';
 import useUriBrowser from '../composables/uriBrowser'
+import useInternationalization from '../composables/translation'
 import InformationModal from '../components/modals/InformationModal.vue';
 
 const applicationStore = useApplicationStore();
@@ -15,17 +16,17 @@ const showModalUpdates = ref(false);
 
 const menuOptions = [
     {
-        label: 'Applications',
+        key: 'menu.applications',
         url: '/',
         icon: 'projects',
     },
     {
-        label: 'Groups',
+        key: 'menu.groups',
         url: '/groups',
         icon: 'groups',
     },
     {
-        label: 'Settings',
+        key: 'menu.settings',
         url: '/settings',
         icon: 'settings',
     }
@@ -79,7 +80,8 @@ const isUpToDate = computed(function () {
                     <div class="mt-8 flex flex-col items-center w-full">
                         <template v-for="(option, _index) in menuOptions" :key="_index">
                             <router-link :to="option.url" class="w-full">
-                                <Button :text="option.label" type="tertiary" :icon="option.icon" class="
+                                <Button :text="useInternationalization(option.key)" type="tertiary" :icon="option.icon"
+                                    class="
                                     w-full 
                                     mb-2
                                     py-5
@@ -90,8 +92,8 @@ const isUpToDate = computed(function () {
                     </div>
                 </div>
                 <div class="w-full">
-                    <Button @click="useUriBrowser('https://dresktop.com/docs/intro/getting-started.html')" text="Help"
-                        type="tertiary" icon="externalLink" class="
+                    <Button @click="useUriBrowser('https://dresktop.com/docs/intro/getting-started.html')"
+                        :text="useInternationalization('buttons.help')" type="tertiary" icon="externalLink" class="
                           w-full 
                         text-slate-700 dark:text-white
                         hover:bg-blue-700 hover:text-white " />

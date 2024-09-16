@@ -3,7 +3,7 @@ import { ref, toRaw } from 'vue';
 import _ from 'lodash';
 import { useVuelidate } from '@vuelidate/core'
 import { required, minLength, maxLength } from '@vuelidate/validators'
-
+import useInternationalization from '../../composables/translation';
 import Modal from './../Modal.vue';
 import Button from './../Button.vue';
 import Input from './../form/Input.vue';
@@ -64,16 +64,18 @@ async function openDialog() {
         leave-to-class="transform opacity-0">
         <Modal @show="emit('update:show', false)" v-if="props.show" closable="true">
             <template #title>
-                <h2 class="mb-2 text-xl font-bold"> Export Database </h2>
+                <h2 class="mb-2 text-xl font-bold"> {{ useInternationalization('titles.export_database') }} </h2>
             </template>
             <template #content>
-                <Input label="Folder path" v-model="payload.val" :validator="$formValidation.val" @click="openDialog"
-                    :readonly='true' message="Path where the database dump will be downloaded." />
+                <Input :label="useInternationalization('labels.folder_path')" v-model="payload.val"
+                    :validator="$formValidation.val" @click="openDialog" :readonly='true'
+                    :message="useInternationalization('messages.database_path_download')" />
             </template>
             <template #footer>
                 <Button text="Export" @click="onSave" :disabled="$formValidation.$invalid"
                     class="mr-2 disabled:opacity-75" />
-                <Button @click="emit('update:show', false)" text="Cancel" type="secondary" />
+                <Button @click="emit('update:show', false)" :text="useInternationalization('buttons.cancel')"
+                    type="secondary" />
             </template>
         </Modal>
     </Transition>

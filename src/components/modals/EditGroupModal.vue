@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { ref, toRaw, watch } from 'vue';
 import PickColors from 'vue-pick-colors'
+import useInternationalization from '../../composables/translation';
 
 import { useVuelidate } from '@vuelidate/core'
 import { required, minLength, maxLength } from '@vuelidate/validators'
@@ -57,19 +58,22 @@ async function onSave() {
         <Modal @show="emit('update:show', false)" v-if="props.show" closable="true">
 
             <template #title>
-                <h2 v-if="props.group" class="mb-2 text-xl font-bold"> Edit {{ props.group.name }} </h2>
+                <h2 v-if="props.group" class="mb-2 text-xl font-bold"> {{ useInternationalization('buttons.edit') }} {{
+                    props.group.name }} </h2>
             </template>
             <template #content>
-                <Input label="Group Name" v-model="payload.name" message="Group name must be at least 3 characters."
+                <Input :label="useInternationalization('labels.group_name')" v-model="payload.name"
+                    :message="useInternationalization('messages.group_name_min_chars')"
                     :validator="$formValidation.name" />
                 <div class="flex flex-row items-center">
-                    <pick-colors v-model:value="payload.color" /> Group color
+                    <pick-colors v-model:value="payload.color" /> {{ useInternationalization('labels.group_color') }}
                 </div>
             </template>
             <template #footer>
-                <Button text="Edit" @click="onSave(); emit('update:show', false)" :disabled="$formValidation.$invalid"
-                    class="mr-2 disabled:opacity-75" />
-                <Button @click="emit('update:show', false)" text="Cancel" type="secondary" />
+                <Button :text="useInternationalization('buttons.edit')" @click="onSave(); emit('update:show', false)"
+                    :disabled="$formValidation.$invalid" class="mr-2 disabled:opacity-75" />
+                <Button @click="emit('update:show', false)" :text="useInternationalization('buttons.cancel')"
+                    type="secondary" />
             </template>
         </Modal>
     </Transition>

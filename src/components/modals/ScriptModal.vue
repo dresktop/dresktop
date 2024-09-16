@@ -3,6 +3,7 @@ import { ref, toRaw } from 'vue';
 import _ from 'lodash';
 import { useVuelidate } from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
+import useInternationalization from '../../composables/translation';
 
 import Modal from './../Modal.vue';
 import Button from './../Button.vue';
@@ -45,15 +46,17 @@ async function onSave() {
         leave-to-class="transform opacity-0">
         <Modal @show="emit('update:show', false)" v-if="props.show" closable="true">
             <template #title>
-                <h2 class="mb-2 text-xl font-bold"> Run bash script </h2>
+                <h2 class="mb-2 text-xl font-bold"> {{ useInternationalization('titles.run_bash_script') }} </h2>
             </template>
             <template #content>
                 <codemirror ref="myEditor" v-model="payload.code" :options="editorOptions" :style="{ height: '400px' }"
                     :autofocus="true" :indent-with-tab="true" :tab-size="2" validator="validator$.code" />
             </template>
             <template #footer>
-                <Button text="Run" @click="onSave" :disabled="validator$.$invalid" class="mr-2 disabled:opacity-75" />
-                <Button @click="emit('update:show', false)" text="Cancel" type="secondary" />
+                <Button :text="useInternationalization('buttons.run')" @click="onSave" :disabled="validator$.$invalid"
+                    class="mr-2 disabled:opacity-75" />
+                <Button @click="emit('update:show', false)" :text="useInternationalization('buttons.cancel')"
+                    type="secondary" />
             </template>
         </Modal>
     </Transition>

@@ -136,15 +136,14 @@ function animationFinish() {
 }
 
 watch(() => props.status, (value) => {
-
     if (value == 'finished') {
         animationFinish();
     }
 });
 
-// The idea with this watch is keep listening as soon as the 
-// animation finishes one spin. So as soon as the animation finishes
-// and the status is intro, the spin will look more natural
+// The purpose of this watch is to continuously listen for the completion
+// of each spin in the animation. When the animation finishes and the 
+// status is 'intro', the spin will seamlessly transition, making it look more natural.
 watch(() => animationStartConfig.value.playState, (value) => {
 
     // Checks the animation spin has finished

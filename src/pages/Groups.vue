@@ -3,6 +3,7 @@ import { ref } from 'vue';
 
 import { useGroupStore } from './../store/group';
 import { useApplicationStore } from './../store/application';
+import useInternationalization from '../composables/translation'
 
 import Snackbar from './../components/Snackbar.vue';
 import Button from './../components/Button.vue';
@@ -37,12 +38,12 @@ function onClickDelete(id: number) {
 }
 
 async function onDeleteGroup() {
-    applicationStore.setLoader(true, 'Deleting the group');
+    applicationStore.setLoader(true, useInternationalization('loaders.deleting_group').value);
     const result = await groupStore.delete(clickedDeleteGroupId.value);
     applicationStore.setLoader(false, '');
     if (!result) {
         showSnackbar.value = true;
-        snackbarValue.value = "Group cannot be deleted. There are projects associated to this group";
+        snackbarValue.value = useInternationalization('snackbars.group_cannot_be_deleted').value;
     }
 }
 
@@ -56,7 +57,8 @@ async function onDeleteGroup() {
     <!-- Modal Edit Group -->
     <EditGroupModal v-model:show="showEditGroupModal" :group="clickedEditGroupModal" />
 
-    <CancelAcceptModal title="Delete group" content="Do you want to delete the group?"
+    <CancelAcceptModal :title="useInternationalization('titles.delete_group').value"
+        :content="useInternationalization('labels.do_you_want_to_delete_group').value"
         v-model:show="showCancelAcceptModalDeleteGroup" @onAccept="onDeleteGroup" />
 
     <Snackbar :content="snackbarValue" v-model:show="showSnackbar" />
@@ -64,12 +66,13 @@ async function onDeleteGroup() {
     <Page>
         <template #title>
             <div class="flex flex-row items-center">
-                <span>Groups</span>
+                <span>{{ useInternationalization('pages.groups') }}</span>
             </div>
         </template>
         <template #menu>
             <div class="flex flex-row space-x-1 items-center">
-                <Button @click="showNewGroupModal = true" text="New Group" type="tertiary" icon="plus" class="w-full" />
+                <Button @click="showNewGroupModal = true" :text="useInternationalization('buttons.new_group')"
+                    type="tertiary" icon="plus" class="w-full" />
             </div>
         </template>
         <template #content>

@@ -1,10 +1,9 @@
 <script lang="ts" setup>
 import { ref, watch, toRaw, onMounted } from 'vue';
-// import * as path from 'path';
-// import { promiseTimeout } from '@vueuse/core'
 import _ from 'lodash';
 import { useVuelidate } from '@vuelidate/core'
 import { requiredIf, minLength, maxLength, helpers } from '@vuelidate/validators'
+import useInternationalization from '../../composables/translation';
 
 import { useProjectStore } from './../../store/project';
 import { useEnvironmentStore } from './../../store/environment';
@@ -34,11 +33,11 @@ const groupStore = useGroupStore();
 const tabs = [
     {
         key: 'new',
-        name: 'New',
+        name: useInternationalization('labels.new'),
     },
     {
         key: 'import',
-        name: 'Import',
+        name: useInternationalization('labels.import'),
     },
 ];
 
@@ -47,11 +46,11 @@ const selectedTab = ref("new");
 const environmentTypeOptions = [
     {
         key: 'desktop',
-        name: 'Desktop'
+        name: useInternationalization('labels.desktop'),
     },
     {
         key: 'cloud',
-        name: 'Cloud'
+        name: useInternationalization('labels.cloud'),
     }
 ];
 
@@ -198,7 +197,7 @@ const defaultEnvironment = ref(true);
 async function onSave() {
 
     // Shows the loader
-    applicationStore.setLoader(true, 'Started the creation of the application', 'loading');
+    applicationStore.setLoader(true, useInternationalization('loaders.creating_project').value, 'loading');
 
     let createdProject;
 
@@ -255,7 +254,7 @@ async function onSave() {
             production_mode: formValues.value.production_mode,
         };
 
-        applicationStore.setLoader(true, 'Started the creation of the environment');
+        applicationStore.setLoader(true, useInternationalization('loaders.creating_environment').value);
 
         // Creates environment in the database
         const createdEnvironment = await environmentStore.save(payloadEnvironment);
@@ -272,7 +271,7 @@ async function onSave() {
             payloadInfrastructure.file_path = '';
             payloadInfrastructure.machine_name = infrastructureMachineName;
 
-            applicationStore.setLoader(true, 'Started the creation of the infrastructure');
+            applicationStore.setLoader(true, useInternationalization('loaders.creating_infrastructure').value);
 
             // Creates and build infrastructure, then saves information
             // in the database
@@ -283,7 +282,7 @@ async function onSave() {
             if (selectedTab.value == 'new') {
 
                 // Updates loader description
-                applicationStore.setLoader(true, 'Downloading Drupal');
+                applicationStore.setLoader(true, useInternationalization('loaders.downloading_drupal').value);
 
                 // First download the Drupal project
                 const commandComposer = `COMPOSER_ALLOW_SUPERUSER=1 composer create-project drupal/recommended-project .`;
@@ -298,7 +297,7 @@ async function onSave() {
 
             // Install Drush
             const commandDrush = "COMPOSER_ALLOW_SUPERUSER=1 composer require drush/drush";
-            applicationStore.setLoader(true, 'Installing Drush');
+            applicationStore.setLoader(true, useInternationalization('loaders.installing_drush').value);
             const resultDrush = await window.backendAPI.runCommand(commandDrush, toRaw(createdProject), toRaw(createdEnvironment));
             if (resultDrush) {
                 console.log('Drush installed sucessfully.');
@@ -306,7 +305,7 @@ async function onSave() {
                 console.log('Problems installing Drush.');
             }
 
-            applicationStore.setLoader(true, 'Updating the settings file owner');
+            applicationStore.setLoader(true, useInternationalization('loaders.files_owner').value);
             // Change default.settings.php owner
             // const commandOwner = "chown www-data:www-data /opt/drupal/web/sites/default/default.settings.php";
             const commandOwner = "chown -R www-data:www-data /opt/drupal";
@@ -391,24 +390,30 @@ onMounted(async () => {
 
 <template>
     <template v-if="!props.onlyEnvironment">
-        <Input label="Application Name" v-model="formValues.projectName"
-            :message="`Machine name: ` + formValues.projectMachineName" :validator="$formValidation.projectName" />
-        <Select label="Group:" :items="groupStore.getGroups" v-model:selected="selectedGroup" :all="false" />
+        <Input :label="useInternationalization('labels.application_name')" v-model="formValues.projectName"
+            :message="useInternationalization('labels.machine_name').value + `: ` + formValues.projectMachineName"
+            :validator="$formValidation.projectName" />
+        <Select :label="useInternationalization('labels.group')" :items="groupStore.getGroups"
+            v-model:selected="selectedGroup" :all="false" />
         <div>
-            <Checkbox label="Create default environment" v-model="defaultEnvironment" class="mb-4" />
+            <Checkbox :label="useInternationalization('labels.create_default_environment')" v-model="defaultEnvironment"
+                class="mb-4" />
         </div>
     </template>
 
     <div v-if="defaultEnvironment">
 
         <!-- Environment name -->
-        <Input label="Environment Name" v-model="formValues.name" :message="`Machine name: ` + formValues.machine_name"
+        <Input :label="useInternationalization('labels.environment_name')" v-model="formValues.name"
+            :message="useInternationalization('labels.machine_name').value + `: ` + formValues.machine_name"
             :validator="$formValidation.name" class="mb-4" />
 
-        <Checkbox label="Enable production mode" v-model="formValues.production_mode" class="mb-4" />
+        <Checkbox :label="useInternationalization('labels.enable_production_mode')" v-model="formValues.production_mode"
+            class="mb-4" />
 
         <!-- Chooses desktop or cloud -->
-        <Radio label="Environment type" v-model="formValues.type" :options="environmentTypeOptions" class="mb-4" />
+        <Radio :label="useInternationalization('labels.environment_type')" v-model="formValues.type"
+            :options="environmentTypeOptions" class="mb-4" />
 
         <Card color="bg-slate-100" colorDark="dark:bg-slate-900" classes="shadow-none">
             <template #content>
@@ -416,46 +421,57 @@ onMounted(async () => {
                 <!-- Shows desktop form -->
                 <div v-if="formValues.type == 'desktop'">
                     <div class="mb-4">
-                        <div class="font-medium mb-1">Services</div>
+                        <div class="font-medium mb-1">{{ useInternationalization('labels.services') }}</div>
                         <Checkbox label="Adminer" v-model="infrastructurePayload.services.adminer" />
                         <Checkbox label="Mailpit" v-model="infrastructurePayload.services.mail" />
                     </div>
                     <Tabs :options="tabs" v-model="selectedTab">
                         <template #new>
-                            <Input @click="openDialog" label="Application's root path"
-                                message="Select the new Drupal application path. It needs to be empty."
+                            <Input @click="openDialog" :label="useInternationalization('labels.applications_root_path')"
+                                :message="useInternationalization('messages.application_path')"
                                 v-model="formValues.appRootNew" :validator="$formValidation.appRootNew"
                                 :readonly='true' />
-                            <Input message="Read only. Directory for the web root folder" label="Web root path"
-                                v-model="formValues.rootNew" :validator="$formValidation.rootNew" :readonly='true' />
+                            <Input :message="useInternationalization('messages.webroot_path')"
+                                :label="useInternationalization('labels.webroot_path')" v-model="formValues.rootNew"
+                                :validator="$formValidation.rootNew" :readonly='true' />
                         </template>
                         <template #import>
-                            <Input @click="openDialog" label="Path of the application to be imported"
-                                message="Select the Drupal root folder you want to import."
+                            <Input @click="openDialog"
+                                :label="useInternationalization('labels.imported_applications_path')"
+                                :message="useInternationalization('messages.import_application_root')"
                                 v-model="formValues.appRootImport" :validator="$formValidation.appRootImport"
                                 :readonly='true' />
-                            <Input message="Directory for the web root folder" label="Web root path"
-                                v-model="formValues.rootImport" :validator="$formValidation.rootImport" />
+                            <Input :message="useInternationalization('messages.webroot_path')"
+                                :label="useInternationalization('labels.webroot_path')" v-model="formValues.rootImport"
+                                :validator="$formValidation.rootImport" />
                         </template>
                     </Tabs>
                 </div>
 
                 <!-- Shows cloud form -->
                 <div v-if="formValues.type == 'cloud'">
-                    <Input label="Uri" v-model="formValues.uri" :validator="$formValidation.uri"
-                        message="E.g. https://www.example.com" />
-                    <Input label="Host" v-model="formValues.host" :validator="$formValidation.host"
-                        message="E.g. www.example.com, 192.168.1.1, etc" />
-                    <Input label="User" v-model="formValues.user" :validator="$formValidation.user"
-                        message="E.g. root, admin, etc" />
-                    <Input label="Ssh key path" v-model="formValues.ssh_key_path" message="E.g. /Users/user/.ssh/id_rsa"
+                    <Input :label="useInternationalization('labels.uri')" v-model="formValues.uri"
+                        :validator="$formValidation.uri"
+                        :message="useInternationalization('labels.example').value + ` https://www.example.com`" />
+                    <Input :label="useInternationalization('labels.host')" v-model="formValues.host"
+                        :validator="$formValidation.host"
+                        :message="useInternationalization('labels.example').value + ` www.example.com, 192.168.1.1, etc`" />
+                    <Input :label="useInternationalization('labels.user')" v-model="formValues.user"
+                        :validator="$formValidation.user"
+                        :message="useInternationalization('labels.example').value + ` root, admin, etc`" />
+                    <Input :label="useInternationalization('labels.ssh_key_path')" v-model="formValues.ssh_key_path"
+                        :message="useInternationalization('labels.example').value + ` /Users/user/.ssh/id_rsa`"
                         :validator="$formValidation.ssh_key_path" />
-                    <Input message="E.g. /var/www/html" label="Application's root directory"
+                    <Input :message="useInternationalization('labels.example').value + ` /var/www/html`"
+                        :label="useInternationalization('labels.applications_root_path')"
                         v-model="formValues.appRootImport" :validator="$formValidation.appRootImport" />
-                    <Input message="E.g. /var/www/html/web" label="Web root directory" v-model="formValues.rootImport"
+                    <Input :message="useInternationalization('labels.example').value + ` /var/www/html/web`"
+                        :label="useInternationalization('labels.webroot_path')" v-model="formValues.rootImport"
                         :validator="$formValidation.rootImport" />
-                    <Input message="E.g. /var/www/html/vendor/drush/drush/" label="Drush directory"
-                        v-model="formValues.drush_path" :validator="$formValidation.drush_path" />
+                    <Input
+                        :message="useInternationalization('labels.example').value + ` /var/www/html/vendor/drush/drush/`"
+                        :label="useInternationalization('labels.drush_path')" v-model="formValues.drush_path"
+                        :validator="$formValidation.drush_path" />
                 </div>
             </template>
         </Card>

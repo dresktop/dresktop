@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import useInternationalization from '../../composables/translation'
 import Icon from './../../components/Icon.vue';
 import StatusLog from './StatusLog.vue';
 const props = defineProps(['item']);
@@ -20,7 +21,7 @@ async function copyToClipboard(text: string) {
                     <StatusLog :status="props.item.result.success" class="shrink-0" />
                     <span class="text-sm font-extralight break-all whitespace-pre-wrap font-mono">{{
                         props.item.command
-                        }}</span>
+                    }}</span>
                 </div>
                 <div>
                     <div @click="copyToClipboard(props.item.result.message)" class="
@@ -38,7 +39,7 @@ async function copyToClipboard(text: string) {
                 v-html="props.item.result.message.replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;').replace(/(?:\r\n|\r|\n)/g, '<br>')">
             </div>
             <div class="text-xs text-left text-blue-300 font-light ">
-                Executed on {{ new Date(props.item.executed).toLocaleString() }}
+                {{ useInternationalization('labels.executed_on') }} {{ new Date(props.item.executed).toLocaleString() }}
             </div>
         </div>
     </Transition>

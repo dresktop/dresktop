@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref, toRaw, computed } from 'vue';
 import { useRoute } from 'vue-router';
+import useInternationalization from '../composables/translation';
 
 // Stores
 import { useEnvironmentStore } from './../store/environment';
@@ -62,7 +63,7 @@ const servicesNames = ref({
             {
                 icon: 'switch',
                 type: "link",
-                label: 'Switch',
+                label: useInternationalization('buttons.switch'),
                 onClick: function () {
                     showSwitchCodeModal.value = true;
                 }
@@ -70,13 +71,13 @@ const servicesNames = ref({
         ]
     },
     database: {
-        name: 'Database',
+        name: useInternationalization('labels.database'),
         checked: true,
         actions: [
             {
                 icon: 'importDatabase',
                 type: "link",
-                label: 'Import',
+                label: useInternationalization('buttons.import'),
                 productionMode: computed(() => computedEnvironment.value.production_mode),
                 onClick: function () {
                     showImportDatabaseModal.value = true;
@@ -85,7 +86,7 @@ const servicesNames = ref({
             {
                 icon: 'exportDatabase',
                 type: "link",
-                label: 'Export',
+                label: useInternationalization('buttons.export'),
                 onClick: function () {
                     showExportDatabseModal.value = true;
                 }
@@ -93,7 +94,7 @@ const servicesNames = ref({
             {
                 icon: 'sync',
                 type: "link",
-                label: 'Sync',
+                label: useInternationalization('buttons.sync'),
                 productionMode: computed(() => computedEnvironment.value.production_mode),
                 onClick: function () {
                     showSyncDatabseModal.value = true;
@@ -102,13 +103,13 @@ const servicesNames = ref({
         ]
     },
     files: {
-        name: 'Files',
+        name: useInternationalization('labels.files'),
         checked: true,
         actions: [
             {
                 icon: 'sync',
                 type: "link",
-                label: 'Sync',
+                label: useInternationalization('buttons.sync'),
                 productionMode: computed(() => computedEnvironment.value.production_mode),
                 onClick: function () {
                     showSyncFilesModal.value = true;
@@ -123,7 +124,7 @@ const servicesNames = ref({
             {
                 icon: 'externalLink',
                 type: "link",
-                label: 'Open Adminer',
+                label: useInternationalization('buttons.open').value + ' Adminer',
                 onClick: function (host: string) {
                     useUriBrowser('https://' + 'adminer.' + host)
                 }
@@ -137,7 +138,7 @@ const servicesNames = ref({
             {
                 icon: 'externalLink',
                 type: "link",
-                label: 'Open Mailpit',
+                label: useInternationalization('buttons.open').value + ' Mailpit',
                 onClick: function (host: string) {
                     useUriBrowser('https://' + 'mail.' + host)
                 }
@@ -250,33 +251,34 @@ async function syncFiles(environmentFrom: any) {
 }
 
 async function deploy(payload: any) {
-    const identifier = await saveLog("Deploy", { message: "" }, computedEnvironment.value.id);
-    const result = await window.backendAPI.deploy(toRaw(project.value), toRaw(computedEnvironment.value), toRaw(payload), identifier);
+
+    const identifier = await saveLog(useInternationalization('labels.deploy').value, { message: "" }, computedEnvironment.value.id);
+    const result = await window.backendAPI.deploy(toRaw(project.value), toRaw(computedEnvironment.value), payload, identifier);
     await updateLogStatus(identifier, result);
     await checkGit();
 }
 
 async function syncDatabase(environmentFrom: any) {
-    const identifier = await saveLog("Sync database", { message: "" }, computedEnvironment.value.id);
+    const identifier = await saveLog(useInternationalization('labels.sync_database').value, { message: "" }, computedEnvironment.value.id);
     const result = await window.backendAPI.syncDatabase(toRaw(project.value), toRaw(computedEnvironment.value), toRaw(environmentFrom), identifier);
     await updateLogStatus(identifier, result);
 }
 
 async function importDatabase(path: string) {
-    const identifier = await saveLog("Import database", { message: "" }, computedEnvironment.value.id);
+    const identifier = await saveLog(useInternationalization('labels.import_datatabase').value, { message: "" }, computedEnvironment.value.id);
     const result = await window.backendAPI.importDatabase(toRaw(project.value), toRaw(computedEnvironment.value), path, identifier);
     await updateLogStatus(identifier, result);
 }
 
 async function exportDatabase(path: string) {
-    const identifier = await saveLog("Export database", { message: "" }, computedEnvironment.value.id);
+    const identifier = await saveLog(useInternationalization('labels.export_datatabase').value, { message: "" }, computedEnvironment.value.id);
     const result = await window.backendAPI.exportDatabase(toRaw(project.value), toRaw(computedEnvironment.value), path, identifier);
     await updateLogStatus(identifier, result);
 }
 
 async function switchCode(branchName: any) {
     const root = toRaw(computedEnvironment.value).root;
-    const identifier = await saveLog("Switch code", { message: "" }, computedEnvironment.value.id);
+    const identifier = await saveLog(useInternationalization('labels.switch_code').value, { message: "" }, computedEnvironment.value.id);
     const result = await window.backendAPI.runOS(`cd ${root} && git checkout ${branchName}`, toRaw(computedEnvironment.value), identifier);
     await updateLogStatus(identifier, result);
 
@@ -451,15 +453,17 @@ onMounted(async () => {
         </template>
         <template #nav>
             <router-link to="/">
-                <Button text="Applications" type="tertiary" icon="projects" size="sm" class="
+                <Button :text="useInternationalization('buttons.applications')" type="tertiary" icon="projects"
+                    size="sm" class="
                     w-fit 
                     mb-0
                     text-slate-700 
                     dark:text-white" />
             </router-link>
             <div class="mx-2">|</div>
-            <Button v-if="computedEnvironment" @click="useUriBrowser(computedEnvironment.uri)" text="Open website"
-                type="tertiary" icon="externalLink" :iconRight="true" size="sm" class="
+            <Button v-if="computedEnvironment" @click="useUriBrowser(computedEnvironment.uri)"
+                :text="useInternationalization('buttons.open_website')" type="tertiary" icon="externalLink"
+                :iconRight="true" size="sm" class="
                 w-fit 
                 mb-0
                 text-slate-700 
@@ -469,13 +473,16 @@ onMounted(async () => {
         <template #menu>
             <div class="flex flex-row space-x-1 items-center">
                 <template v-if="infrastructure">
-                    <Button v-if="infrastructureStatus == 'running'" @click="onPowerClick(false)" text="Powered On"
-                        type="primary" icon="play" class="w-fit bg-green-600 border-green-600 hover:bg-green-700" />
+                    <Button v-if="infrastructureStatus == 'running'" @click="onPowerClick(false)"
+                        :text="useInternationalization('buttons.powered_on')" type="primary" icon="play"
+                        class="w-fit bg-green-600 border-green-600 hover:bg-green-700" />
 
-                    <Button v-if="infrastructureStatus == 'exited'" @click="onPowerClick(true)" text="Powered Off"
-                        type="primary" icon="stop" class="w-fit bg-slate-400 border-slate-400 hover:bg-slate-500" />
+                    <Button v-if="infrastructureStatus == 'exited'" @click="onPowerClick(true)"
+                        :text="useInternationalization('buttons.powered_off')" type="primary" icon="stop"
+                        class="w-fit bg-slate-400 border-slate-400 hover:bg-slate-500" />
                 </template>
-                <Button @click="onEditEnvironment" text="Edit" type="tertiary" icon="edit" class="w-fit" />
+                <Button @click="onEditEnvironment" :text="useInternationalization('buttons.edit')" type="tertiary"
+                    icon="edit" class="w-fit" />
             </div>
         </template>
         <template #content>
@@ -489,7 +496,7 @@ onMounted(async () => {
                             <!-- Log -->
                             <Card color="bg-slate-800" colorDark="dark:bg-[#040608]" classes="h-full">
                                 <template #title>
-                                    <span class="text-white">Log</span>
+                                    <span class="text-white">{{ useInternationalization('titles.log') }}</span>
                                 </template>
                                 <template #menu>
                                     <EnvironmentMenu @onClick="onMenuClick" :gitIsEnabled="git.enabled && git.current"
@@ -501,9 +508,8 @@ onMounted(async () => {
                                         <template v-for="(item, _index) in outputLog.slice().reverse()" :key="_index">
                                             <ItemLog :item="item" />
                                         </template>
-                                        <div v-if="!outputLog.length" class="p-2" v-html="`Welcome to <span
-                                            class='font-bold text-blue-300'>Dresktop</span>.
-                                            Use the toolbar and services actions to manage your application.`"></div>
+                                        <div v-if="!outputLog.length" class="p-2"
+                                            v-html="useInternationalization('labels.log_welcome').value"></div>
                                     </div>
                                 </template>
                             </Card>
@@ -517,7 +523,8 @@ onMounted(async () => {
                                 <template v-if="project">
                                     <div class="flex flex-row items-center">
                                         <span>{{ project.name }}</span>
-                                        <Tooltip v-if="computedEnvironment.production_mode" content="Production mode">
+                                        <Tooltip v-if="computedEnvironment.production_mode"
+                                            :content="useInternationalization('labels.production_mode').value">
                                             <Icon name="lock" class="h-4 w-4 ml-2" />
                                         </Tooltip>
                                     </div>
@@ -525,7 +532,7 @@ onMounted(async () => {
                             </template>
                             <template #content>
                                 <div class="text-sm">
-                                    On branch:
+                                    {{ useInternationalization('labels.on_branch') }}:
                                     <span class="font-bold" v-if="git && !git.initialCheck">checking git...</span>
                                     <span class="font-bold" v-if="git && git.initialCheck && git.current">{{ git.current
                                         }}</span>
@@ -536,7 +543,7 @@ onMounted(async () => {
                         </Card>
                         <Card class="basis-3/4 overflow-y-auto grow">
                             <template #title>
-                                Services
+                                {{ useInternationalization('labels.services') }}
                             </template>
                             <template #content>
                                 <div class="hover:bg-cyan-500/5 p-2">
@@ -556,7 +563,8 @@ onMounted(async () => {
                                                 </h2>
                                                 <div
                                                     v-if="serviceIndex != 'database' && serviceIndex != 'files' && serviceIndex != 'git'">
-                                                    <Tooltip content="Activate">
+                                                    <Tooltip
+                                                        :content="useInternationalization('labels.activate').value">
                                                         <Checkbox
                                                             :disabled="infrastructureStatus && (infrastructureStatus != 'running')"
                                                             v-model="servicesNames[serviceIndex].checked"

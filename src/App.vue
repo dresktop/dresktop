@@ -7,6 +7,8 @@ import { useProjectStore } from './store/project';
 import { useSettingsStore } from './store/settings';
 import { useInfrastructureStore } from './store/infrastructure';
 import Loader from './components/Loader.vue';
+import i18next from 'i18next';
+import useInternationalization from './composables/translation';
 
 const applicationStore = useApplicationStore();
 const projectStore = useProjectStore();
@@ -18,40 +20,40 @@ const intervalCheckUpdates = ref();
 const CHECK_UPDATES_INTERVAL = 60 * 60 * 1000;
 
 async function checkCaddyIsRunning() {
-    applicationStore.setLoader(true, 'Checking Caddy');
+    applicationStore.setLoader(true, useInternationalization('loaders.caddy_message').value);
     const result = await window.backendAPI.checkCaddy();
     if (!result.success) {
-        throw new Error("Caddy is not running and could be not created. <p class='my-3'><a class='p-1 rounded font-bold w-fit hover:bg-blue-400' href='#' onclick='window.backendAPI.reloadApp()'>Try again</a></p>");
+        throw new Error(useInternationalization('loaders.caddy_error').value);
     }
 }
 
 async function checkNetworkIsRunning() {
-    applicationStore.setLoader(true, 'Checking network');
+    applicationStore.setLoader(true, useInternationalization('loaders.network_message').value);
     const result = await window.backendAPI.checkNetwork();
     if (!result.success) {
-        throw new Error("Network is not running and could be created. <p class='my-3'><a class='p-1 rounded font-bold w-fit hover:bg-blue-400' href='#' onclick='window.backendAPI.reloadApp()'>Try again</a></p>");
+        throw new Error(useInternationalization('loaders.network_error').value);
     }
 }
 
 async function checkRsyncIsRunning() {
-    applicationStore.setLoader(true, 'Checking Rsync');
+    applicationStore.setLoader(true, useInternationalization('loaders.rsync_message').value);
     const result = await window.backendAPI.checkRsync();
     if (!result.success) {
-        throw new Error("Rsync is not running and could be created. <p class='my-3'><a class='p-1 rounded font-bold w-fit hover:bg-blue-400' href='#' onclick='window.backendAPI.reloadApp()'>Try again</a></p>");
+        throw new Error(useInternationalization('loaders.rsync_error').value);
     }
 }
 
 async function checkDockerIsRunning() {
-    applicationStore.setLoader(true, "Checking Docker");
+    applicationStore.setLoader(true, useInternationalization('loaders.docker_message').value);
     const result = await window.backendAPI.execDesktop("docker info");
     if (!result.success) {
-        throw new Error("Docker is not running. Please check if Docker is installed and running correctly. <p class='my-3'><a class='p-1 rounded font-bold w-fit hover:bg-blue-400' href='#' onclick='window.backendAPI.reloadApp()'>Try again</a></p>");
+        throw new Error(useInternationalization('loaders.docker_error').value);
     }
 }
 
 async function showIntro() {
 
-    applicationStore.setLoader(true, "Loading complete");
+    applicationStore.setLoader(true, useInternationalization('loaders.loading_complete').value);
 
     await promiseTimeout(1000);
     status.value = 'intro';
@@ -78,15 +80,19 @@ async function checkUpdates() {
 
 onBeforeMount(async () => {
 
-    applicationStore.setLoader(true, 'Installing Dresktop');
+    applicationStore.setLoader(true, useInternationalization('loaders.installing').value);
 
     try {
+
+        await settingsStore.load();
+        const language = settingsStore.getSettings.find((setting: any) => setting.key == 'language');
+        i18next.changeLanguage(language.value);
+
         await checkDockerIsRunning();
         await checkNetworkIsRunning();
         await checkCaddyIsRunning();
         await checkRsyncIsRunning();
 
-        await settingsStore.load();
         await applicationStore.loadUserDataPath();
         await applicationStore.loadUserDocumentsPath();
         await projectStore.load();

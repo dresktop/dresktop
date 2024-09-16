@@ -1,9 +1,11 @@
 <script lang="ts" setup>
 import { ref, computed } from 'vue';
+import useInternationalization from '../../composables/translation'
 const props = defineProps(['label', 'items', 'selected', 'all']);
 const emit = defineEmits(['update:selected']);
 const selected = ref({
-    name: ""
+    name: props.selected?.name || "",
+    key: props.selected?.key || ""
 });
 
 const items = computed(() => props.items);
@@ -37,10 +39,10 @@ function onChange(event: any) {
             focus:ring-0 
             focus:border-2
             focus:border-solid">
-
-            <option v-if="all == true" value="{}">All</option>
+            <option v-if="all == true" value="{}">{{ useInternationalization('labels.all') }}</option>
             <template v-for="(item, _index) in items" :key="_index">
-                <option :selected="selected.name == item.name" :value="JSON.stringify(item)">{{ item.name }}
+                <option :selected="selected.name == item.name" :value="JSON.stringify(item)">
+                    {{ item.name }}
                 </option>
             </template>
         </select>

@@ -2,6 +2,7 @@
 import { ref, onMounted, computed } from 'vue';
 import { useProjectStore } from './../store/project';
 import { useGroupStore } from './../store/group';
+import useInternationalization from '../composables/translation'
 
 // Modals
 import NewProjectModal from './../components/modals/NewProjectModal.vue';
@@ -52,21 +53,23 @@ onMounted(async () => {
   <Page>
     <template #title>
       <div class="flex flex-row items-center">
-        <span>Applications</span>
+        <span>{{ useInternationalization('pages.applications') }}</span>
       </div>
     </template>
     <template #nav>
     </template>
     <template #menu>
       <div class="flex flex-row space-x-1 items-center">
-        <Button @click="showModalNewProject = true" text="New Application" type="tertiary" icon="plus" class="w-full" />
+        <Button @click="showModalNewProject = true" :text="useInternationalization('buttons.new_application')"
+          type="tertiary" icon="plus" class="w-full" />
       </div>
     </template>
     <template #content>
       <Card class="bg-white h-full">
         <template #title>
           <div class="flex flex-row items-center gap-4">
-            <Input class="font-light mb-0 text-sm " v-model="searchInput" placeholder="&#x1F50E; Search project" />
+            <Input class="font-light mb-0 text-sm " v-model="searchInput"
+              :placeholder="`&#x1F50E; ` + useInternationalization('labels.search').value" />
             <Select class="font-light mb-0 text-sm [&>select]:py-[9px]" :items="groupStore.getGroups"
               v-model:selected="searchSelect" :all="true" />
           </div>
@@ -74,9 +77,9 @@ onMounted(async () => {
         <template #content>
           <ProjectBlock v-if="computedProjects.length" :projects="computedProjects" />
           <div v-else>
-            Could not find any project. <span
+            {{ useInternationalization('labels.no_project') }} <span
               class="hover:bg-blue-100 dark:hover:bg-blue-900 dark:hover:text-blue-100 font-semibold" role="button"
-              @click="showModalNewProject = true">Add new application</span>.
+              @click="showModalNewProject = true">{{ useInternationalization('buttons.new_application') }}</span>.
           </div>
         </template>
       </Card>

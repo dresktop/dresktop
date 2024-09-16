@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { ref, toRaw, watch } from 'vue';
+import useInternationalization from '../../composables/translation';
 
 import { useVuelidate } from '@vuelidate/core'
 import { required, minLength, maxLength } from '@vuelidate/validators'
@@ -67,17 +68,21 @@ async function onSave() {
         <Modal @show="emit('update:show', false)" v-if="props.show" closable="true">
 
             <template #title>
-                <h2 v-if="props.project" class="mb-2 text-xl font-bold"> Edit {{ props.project.name }} </h2>
+                <h2 v-if="props.project" class="mb-2 text-xl font-bold"> {{ useInternationalization('buttons.edit') }}
+                    {{ props.project.name }} </h2>
             </template>
             <template #content>
-                <Input v-if="project" label="Application Name" v-model="payload.name"
-                    message="Application name must be at least 3 characters." :validator="$formValidation.name" />
-                <Select v-if="project" label="Group:" :items="groupStore.getGroups" v-model:selected="selectedGroup" />
+                <Input v-if="project" :label="useInternationalization('labels.application_name')" v-model="payload.name"
+                    :message="useInternationalization('messages.application_name_min_chars')"
+                    :validator="$formValidation.name" />
+                <Select v-if="project" :label="useInternationalization('labels.group').value + `:`"
+                    :items="groupStore.getGroups" v-model:selected="selectedGroup" />
             </template>
             <template #footer>
-                <Button text="Edit" @click="onSave(); emit('update:show', false)" :disabled="$formValidation.$invalid"
-                    class="mr-2 disabled:opacity-75" />
-                <Button @click="emit('update:show', false)" text="Cancel" type="secondary" />
+                <Button :text="useInternationalization('buttons.edit')" @click="onSave(); emit('update:show', false)"
+                    :disabled="$formValidation.$invalid" class="mr-2 disabled:opacity-75" />
+                <Button @click="emit('update:show', false)" :text="useInternationalization('buttons.cancel')"
+                    type="secondary" />
             </template>
         </Modal>
     </Transition>
