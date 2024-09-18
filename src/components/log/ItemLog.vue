@@ -1,12 +1,9 @@
 <script lang="ts" setup>
 import useInternationalization from '../../composables/translation'
+import useClipboard from '../../composables/clipboard'
 import Icon from './../../components/Icon.vue';
 import StatusLog from './StatusLog.vue';
 const props = defineProps(['item']);
-
-async function copyToClipboard(text: string) {
-    await window.backendAPI.copyToClipboard(text);
-}
 
 </script>
 
@@ -24,7 +21,7 @@ async function copyToClipboard(text: string) {
                     }}</span>
                 </div>
                 <div>
-                    <div @click="copyToClipboard(props.item.result.message)" class="
+                    <div @click="useClipboard(props.item.result.message)" class="
                                                                     cursor-pointer 
                                                                     rounded 
                                                                     p-1 
