@@ -4,6 +4,8 @@ import _ from 'lodash';
 import { useVuelidate } from '@vuelidate/core'
 import { requiredIf, minLength, maxLength, helpers } from '@vuelidate/validators'
 import useInternationalization from '../../composables/translation';
+import useClipboard from '../../composables/clipboard'
+import { nanoid, customAlphabet } from 'nanoid';
 
 import { useProjectStore } from './../../store/project';
 import { useEnvironmentStore } from './../../store/environment';
@@ -18,6 +20,7 @@ import Input from './../form/Input.vue';
 import Checkbox from './../form/Checkbox.vue';
 import Radio from './../form/Radio.vue'
 import Select from './../form/Select.vue';
+import Snackbar from './../Snackbar.vue';
 
 const props = defineProps(['form-validation', 'onlyEnvironment', 'projectId']);
 const emit = defineEmits(['update:form-validation']);
@@ -71,6 +74,10 @@ const formValues = ref({
     appRootImport: "",
     host: "",
     user: "",
+    drupalAutoInstall: true,
+    drupalUser: 'admin',
+    drupalPass: '',
+    drupalSiteName: '',
     ssh_key_path: ssh_key_path && ssh_key_path.value ? ssh_key_path.value : "",
     uri: "",
     drush_path: "",
@@ -164,6 +171,30 @@ const formRules = {
         maxLength: maxLength(128),
         $autoDirty: true
     },
+    drupalUser: {
+        required: requiredIf(function () {
+            return formValues.value.drupalAutoInstall == true;
+        }),
+        minLength: minLength(3),
+        maxLength: maxLength(128),
+        $autoDirty: true
+    },
+    drupalPass: {
+        required: requiredIf(function () {
+            return formValues.value.drupalAutoInstall == true;
+        }),
+        minLength: minLength(3),
+        maxLength: maxLength(128),
+        $autoDirty: true
+    },
+    drupalSiteName: {
+        required: requiredIf(function () {
+            return formValues.value.drupalAutoInstall == true;
+        }),
+        minLength: minLength(3),
+        maxLength: maxLength(128),
+        $autoDirty: true
+    },
     uri: {
         required: requiredIf(function () {
             return defaultEnvironment.value == true && formValues.value.type == 'cloud';
@@ -193,6 +224,15 @@ const formRules = {
 const $formValidation = useVuelidate(formRules, formValues);
 
 const defaultEnvironment = ref(true);
+
+const snackbarValue = ref("");
+const showSnackbar = ref(false);
+
+async function copyToClipboard() {
+    useClipboard(formValues.value.drupalPass);
+    snackbarValue.value = useInternationalization('snackbars.password_copied').value
+    showSnackbar.value = true;
+}
 
 async function onSave() {
 
@@ -305,6 +345,19 @@ async function onSave() {
                 console.log('Problems installing Drush.');
             }
 
+            if (formValues.value.drupalAutoInstall) {
+
+                const autoInstallCommand = `drush site:install --db-url='mysql://drupal:drupal@database/drupal' --account-name='${formValues.value.drupalUser}' --account-pass='${formValues.value.drupalPass}' --site-name='${formValues.value.drupalSiteName}'`;
+
+                applicationStore.setLoader(true, "AUTO INSTALLING");
+                const resultDrush = await window.backendAPI.runCommand(autoInstallCommand, toRaw(createdProject), toRaw(createdEnvironment));
+                if (resultDrush) {
+                    console.log('AUTOINSTALL SUCCESS.');
+                } else {
+                    console.log('AUTOINSTALL ERROR.');
+                }
+            }
+
             applicationStore.setLoader(true, useInternationalization('loaders.files_owner').value);
             // Change default.settings.php owner
             // const commandOwner = "chown www-data:www-data /opt/drupal/web/sites/default/default.settings.php";
@@ -359,12 +412,21 @@ async function openDialog() {
     }
 }
 
+function generatePassword() {
+    const nanoid = customAlphabet('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%^&*()', 8);
+    formValues.value.drupalPass = nanoid();
+}
+
 // ------------------------------------
 // Watchers
 // ------------------------------------
 
 watch(() => formValues.value.projectName, (newVal) => {
     formValues.value.projectMachineName = _.kebabCase(newVal);
+});
+
+watch(() => formValues.value.name, (newVal) => {
+    formValues.value.machine_name = _.kebabCase(newVal);
 });
 
 watch(() => formValues.value.name, (newVal) => {
@@ -379,16 +441,28 @@ watch($formValidation, (value) => {
     }
 });
 
+watch(() => formValues.value.projectName, (newVal) => {
+    formValues.value.drupalSiteName = newVal;
+});
+
 const selectedGroup = ref();
 
 onMounted(async () => {
-    // await groupStore.load();
     selectedGroup.value = groupStore.getGroups[0];
+    generatePassword();
+
+    if (props.onlyEnvironment) {
+        const createdProject = projectStore.getProjects.find((project: any) => project.id == props.projectId);
+        formValues.value.drupalSiteName = createdProject.name;
+    }
 });
 
 </script>
 
 <template>
+
+    <Snackbar :content="snackbarValue" v-model:show="showSnackbar" />
+
     <template v-if="!props.onlyEnvironment">
         <Input :label="useInternationalization('labels.application_name')" v-model="formValues.projectName"
             :message="useInternationalization('labels.machine_name').value + `: ` + formValues.projectMachineName"
@@ -420,13 +494,31 @@ onMounted(async () => {
 
                 <!-- Shows desktop form -->
                 <div v-if="formValues.type == 'desktop'">
-                    <div class="mb-4">
-                        <div class="font-medium mb-1">{{ useInternationalization('labels.services') }}</div>
-                        <Checkbox label="Adminer" v-model="infrastructurePayload.services.adminer" />
-                        <Checkbox label="Mailpit" v-model="infrastructurePayload.services.mail" />
-                    </div>
                     <Tabs :options="tabs" v-model="selectedTab">
                         <template #new>
+
+                            <Checkbox :label="useInternationalization('labels.drupal_auto_install')"
+                                v-model="formValues.drupalAutoInstall" class="mb-4" />
+
+                            <div v-if="formValues.drupalAutoInstall">
+                                <Card class="mb-4" color="bg-slate-200" colorDark="dark:bg-[#0b112a]"
+                                    classes="shadow-none">
+                                    <template #content>
+                                        <Input message="" :label="useInternationalization('labels.user')"
+                                            v-model="formValues.drupalUser" :validator="$formValidation.drupalUser" />
+
+                                        <Input message="" :label="useInternationalization('labels.password')"
+                                            type="password" @onPasswordRefresh="generatePassword"
+                                            @onCopyToClipboard="copyToClipboard" :copy="true"
+                                            v-model="formValues.drupalPass" :validator="$formValidation.drupalPass" />
+
+                                        <Input message="" :label="useInternationalization('labels.site_name')"
+                                            v-model="formValues.drupalSiteName"
+                                            :validator="$formValidation.drupalSiteName" />
+                                    </template>
+                                </Card>
+                            </div>
+
                             <Input @click="openDialog" :label="useInternationalization('labels.applications_root_path')"
                                 :message="useInternationalization('messages.application_path')"
                                 v-model="formValues.appRootNew" :validator="$formValidation.appRootNew"
@@ -434,6 +526,7 @@ onMounted(async () => {
                             <Input :message="useInternationalization('messages.webroot_path')"
                                 :label="useInternationalization('labels.webroot_path')" v-model="formValues.rootNew"
                                 :validator="$formValidation.rootNew" :readonly='true' />
+
                         </template>
                         <template #import>
                             <Input @click="openDialog"
@@ -446,6 +539,11 @@ onMounted(async () => {
                                 :validator="$formValidation.rootImport" />
                         </template>
                     </Tabs>
+                    <div class="mb-4">
+                        <div class="font-medium mb-1">{{ useInternationalization('labels.services') }}</div>
+                        <Checkbox label="Adminer" v-model="infrastructurePayload.services.adminer" />
+                        <Checkbox label="Mailpit" v-model="infrastructurePayload.services.mail" />
+                    </div>
                 </div>
 
                 <!-- Shows cloud form -->

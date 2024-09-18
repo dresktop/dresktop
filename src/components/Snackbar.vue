@@ -24,7 +24,7 @@ watch(() => props.show, (value) => {
         enter-to-class="opacity-100" leave-active-class="duration-200 ease-out" leave-from-class="opacity-100"
         leave-to-class="transform opacity-0">
         <div v-if="props.show"
-            class="fixed left-2/4 translate-x-[-50%] bottom-16 flex flex-row items-center px-3 py-3 rounded border border-blue-200 bg-blue-500 text-white gap-2">
+            class="fixed left-2/4 translate-x-[-50%] bottom-12 flex flex-row items-center px-3 py-3 rounded border border-blue-200 bg-blue-500 text-white gap-2">
             <div>
                 {{ props.content }}
             </div>

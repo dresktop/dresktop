@@ -13,7 +13,8 @@
             },
             "snackbars": {
                 "project_cannot_be_deleted": "The application cannot be deleted because it has environments. Please delete all environments before deleting the application.",
-                "group_cannot_be_deleted": "The group cannot be deleted because there are applications associated with it."
+                "group_cannot_be_deleted": "The group cannot be deleted because there are applications associated with it.",
+                "password_copied": "Password copied"
             },
             "loaders": {
                 "caddy_message": "Checking Caddy",
@@ -168,7 +169,10 @@
                 "do_you_want_to_delete_environment": "Do you want to delete the environment?",
                 "do_you_want_to_delete_application": "Do you want to delete the application?",
                 "do_you_want_to_delete_group": "Do you want to delete the group?",
-                "no_project": "No projects could be found"
+                "no_project": "No projects could be found",
+                "drupal_auto_install": "Drupal Auto Install",
+                "password": "Password",
+                "site_name": "Site Name"
             },
             "messages": {
                 "group_name_min_chars": "Group name must be at least 3 characters",
@@ -196,7 +200,8 @@
             },
             "snackbars": {
                 "project_cannot_be_deleted": "La aplicación no puede ser eliminada porque tiene ambientes. Por favor, elimina todos los ambientes antes de eliminar la aplicación.",
-                "group_cannot_be_deleted": "El grupo no puede ser eliminado porque hay aplicaciones asociadas a él."
+                "group_cannot_be_deleted": "El grupo no puede ser eliminado porque hay aplicaciones asociadas a él.",
+                "password_copied": "Contraseña copiada"
             },
             "loaders": {
                 "caddy_message": "Verificando Caddy",
@@ -351,7 +356,10 @@
                 "do_you_want_to_delete_environment": "¿Deseas eliminar el ambiente?",
                 "do_you_want_to_delete_application": "¿Deseas eliminar la aplicación?",
                 "do_you_want_to_delete_group": "¿Deseas eliminar el grupo?",
-                "no_project": "No se pudieron encontrar proyectos"
+                "no_project": "No se pudieron encontrar proyectos",
+                "drupal_auto_install": "Instalación Automática de Drupal",
+                "password": "Contraseña",
+                "site_name": "Nombre del Sitio"
             },
             "messages": {
                 "group_name_min_chars": "El nombre del grupo debe tener al menos 3 caracteres",
@@ -379,7 +387,8 @@
             },
             "snackbars": {
                 "project_cannot_be_deleted": "L'application ne peut pas être supprimée car elle a des environnements. Veuillez supprimer tous les environnements avant de supprimer l'application.",
-                "group_cannot_be_deleted": "Le groupe ne peut pas être supprimé car des applications y sont associées."
+                "group_cannot_be_deleted": "Le groupe ne peut pas être supprimé car des applications y sont associées.",
+                "password_copied": "Mot de passe copié"
             },
             "loaders": {
                 "caddy_message": "Vérification de Caddy",
@@ -534,7 +543,10 @@
                 "do_you_want_to_delete_environment": "Voulez-vous supprimer l'environnement ?",
                 "do_you_want_to_delete_application": "Voulez-vous supprimer l'application ?",
                 "do_you_want_to_delete_group": "Voulez-vous supprimer le groupe ?",
-                "no_project": "Aucun projet trouvé"
+                "no_project": "Aucun projet trouvé",
+                "drupal_auto_install": "Installation Automatique de Drupal",
+                "password": "Mot de passe",
+                "site_name": "Nom du site"
             },
             "messages": {
                 "group_name_min_chars": "Le nom du groupe doit comporter au moins 3 caractères",
@@ -562,7 +574,8 @@
             },
             "snackbars": {
                 "project_cannot_be_deleted": "Die Anwendung kann nicht gelöscht werden, da sie Umgebungen hat. Bitte löschen Sie alle Umgebungen, bevor Sie die Anwendung löschen.",
-                "group_cannot_be_deleted": "Die Gruppe kann nicht gelöscht werden, da Anwendungen damit verbunden sind."
+                "group_cannot_be_deleted": "Die Gruppe kann nicht gelöscht werden, da Anwendungen damit verbunden sind.",
+                "password_copied": "Passwort kopiert"
             },
             "loaders": {
                 "caddy_message": "Überprüfung von Caddy",
@@ -717,7 +730,10 @@
                 "do_you_want_to_delete_environment": "Möchten Sie die Umgebung löschen?",
                 "do_you_want_to_delete_application": "Möchten Sie die Anwendung löschen?",
                 "do_you_want_to_delete_group": "Möchten Sie die Gruppe löschen?",
-                "no_project": "Es konnten keine Projekte gefunden werden"
+                "no_project": "Es konnten keine Projekte gefunden werden",
+                "drupal_auto_install": "Drupal Automatische Installation",
+                "password": "Passwort",
+                "site_name": "Seitenname"
             },
             "messages": {
                 "group_name_min_chars": "Der Gruppenname muss mindestens 3 Zeichen enthalten",
@@ -745,7 +761,8 @@
             },
             "snackbars": {
                 "project_cannot_be_deleted": "De applicatie kan niet worden verwijderd omdat deze omgevingen heeft. Verwijder alle omgevingen voordat u de applicatie verwijdert.",
-                "group_cannot_be_deleted": "De groep kan niet worden verwijderd omdat er applicaties aan verbonden zijn."
+                "group_cannot_be_deleted": "De groep kan niet worden verwijderd omdat er applicaties aan verbonden zijn.",
+                "password_copied": "Wachtwoord gekopieerd"
             },
             "loaders": {
                 "caddy_message": "Caddy controleren",
@@ -900,7 +917,10 @@
                 "do_you_want_to_delete_environment": "Wilt u de omgeving verwijderen?",
                 "do_you_want_to_delete_application": "Wilt u de applicatie verwijderen?",
                 "do_you_want_to_delete_group": "Wilt u de groep verwijderen?",
-                "no_project": "Er konden geen projecten worden gevonden"
+                "no_project": "Er konden geen projecten worden gevonden",
+                "drupal_auto_install": "Drupal Automatische Installatie",
+                "password": "Wachtwoord",
+                "site_name": "Sitenaam"
             },
             "messages": {
                 "group_name_min_chars": "Groepsnaam moet minimaal 3 tekens bevatten",
@@ -928,7 +948,8 @@
             },
             "snackbars": {
                 "project_cannot_be_deleted": "A aplicação não pode ser excluída porque possui ambientes. Exclua todos os ambientes antes de excluir a aplicação.",
-                "group_cannot_be_deleted": "O grupo não pode ser excluído porque há aplicações associadas a ele."
+                "group_cannot_be_deleted": "O grupo não pode ser excluído porque há aplicações associadas a ele.",
+                "password_copied": "Senha copiada"
             },
             "loaders": {
                 "caddy_message": "Verificando Caddy",
@@ -1083,7 +1104,10 @@
                 "do_you_want_to_delete_environment": "Deseja excluir o ambiente?",
                 "do_you_want_to_delete_application": "Deseja excluir a aplicação?",
                 "do_you_want_to_delete_group": "Deseja excluir o grupo?",
-                "no_project": "Nenhum projeto foi encontrado"
+                "no_project": "Nenhum projeto foi encontrado",
+                "drupal_auto_install": "Instalação Automática do Drupal",
+                "password": "Senha",
+                "site_name": "Nome do Site"
             },
             "messages": {
                 "group_name_min_chars": "O nome do grupo deve ter pelo menos 3 caracteres",
@@ -1111,7 +1135,8 @@
             },
             "snackbars": {
                 "project_cannot_be_deleted": "एप्लिकेशन को हटाया नहीं जा सकता क्योंकि इसमें पर्यावरण हैं। कृपया एप्लिकेशन हटाने से पहले सभी पर्यावरण हटाएं।",
-                "group_cannot_be_deleted": "समूह को हटाया नहीं जा सकता क्योंकि इससे जुड़े एप्लिकेशन हैं।"
+                "group_cannot_be_deleted": "समूह को हटाया नहीं जा सकता क्योंकि इससे जुड़े एप्लिकेशन हैं।",
+                "password_copied": "पासवर्ड कॉपी हो गया"
             },
             "loaders": {
                 "caddy_message": "कैडी की जांच हो रही है",
@@ -1266,7 +1291,10 @@
                 "do_you_want_to_delete_environment": "क्या आप पर्यावरण को हटाना चाहते हैं?",
                 "do_you_want_to_delete_application": "क्या आप एप्लिकेशन को हटाना चाहते हैं?",
                 "do_you_want_to_delete_group": "क्या आप समूह को हटाना चाहते हैं?",
-                "no_project": "कोई प्रोजेक्ट नहीं मिल सका"
+                "no_project": "कोई प्रोजेक्ट नहीं मिल सका",
+                "drupal_auto_install": "Drupal स्वत: इंस्टॉल",
+                "password": "पासवर्ड",
+                "site_name": "साइट का नाम"
             },
             "messages": {
                 "group_name_min_chars": "समूह का नाम कम से कम 3 अक्षरों का होना चाहिए",

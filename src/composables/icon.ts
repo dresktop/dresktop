@@ -220,6 +220,10 @@ const icons: Icon[] = [
         key: 'logPassed',
         name: 'mdi:check-circle'
     },
+    {
+        key: 'refresh',
+        name: 'mdi:refresh'
+    }
 ];
 
 export default function useIcon(key: string): string {
