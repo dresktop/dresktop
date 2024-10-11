@@ -5,7 +5,7 @@ import { useVuelidate } from '@vuelidate/core'
 import { requiredIf, minLength, maxLength, helpers } from '@vuelidate/validators'
 import useInternationalization from '../../composables/translation';
 import useClipboard from '../../composables/clipboard'
-import { nanoid, customAlphabet } from 'nanoid';
+import { customAlphabet } from 'nanoid';
 
 import { useProjectStore } from './../../store/project';
 import { useEnvironmentStore } from './../../store/environment';

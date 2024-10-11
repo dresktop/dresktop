@@ -8,30 +8,50 @@ import VueCodemirror from 'vue-codemirror'
 import i18next from 'i18next';
 import I18NextVue from 'i18next-vue';
 
-const translations = await window.backendAPI.getTranslations();
+// Create an async function to handle async operations
+async function initApp() {
+  // Fetch translations asynchronously
+  const translations = await window.backendAPI.getTranslations();
 
-const languages: any = {};
+  const languages: any = {};
 
-for (const lang in translations) {
-  if (translations.hasOwnProperty(lang)) {
-    languages[lang] = {
-      frontend: {
-        frontend: translations[lang].frontend
-      }
-    };
+  // Process the translations and assign them to the languages object
+  for (const lang in translations) {
+    if (translations.hasOwnProperty(lang)) {
+      languages[lang] = {
+        frontend: {
+          frontend: translations[lang].frontend
+        }
+      };
+    }
   }
+
+  // Initialize i18next with the translations
+  i18next.init({
+    lng: 'en',
+    interpolation: {
+      escapeValue: false
+    },
+    defaultNS: "frontend",
+    debug: true,
+    fallbackLng: 'en',
+    resources: languages
+  });
+
+  // Create Pinia store
+  const pinia = createPinia();
+
+  // Create the Vue application and mount it to the DOM
+  createApp(App)
+    .use(pinia)
+    .use(router)
+    .use(VueCodemirror)
+    .use(I18NextVue, { i18next })
+    .mount('#app');
 }
 
-i18next.init({
-  lng: 'en',
-  interpolation: {
-    escapeValue: false
-  },
-  defaultNS: "frontend",
-  debug: true,
-  fallbackLng: 'en',
-  resources: languages
-});
+// Call the async function to initialize the app
+initApp();
 
 // ---------------------------------
 // Typings
@@ -93,12 +113,3 @@ declare global {
     backendAPI: IBackendAPI
   }
 }
-
-const pinia = createPinia();
-
-createApp(App)
-  .use(pinia)
-  .use(router)
-  .use(VueCodemirror)
-  .use(I18NextVue, { i18next })
-  .mount('#app');
