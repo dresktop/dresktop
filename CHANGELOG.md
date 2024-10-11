@@ -1,5 +1,8 @@
 
 
+* fix: Fixed app version (c7822ad)
+* fix: Fixed the call to the backend in the main and remove the reference to nanoid (1bfafd2)
+
 ## [1.0.1-beta.3](https://github.com/dresktop/dresktop/compare/v1.0.1-beta.2...v1.0.1-beta.3) (2024-10-11)
 
 ## [1.0.1-beta.2](https://github.com/dresktop/dresktop/compare/v1.0.1-beta.1...v1.0.1-beta.2) (2024-08-30)
