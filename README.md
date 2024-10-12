@@ -66,6 +66,7 @@ When creating a new Drupal local environment with Dresktop, the following defaul
 ## Features
 
 - Multi-Platform
+- Multi-Language
 - Open Source
 - Manage applications same place
 - Desktop and cloud environments
