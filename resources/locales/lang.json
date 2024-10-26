@@ -35,7 +35,9 @@
                 "creating_environment": "Started the creation of the environment",
                 "creating_infrastructure": "Started the creation of the infrastructure",
                 "downloading_drupal": "Downloading Drupal",
-                "deleting_group": "Deleting group"
+                "deleting_group": "Deleting group",
+                "installing_patches_plugin": "Installing the patches plugin",
+                "uninstalling_patches_plugin": "Uninstalling the patches plugin"
             },
             "settings": {
                 "ssh_key_path": "Ssh key path",
@@ -57,7 +59,8 @@
                 "bash_script": "Bash script",
                 "php_code": "PHP code",
                 "deploy": "Deploy",
-                "update": "Update"
+                "update": "Update",
+                "patch": "Patches"
             },
             "buttons": {
                 "help": "Help",
@@ -100,7 +103,8 @@
                 "log": "Log",
                 "delete_environment": "Delete Environment",
                 "delete_application": "Delete Application",
-                "delete_group": "Delete Group"
+                "delete_group": "Delete Group",
+                "edit_patch_module": "Edit Patch Module Name"
             },
             "labels": {
                 "group_name": "Group Name",
@@ -172,7 +176,12 @@
                 "no_project": "No projects could be found",
                 "drupal_auto_install": "Drupal Auto Install",
                 "password": "Password",
-                "site_name": "Site Name"
+                "site_name": "Site Name",
+                "patches_plugin": "Patches plugin",
+                "dashboard": "Dashboard",
+                "patches": "Patches",
+                "enabled": "Enabled",
+                "patch_module_name": "Patch Module Name"
             },
             "messages": {
                 "group_name_min_chars": "Group name must be at least 3 characters",
@@ -182,7 +191,8 @@
                 "webroot_path": "Read only. Drupal root path",
                 "import_application_root": "Select the application root folder you want to import.",
                 "database_path": "Full path of the file. Allowed formats .sql and .gz",
-                "database_path_download": "Path where the database dump will be downloaded"
+                "database_path_download": "Path where the database dump will be downloaded",
+                "patch_module_format": "The name must be in the format drupal/module_name"
             }
         }
     },
@@ -222,7 +232,9 @@
                 "creating_environment": "Iniciando la creación del ambiente",
                 "creating_infrastructure": "Iniciando la creación de la infraestructura",
                 "downloading_drupal": "Descargando Drupal",
-                "deleting_group": "Eliminando el grupo"
+                "deleting_group": "Eliminando el grupo",
+                "installing_patches_plugin": "Instalando el plugin de parches",
+                "uninstalling_patches_plugin": "Desinstalando el plugin de parches"
             },
             "settings": {
                 "ssh_key_path": "Ruta de la clave SSH",
@@ -244,7 +256,8 @@
                 "bash_script": "Script de Bash",
                 "php_code": "Código PHP",
                 "deploy": "Deploy",
-                "update": "Actualizar"
+                "update": "Actualizar",
+                "patch": "Parches"
             },
             "buttons": {
                 "help": "Ayuda",
@@ -287,7 +300,8 @@
                 "log": "Registro",
                 "delete_environment": "Eliminar Ambiente",
                 "delete_application": "Eliminar Aplicación",
-                "delete_group": "Eliminar Grupo"
+                "delete_group": "Eliminar Grupo",
+                "edit_patch_module": "Editar Nombre del Módulo de Parches"
             },
             "labels": {
                 "group_name": "Nombre del Grupo",
@@ -359,7 +373,12 @@
                 "no_project": "No se pudieron encontrar proyectos",
                 "drupal_auto_install": "Instalación Automática de Drupal",
                 "password": "Contraseña",
-                "site_name": "Nombre del Sitio"
+                "site_name": "Nombre del Sitio",
+                "patches_plugin": "Plugin de parches",
+                "dashboard": "Panel",
+                "patches": "Parches",
+                "enabled": "Habilitado",
+                "patch_module_name": "Nombre del Módulo de Parches"
             },
             "messages": {
                 "group_name_min_chars": "El nombre del grupo debe tener al menos 3 caracteres",
@@ -369,7 +388,8 @@
                 "webroot_path": "Solo lectura. Ruta raíz de Drupal",
                 "import_application_root": "Seleccione el directorio raíz para la applicación que desea importar",
                 "database_path": "Ruta completa del archivo. Formatos permitidos: .sql y .gz",
-                "database_path_download": "Ruta donde se descargará el volcado de la base de datos"
+                "database_path_download": "Ruta donde se descargará el volcado de la base de datos",
+                "patch_module_format": "El nombre debe estar en el formato drupal/nombre_del_módulo"
             }
         }
     },
@@ -409,7 +429,9 @@
                 "creating_environment": "Début de la création de l'environnement",
                 "creating_infrastructure": "Début de la création de l'infrastructure",
                 "downloading_drupal": "Téléchargement de Drupal",
-                "deleting_group": "Suppression du groupe"
+                "deleting_group": "Suppression du groupe",
+                "installing_patches_plugin": "Installation du plugin de correctifs",
+                "uninstalling_patches_plugin": "Désinstallation du plugin de correctifs"
             },
             "settings": {
                 "ssh_key_path": "Chemin de la clé SSH",
@@ -431,7 +453,8 @@
                 "bash_script": "Script Bash",
                 "php_code": "Code PHP",
                 "deploy": "Déployer",
-                "update": "Mettre à jour"
+                "update": "Mettre à jour",
+                "patch": "Correctifs"
             },
             "buttons": {
                 "help": "Aide",
@@ -474,7 +497,8 @@
                 "log": "Journal",
                 "delete_environment": "Supprimer l'Environnement",
                 "delete_application": "Supprimer l'Application",
-                "delete_group": "Supprimer le Groupe"
+                "delete_group": "Supprimer le Groupe",
+                "edit_patch_module": "Modifier le nom du module de correctifs"
             },
             "labels": {
                 "group_name": "Nom du Groupe",
@@ -546,7 +570,12 @@
                 "no_project": "Aucun projet trouvé",
                 "drupal_auto_install": "Installation Automatique de Drupal",
                 "password": "Mot de passe",
-                "site_name": "Nom du site"
+                "site_name": "Nom du site",
+                "patches_plugin": "Plugin de correctifs",
+                "dashboard": "Tableau de bord",
+                "patches": "Correctifs",
+                "enabled": "Activé",
+                "patch_module_name": "Nom du module de correctifs"
             },
             "messages": {
                 "group_name_min_chars": "Le nom du groupe doit comporter au moins 3 caractères",
@@ -556,7 +585,8 @@
                 "webroot_path": "Lecture seule. Chemin racine de Drupal",
                 "import_application_root": "Sélectionnez le dossier racine de l'application à importer.",
                 "database_path": "Chemin complet du fichier. Formats autorisés : .sql et .gz",
-                "database_path_download": "Chemin où le dump de la base de données sera téléchargé"
+                "database_path_download": "Chemin où le dump de la base de données sera téléchargé",
+                "patch_module_format": "Le nom doit être au format drupal/nom_du_module"
             }
         }
     },
@@ -596,7 +626,9 @@
                 "creating_environment": "Erstellung der Umgebung gestartet",
                 "creating_infrastructure": "Erstellung der Infrastruktur gestartet",
                 "downloading_drupal": "Drupal wird heruntergeladen",
-                "deleting_group": "Die Gruppe wird gelöscht"
+                "deleting_group": "Die Gruppe wird gelöscht",
+                "installing_patches_plugin": "Das Patches-Plugin wird installiert",
+                "uninstalling_patches_plugin": "Das Patches-Plugin wird deinstalliert"
             },
             "settings": {
                 "ssh_key_path": "SSH-Schlüsselpfad",
@@ -618,7 +650,8 @@
                 "bash_script": "Bash-Skript",
                 "php_code": "PHP-Code",
                 "deploy": "Deploy",
-                "update": "Aktualisieren"
+                "update": "Aktualisieren",
+                "patch": "Patches"
             },
             "buttons": {
                 "help": "Hilfe",
@@ -661,7 +694,8 @@
                 "log": "Protokoll",
                 "delete_environment": "Umgebung löschen",
                 "delete_application": "Anwendung löschen",
-                "delete_group": "Gruppe löschen"
+                "delete_group": "Gruppe löschen",
+                "edit_patch_module": "Patch-Modulnamen bearbeiten"
             },
             "labels": {
                 "group_name": "Gruppenname",
@@ -733,7 +767,12 @@
                 "no_project": "Es konnten keine Projekte gefunden werden",
                 "drupal_auto_install": "Drupal Automatische Installation",
                 "password": "Passwort",
-                "site_name": "Seitenname"
+                "site_name": "Seitenname",
+                "patches_plugin": "Patches-Plugin",
+                "dashboard": "Dashboard",
+                "patches": "Patches",
+                "enabled": "Aktiviert",
+                "patch_module_name": "Patch-Modulname"
             },
             "messages": {
                 "group_name_min_chars": "Der Gruppenname muss mindestens 3 Zeichen enthalten",
@@ -743,7 +782,8 @@
                 "webroot_path": "Schreibgeschützt. Drupal-Root-Pfad",
                 "import_application_root": "Wählen Sie den Root-Ordner der zu importierenden Anwendung.",
                 "database_path": "Vollständiger Pfad der Datei. Zulässige Formate: .sql und .gz",
-                "database_path_download": "Pfad, in dem das Datenbank-Dump heruntergeladen wird"
+                "database_path_download": "Pfad, in dem das Datenbank-Dump heruntergeladen wird",
+                "patch_module_format": "Der Name muss im Format drupal/modulname sein"
             }
         }
     },
@@ -783,7 +823,9 @@
                 "creating_environment": "Aanmaken van de omgeving gestart",
                 "creating_infrastructure": "Aanmaken van de infrastructuur gestart",
                 "downloading_drupal": "Drupal wordt gedownload",
-                "deleting_group": "De groep wordt verwijderd"
+                "deleting_group": "De groep wordt verwijderd",
+                "installing_patches_plugin": "De patches-plugin wordt geïnstalleerd",
+                "uninstalling_patches_plugin": "De patches-plugin wordt verwijderd"
             },
             "settings": {
                 "ssh_key_path": "SSH-sleutelpad",
@@ -805,7 +847,8 @@
                 "bash_script": "Bash-script",
                 "php_code": "PHP-code",
                 "deploy": "Implementeren",
-                "update": "Bijwerken"
+                "update": "Bijwerken",
+                "patch": "Patches"
             },
             "buttons": {
                 "help": "Help",
@@ -848,7 +891,8 @@
                 "log": "Log",
                 "delete_environment": "Omgeving verwijderen",
                 "delete_application": "Applicatie verwijderen",
-                "delete_group": "Groep verwijderen"
+                "delete_group": "Groep verwijderen",
+                "edit_patch_module": "Patchmodulenaam bewerken"
             },
             "labels": {
                 "group_name": "Groepsnaam",
@@ -920,7 +964,12 @@
                 "no_project": "Er konden geen projecten worden gevonden",
                 "drupal_auto_install": "Drupal Automatische Installatie",
                 "password": "Wachtwoord",
-                "site_name": "Sitenaam"
+                "site_name": "Sitenaam",
+                "patches_plugin": "Patches-plugin",
+                "dashboard": "Dashboard",
+                "patches": "Patches",
+                "enabled": "Ingeschakeld",
+                "patch_module_name": "Patchmodulenaam"
             },
             "messages": {
                 "group_name_min_chars": "Groepsnaam moet minimaal 3 tekens bevatten",
@@ -930,7 +979,8 @@
                 "webroot_path": "Alleen-lezen. Drupal rootpad",
                 "import_application_root": "Selecteer de rootmap van de te importeren applicatie.",
                 "database_path": "Volledig pad van het bestand. Toegestane formaten: .sql en .gz",
-                "database_path_download": "Pad waar het databasebestand wordt gedownload"
+                "database_path_download": "Pad waar het databasebestand wordt gedownload",
+                "patch_module_format": "De naam moet in het formaat drupal/module_naam zijn"
             }
         }
     },
@@ -970,7 +1020,9 @@
                 "creating_environment": "Iniciando a criação do ambiente",
                 "creating_infrastructure": "Iniciando a criação da infraestrutura",
                 "downloading_drupal": "Baixando o Drupal",
-                "deleting_group": "Excluindo o grupo"
+                "deleting_group": "Excluindo o grupo",
+                "installing_patches_plugin": "Instalando o plugin de patches",
+                "uninstalling_patches_plugin": "Desinstalando o plugin de patches"
             },
             "settings": {
                 "ssh_key_path": "Caminho da chave SSH",
@@ -992,7 +1044,8 @@
                 "bash_script": "Script Bash",
                 "php_code": "Código PHP",
                 "deploy": "Implantar",
-                "update": "Atualizar"
+                "update": "Atualizar",
+                "patch": "Patches"
             },
             "buttons": {
                 "help": "Ajuda",
@@ -1035,7 +1088,8 @@
                 "log": "Log",
                 "delete_environment": "Excluir Ambiente",
                 "delete_application": "Excluir Aplicação",
-                "delete_group": "Excluir Grupo"
+                "delete_group": "Excluir Grupo",
+                "edit_patch_module": "Editar Nome do Módulo de Patches"
             },
             "labels": {
                 "group_name": "Nome do Grupo",
@@ -1107,7 +1161,12 @@
                 "no_project": "Nenhum projeto foi encontrado",
                 "drupal_auto_install": "Instalação Automática do Drupal",
                 "password": "Senha",
-                "site_name": "Nome do Site"
+                "site_name": "Nome do Site",
+                "patches_plugin": "Plugin de patches",
+                "dashboard": "Painel",
+                "patches": "Patches",
+                "enabled": "Habilitado",
+                "patch_module_name": "Nome do Módulo de Patches"
             },
             "messages": {
                 "group_name_min_chars": "O nome do grupo deve ter pelo menos 3 caracteres",
@@ -1117,7 +1176,8 @@
                 "webroot_path": "Somente leitura. Caminho raiz do Drupal",
                 "import_application_root": "Selecione a pasta raiz da aplicação que deseja importar.",
                 "database_path": "Caminho completo do arquivo. Formatos permitidos: .sql e .gz",
-                "database_path_download": "Caminho onde o dump do banco de dados será baixado"
+                "database_path_download": "Caminho onde o dump do banco de dados será baixado",
+                "patch_module_format": "O nome deve estar no formato drupal/nome_do_módulo"
             }
         }
     },
@@ -1157,7 +1217,9 @@
                 "creating_environment": "पर्यावरण का निर्माण शुरू किया गया",
                 "creating_infrastructure": "इन्फ्रास्ट्रक्चर का निर्माण शुरू किया गया",
                 "downloading_drupal": "Drupal को डाउनलोड किया जा रहा है",
-                "deleting_group": "समूह को हटाया जा रहा है"
+                "deleting_group": "समूह को हटाया जा रहा है",
+                "installing_patches_plugin": "पैच प्लगइन स्थापित किया जा रहा है",
+                "uninstalling_patches_plugin": "पैच प्लगइन को अनइंस्टॉल किया जा रहा है"
             },
             "settings": {
                 "ssh_key_path": "SSH कुंजी पथ",
@@ -1179,7 +1241,8 @@
                 "bash_script": "Bash स्क्रिप्ट",
                 "php_code": "PHP कोड",
                 "deploy": "डिप्लॉय",
-                "update": "अपडेट"
+                "update": "अपडेट",
+                "patch": "पैच"
             },
             "buttons": {
                 "help": "मदद",
@@ -1222,7 +1285,8 @@
                 "log": "लॉग",
                 "delete_environment": "पर्यावरण हटाएं",
                 "delete_application": "एप्लिकेशन हटाएं",
-                "delete_group": "समूह हटाएं"
+                "delete_group": "समूह हटाएं",
+                "edit_patch_module": "पैच मॉड्यूल का नाम संपादित करें"
             },
             "labels": {
                 "group_name": "समूह का नाम",
@@ -1294,7 +1358,12 @@
                 "no_project": "कोई प्रोजेक्ट नहीं मिल सका",
                 "drupal_auto_install": "Drupal स्वत: इंस्टॉल",
                 "password": "पासवर्ड",
-                "site_name": "साइट का नाम"
+                "site_name": "साइट का नाम",
+                "patches_plugin": "पैच प्लगइन",
+                "dashboard": "डैशबोर्ड",
+                "patches": "पैच",
+                "enabled": "सक्रिय",
+                "patch_module_name": "पैच मॉड्यूल का नाम"
             },
             "messages": {
                 "group_name_min_chars": "समूह का नाम कम से कम 3 अक्षरों का होना चाहिए",
@@ -1304,7 +1373,8 @@
                 "webroot_path": "केवल पढ़ने के लिए। Drupal का रूट पथ",
                 "import_application_root": "उस एप्लिकेशन की रूट फ़ोल्डर चुनें जिसे आप आयात करना चाहते हैं।",
                 "database_path": "फ़ाइल का पूर्ण पथ। अनुमति प्राप्त प्रारूप: .sql और .gz",
-                "database_path_download": "वह पथ जहाँ डेटाबेस डंप डाउनलोड किया जाएगा"
+                "database_path_download": "वह पथ जहाँ डेटाबेस डंप डाउनलोड किया जाएगा",
+                "patch_module_format": "नाम इस प्रारूप में होना चाहिए drupal/module_name"
             }
         }
     }

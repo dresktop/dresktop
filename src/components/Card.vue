@@ -8,7 +8,7 @@ const props = defineProps(['classes', 'color', 'colorDark']);
         :class="`card flex flex-col w-full rounded shadow-sm ${props.color ? props.color : 'bg-white'} ${props.colorDark ? props.colorDark : 'dark:bg-slate-800'} ${props.classes}`">
         <div class="flex flex-col p-5 overflow-y-auto h-full gap-4">
             <div v-if="$slots.title || $slots.menu" class="flex flex-row justify-between items-center">
-                <div class="text-xl font-medium">
+                <div class="text-xl font-medium flex-grow">
                     <slot name="title" />
                 </div>
                 <div v-if="$slots.menu" class="flex flex-row-reverse gap-2">

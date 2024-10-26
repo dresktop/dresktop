@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
-import _ from 'lodash';
 import i18next from 'i18next';
 import { useSettingsStore } from '../../store/settings';
 import Modal from './../Modal.vue';

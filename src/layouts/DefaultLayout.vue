@@ -105,7 +105,7 @@ const isUpToDate = computed(function () {
         <div class="flex h-full w-full flex-col px-4 pb-4 pt-2">
 
             <!-- Header -->
-            <div class="flex flex-row items-center justify-between mb-1">
+            <div class="flex flex-row items-center justify-between">
                 <div @click="onClickDrawer"
                     class="my-2 cursor-pointer rounded p-2 text-slate-400 hover:bg-blue-100 hover:text-blue-600 dark:hover:bg-blue-950">
                     <Icon name="hamburger" class="h-6 w-6" />

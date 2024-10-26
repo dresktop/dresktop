@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { ref, toRaw } from 'vue';
-import _ from 'lodash';
 import { useVuelidate } from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
 import useInternationalization from '../../composables/translation';

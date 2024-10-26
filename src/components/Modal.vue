@@ -3,7 +3,7 @@ import { onKeyStroke } from '@vueuse/core';
 import Card from './Card.vue';
 import Icon from './Icon.vue';
 
-const props = defineProps(['closable']);
+const props = defineProps(['closable', 'width']);
 const emit = defineEmits(['show']);
 
 function onClose() {
@@ -18,7 +18,7 @@ onKeyStroke('Escape', () => {
 <template>
     <div @click.self="onClose"
         class="flex items-center justify-center fixed top-0 left-0 right-0 bottom-0 z-50 w-full p-4 max-h-full inset-0 bg-gray-500 bg-opacity-50">
-        <div class="min-w-[600px] w-[800px] max-h-[90vh] overflow-y-hidden flex drop-shadow-xl">
+        <div :class="`min-w-[800px] w-[${props.width}] max-h-[90vh] overflow-y-hidden flex drop-shadow-xl`">
             <Card class="bg-white">
                 <template #title>
                     <slot name="title" />

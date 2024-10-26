@@ -148,6 +148,9 @@ contextBridge.exposeInMainWorld('backendAPI', {
   async editGroup(group: any) {
     return await ipcRenderer.invoke('editGroup', group);
   },
+  async updatePatches(patches: any, environment: any) {
+    return await ipcRenderer.invoke('updatePatches', patches, environment);
+  },
 })
 
 contextBridge.exposeInMainWorld('ipcRenderer', {

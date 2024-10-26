@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
-import _ from 'lodash';
 import useInternationalization from '../../composables/translation';
 
 import Modal from './../Modal.vue';
@@ -13,6 +12,18 @@ import Alert from './../Alert.vue';
 const props = defineProps(['show', 'projectEnvironments', 'currentEnvironment']);
 const emit = defineEmits(['update:show', 'onSyncFiles']);
 
+let selected = ref(null);
+selectDefault();
+
+const showError = ref(false);
+showError.value = (props.projectEnvironments && !props.projectEnvironments.length) ? true : false;
+
+async function selectDefault() {
+    if (props.projectEnvironments.length) {
+        selected.value = props.projectEnvironments[0];
+    }
+}
+
 async function onSave() {
 
     emit('onSyncFiles', selected.value);
@@ -21,15 +32,10 @@ async function onSave() {
     emit('update:show', false);
 }
 
-let selected = ref(null);
-const showError = ref(false);
-showError.value = (props.projectEnvironments && !props.projectEnvironments.length) ? true : false;
 
 // This watch is to assign a default value when the component is displayed
 watch(() => props.projectEnvironments, (_value) => {
-    if (props.projectEnvironments.length) {
-        selected.value = props.projectEnvironments[0];
-    }
+    selectDefault();
 });
 
 </script>

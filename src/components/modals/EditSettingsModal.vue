@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { ref, toRaw, watch } from 'vue';
-import _ from 'lodash';
 import { useSettingsStore } from '../../store/settings';
 import { useVuelidate } from '@vuelidate/core'
 import { required, minLength, maxLength } from '@vuelidate/validators'

@@ -494,7 +494,7 @@ onMounted(async () => {
 
                 <!-- Shows desktop form -->
                 <div v-if="formValues.type == 'desktop'">
-                    <Tabs :options="tabs" v-model="selectedTab">
+                    <Tabs :options="tabs" v-model="selectedTab" spacing="4">
                         <template #new>
 
                             <Checkbox :label="useInternationalization('labels.drupal_auto_install')"

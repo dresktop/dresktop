@@ -48,9 +48,9 @@ const emit = defineEmits(['update:modelValue', 'onPasswordRefresh', 'onCopyToCli
       <div v-if="props.message && typeof props.validator !== 'undefined' && !props.validator.$errors.length"
         class="text-gray-500 my-1 text-sm">{{ props.message
         }}</div>
-      <div v-if="typeof props.validator !== 'undefined'" class="flex flex-row"
-        v-for="(error, index) of props.validator.$errors" :key="index">
-        <div class="text-red-500 my-1 text-sm">{{ error.$message }}</div>
+      <div v-for="(error, index) of props.validator.$errors" :key="index" v-if="typeof props.validator !== 'undefined'"
+        class="flex flex-row">
+        <div class="text-red-500 my-1 mr-1 text-sm">{{ error.$message }}.</div>
       </div>
     </div>
   </label>

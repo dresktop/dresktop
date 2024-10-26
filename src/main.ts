@@ -86,6 +86,7 @@ export interface IBackendAPI {
   saveGroup: (group: any) => Promise<any>,
   editGroup: (group: any) => Promise<any>,
   deleteGroup: (id: number) => Promise<any>,
+  updatePatches: (patches: any, environment: any) => Promise<any>
 }
 
 declare global {

@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { ref, toRaw, watch } from 'vue';
-import _ from 'lodash';
 import useInternationalization from '../../composables/translation';
 
 import Modal from './../Modal.vue';

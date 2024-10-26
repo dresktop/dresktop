@@ -13,7 +13,7 @@ const types: any = {
 
 const sizes: any = {
     basis: 'px-3 h-9 text-basis',
-    sm: 'px-2 h-7 text-sm',
+    sm: 'px-1 h-7 text-sm',
 };
 
 </script>

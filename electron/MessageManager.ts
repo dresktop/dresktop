@@ -159,5 +159,8 @@ export class MessageManager {
         ipcMain.handle('editGroup', async function (_, group: any) {
             return await that.core.editGroup(group);
         });
+        ipcMain.handle('updatePatches', async function (_, patches: any, environment: any) {
+            return await that.core.updatePatches(patches, environment);
+        });
     }
 }

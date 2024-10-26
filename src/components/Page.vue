@@ -1,6 +1,6 @@
 <template>
     <div class="overflow-y-hidden flex flex-col h-full">
-        <div class="flex flex-row justify-between items-center mb-3">
+        <div class="flex flex-row justify-between items-end mb-3">
             <div class="flex flex-col">
                 <div class="text-sm" v-if="$slots.pretitle">
                     <slot name="pretitle" />

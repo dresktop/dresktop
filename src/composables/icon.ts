@@ -223,6 +223,14 @@ const icons: Icon[] = [
     {
         key: 'refresh',
         name: 'mdi:refresh'
+    },
+    {
+        key: 'patch',
+        name: 'fluent:patch-20-filled'
+    },
+    {
+        key: 'back',
+        name: 'lets-icons:back'
     }
 ];
 
