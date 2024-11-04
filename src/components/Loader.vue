@@ -163,11 +163,11 @@ watch(() => animationStartConfig.value.playState, (value) => {
 <template>
     <div class="h-full w-full fixed left-0 top-0 bg-blue-500 z-[100] flex justify-center">
         <div class="text-white text-xl top-1/3 absolute">
-            <div class="items-center w-52 text-center flex flex-col">
+            <div class="items-center w-96 text-center flex flex-col">
                 <IconLogo ref="logo" class="w-36" :isDark="true" />
                 <div v-if="props.status == 'loading' || props.status == 'completed'" class="my-4 font-normal"
                     v-html="props.message"></div>
-                <LogotypeLogo v-if="showAnimationLogotype" ref="logotype" class="my-4 opacity-0" :isDark="true" />
+                <LogotypeLogo v-if="showAnimationLogotype" ref="logotype" class="my-4 opacity-0 w-52" :isDark="true" />
             </div>
         </div>
     </div>

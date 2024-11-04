@@ -50,30 +50,42 @@ export class Core {
     }
 
     public async updatePatches(patches: any, environment: any) {
+
         console.log("== updatePatches ==", patches, environment);
 
-        const composerPath = path.join(environment.app_root, 'composer.json');
-        console.log("== composerPath ==", composerPath);
+        try {
 
-        const composer = JSON.parse(fs.readFileSync(composerPath, 'utf-8'));
-        console.log("== composer ==", composer);
+            const composerPath = path.join(environment.app_root, 'composer.json');
+            console.log("== composerPath ==", composerPath);
 
-        // Checks if the plugin required for the patches functionality is installd
-        const pluginIsInstalled = typeof composer.require['cweagans/composer-patches'] !== 'undefined' ? true : false;
-        console.log("== pluginIsInstalled ==", pluginIsInstalled);
+            const composer = JSON.parse(fs.readFileSync(composerPath, 'utf-8'));
+            // console.log("== composer ==", composer);
 
-        if (pluginIsInstalled) {
-            // Update or add patches in the composer.json
-            composer.extra = composer.extra || {};
-            composer.extra.patches = patches;
+            // Checks if the plugin required for the patches functionality is installd
+            const pluginIsInstalled = typeof composer.require['cweagans/composer-patches'] !== 'undefined' ? true : false;
+            console.log("== pluginIsInstalled ==", pluginIsInstalled);
 
-            console.log("== Updated composer.extra.patches ==", composer.extra.patches);
+            if (pluginIsInstalled) {
 
-            // Write the updated composer.json back to disk
-            fs.writeFileSync(composerPath, JSON.stringify(composer, null, 2), 'utf-8');
-            console.log("== composer.json updated successfully ==");
-        } else {
-            console.log("== Plugin cweagans/composer-patches not installed ==");
+                // Update or add patches in the composer.json
+                composer.extra = composer.extra || {};
+                composer.extra.patches = patches;
+
+                console.log("== Updated composer.extra.patches ==", composer.extra.patches);
+
+                // Write the updated composer.json back to disk
+                fs.writeFileSync(composerPath, JSON.stringify(composer, null, 2), 'utf-8');
+                console.log("== composer.json updated successfully ==");
+
+                return { message: 'composer.json updated successfully', success: true };
+
+            } else {
+                console.log("== Plugin cweagans/composer-patches not installed ==");
+
+                return { message: 'Plugin not installed', success: false };
+            }
+        } catch (err) {
+            return { message: 'Problems applying changes', success: false };
         }
     }
 

@@ -14,7 +14,9 @@
             "snackbars": {
                 "project_cannot_be_deleted": "The application cannot be deleted because it has environments. Please delete all environments before deleting the application.",
                 "group_cannot_be_deleted": "The group cannot be deleted because there are applications associated with it.",
-                "password_copied": "Password copied"
+                "password_copied": "Password copied",
+                "patch_applied_correctly": "The patches have been applied correctly",
+                "patch_problems_applying": "Problems applying patches"
             },
             "loaders": {
                 "caddy_message": "Checking Caddy",
@@ -157,7 +159,6 @@
                 "turn_on_maintenance_mode": "Turn on Drupal maintenance mode",
                 "clear_drupal_caches": "Clear all Drupal caches",
                 "vendor_updates": "Vendor updates",
-                "run_composer_install": "Run Composer install",
                 "run_database_updates": "Run database updates",
                 "import_configuration": "Import configuration",
                 "sanitize_database": "Sanitize Database",
@@ -211,7 +212,9 @@
             "snackbars": {
                 "project_cannot_be_deleted": "La aplicación no puede ser eliminada porque tiene ambientes. Por favor, elimina todos los ambientes antes de eliminar la aplicación.",
                 "group_cannot_be_deleted": "El grupo no puede ser eliminado porque hay aplicaciones asociadas a él.",
-                "password_copied": "Contraseña copiada"
+                "password_copied": "Contraseña copiada",
+                "patch_applied_correctly": "Los parches se han aplicado correctamente",
+                "patch_problems_applying": "Problemas al aplicar los parches"
             },
             "loaders": {
                 "caddy_message": "Verificando Caddy",
@@ -354,7 +357,6 @@
                 "turn_on_maintenance_mode": "Activar el modo de mantenimiento de Drupal",
                 "clear_drupal_caches": "Limpiar todas las cachés de Drupal",
                 "vendor_updates": "Actualizaciones de vendor",
-                "run_composer_install": "Ejecutar Composer install",
                 "run_database_updates": "Ejecutar actualizaciones de la base de datos",
                 "import_configuration": "Importar configuración",
                 "sanitize_database": "Sanitizar base de datos",
@@ -408,7 +410,9 @@
             "snackbars": {
                 "project_cannot_be_deleted": "L'application ne peut pas être supprimée car elle a des environnements. Veuillez supprimer tous les environnements avant de supprimer l'application.",
                 "group_cannot_be_deleted": "Le groupe ne peut pas être supprimé car des applications y sont associées.",
-                "password_copied": "Mot de passe copié"
+                "password_copied": "Mot de passe copié",
+                "patch_applied_correctly": "Les correctifs ont été appliqués correctement",
+                "patch_problems_applying": "Problèmes lors de l'application des correctifs"
             },
             "loaders": {
                 "caddy_message": "Vérification de Caddy",
@@ -551,7 +555,6 @@
                 "turn_on_maintenance_mode": "Activer le mode maintenance de Drupal",
                 "clear_drupal_caches": "Effacer tous les caches de Drupal",
                 "vendor_updates": "Mises à jour du fournisseur",
-                "run_composer_install": "Exécuter Composer install",
                 "run_database_updates": "Exécuter les mises à jour de la base de données",
                 "import_configuration": "Importer la configuration",
                 "sanitize_database": "Assainir la base de données",
@@ -605,7 +608,9 @@
             "snackbars": {
                 "project_cannot_be_deleted": "Die Anwendung kann nicht gelöscht werden, da sie Umgebungen hat. Bitte löschen Sie alle Umgebungen, bevor Sie die Anwendung löschen.",
                 "group_cannot_be_deleted": "Die Gruppe kann nicht gelöscht werden, da Anwendungen damit verbunden sind.",
-                "password_copied": "Passwort kopiert"
+                "password_copied": "Passwort kopiert",
+                "patch_applied_correctly": "Die Patches wurden korrekt angewendet",
+                "patch_problems_applying": "Probleme beim Anwenden der Patches"
             },
             "loaders": {
                 "caddy_message": "Überprüfung von Caddy",
@@ -748,7 +753,6 @@
                 "turn_on_maintenance_mode": "Wartungsmodus für Drupal aktivieren",
                 "clear_drupal_caches": "Alle Drupal-Caches leeren",
                 "vendor_updates": "Vendor-Updates",
-                "run_composer_install": "Composer install ausführen",
                 "run_database_updates": "Datenbank-Updates ausführen",
                 "import_configuration": "Konfiguration importieren",
                 "sanitize_database": "Datenbank bereinigen",
@@ -802,7 +806,9 @@
             "snackbars": {
                 "project_cannot_be_deleted": "De applicatie kan niet worden verwijderd omdat deze omgevingen heeft. Verwijder alle omgevingen voordat u de applicatie verwijdert.",
                 "group_cannot_be_deleted": "De groep kan niet worden verwijderd omdat er applicaties aan verbonden zijn.",
-                "password_copied": "Wachtwoord gekopieerd"
+                "password_copied": "Wachtwoord gekopieerd",
+                "patch_applied_correctly": "De patches zijn correct toegepast",
+                "patch_problems_applying": "Problemen met het toepassen van patches"
             },
             "loaders": {
                 "caddy_message": "Caddy controleren",
@@ -945,7 +951,6 @@
                 "turn_on_maintenance_mode": "Onderhoudsmodus van Drupal inschakelen",
                 "clear_drupal_caches": "Alle Drupal caches legen",
                 "vendor_updates": "Vendor updates",
-                "run_composer_install": "Composer install uitvoeren",
                 "run_database_updates": "Database updates uitvoeren",
                 "import_configuration": "Configuratie importeren",
                 "sanitize_database": "Database reinigen",
@@ -999,7 +1004,9 @@
             "snackbars": {
                 "project_cannot_be_deleted": "A aplicação não pode ser excluída porque possui ambientes. Exclua todos os ambientes antes de excluir a aplicação.",
                 "group_cannot_be_deleted": "O grupo não pode ser excluído porque há aplicações associadas a ele.",
-                "password_copied": "Senha copiada"
+                "password_copied": "Senha copiada",
+                "patch_applied_correctly": "Os patches foram aplicados corretamente",
+                "patch_problems_applying": "Problemas ao aplicar os patches"
             },
             "loaders": {
                 "caddy_message": "Verificando Caddy",
@@ -1142,7 +1149,6 @@
                 "turn_on_maintenance_mode": "Ativar o modo de manutenção do Drupal",
                 "clear_drupal_caches": "Limpar todos os caches do Drupal",
                 "vendor_updates": "Atualizações do vendor",
-                "run_composer_install": "Executar Composer install",
                 "run_database_updates": "Executar atualizações do banco de dados",
                 "import_configuration": "Importar configuração",
                 "sanitize_database": "Sanitizar Banco de Dados",
@@ -1196,7 +1202,9 @@
             "snackbars": {
                 "project_cannot_be_deleted": "एप्लिकेशन को हटाया नहीं जा सकता क्योंकि इसमें पर्यावरण हैं। कृपया एप्लिकेशन हटाने से पहले सभी पर्यावरण हटाएं।",
                 "group_cannot_be_deleted": "समूह को हटाया नहीं जा सकता क्योंकि इससे जुड़े एप्लिकेशन हैं।",
-                "password_copied": "पासवर्ड कॉपी हो गया"
+                "password_copied": "पासवर्ड कॉपी हो गया",
+                "patch_applied_correctly": "पैच सही तरीके से लागू किए गए हैं",
+                "patch_problems_applying": "पैच लागू करने में समस्या"
             },
             "loaders": {
                 "caddy_message": "कैडी की जांच हो रही है",
@@ -1339,7 +1347,6 @@
                 "turn_on_maintenance_mode": "Drupal का रखरखाव मोड चालू करें",
                 "clear_drupal_caches": "Drupal के सभी कैश साफ़ करें",
                 "vendor_updates": "वेंडर अपडेट",
-                "run_composer_install": "Composer install चलाएं",
                 "run_database_updates": "डेटाबेस अपडेट चलाएं",
                 "import_configuration": "कॉन्फ़िगरेशन आयात करें",
                 "sanitize_database": "डेटाबेस को साफ़ करें",

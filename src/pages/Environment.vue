@@ -3,7 +3,7 @@ import { onMounted, onUnmounted, ref, toRaw, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import useInternationalization from '../composables/translation';
 
-// // Stores
+// Stores
 import { useEnvironmentStore } from './../store/environment';
 import { useInfrastructureStore } from './../store/infrastructure';
 import { useProjectStore } from './../store/project';
@@ -11,7 +11,7 @@ import { useProjectStore } from './../store/project';
 // Modals
 import EditEnvironmentModal from './../components/modals/EditEnvironmentModal.vue';
 
-// // Components
+// Components
 import Page from './../components/Page.vue'
 import Button from './../components/Button.vue';
 import Icon from './../components/Icon.vue';
@@ -21,7 +21,7 @@ import Tabs from './../components/Tabs.vue';
 import EnvironmentDashboard from '../components/environment/Dashboard.vue'
 import EnvironmentPatches from './../components/environment/Patches.vue'
 
-// // // Composables
+// // Composables
 // import useUriBrowser from '../composables/uriBrowser'
 
 const environmentStore = useEnvironmentStore();

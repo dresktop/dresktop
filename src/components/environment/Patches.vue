@@ -3,12 +3,16 @@ import { ref, toRaw, onMounted, computed } from 'vue';
 import useInternationalization from '../../composables/translation';
 import { useApplicationStore } from './../../store/application';
 import EditPatchModal from './../modals/EditPatchModal.vue';
+import NewModulePatchModal from '../modals/NewModulePatchModal.vue';
 import EditModuleModal from './../modals/EditModuleModal.vue';
 import Icon from './../../components/Icon.vue';
 import ButtonIcon from './../../components/ButtonIcon.vue';
+import Button from './../../components/Button.vue';
 import Card from './../Card.vue';
-import Button from './../Button.vue';
 import Checkbox from './../form/Checkbox.vue';
+import Tooltip from './../../components/Tooltip.vue';
+import Snackbar from './../../components/Snackbar.vue';
+import CancelAcceptModal from './../../components/modals/CancelAcceptModal.vue';
 
 const applicationStore = useApplicationStore();
 const props = defineProps(['project', 'environment']);
@@ -19,32 +23,17 @@ const pluginIsInstalled = ref(false);
 const patchDisplayed = ref('');
 const showEditPatchModal = ref(false);
 const showEditModuleModal = ref(false);
+const showNewModulePatchModal = ref(false);
 const selectedPatch = ref();
 const selectedModule = ref();
 const environment = computed(() => props.environment);
 const project = computed(() => props.project);
+const showSnackbar = ref(false);
+const snackbarValue = ref("");
+const showCancelAcceptModalDeleteModule = ref(false);
+const clickedDeleteModuleName = ref();
 
-
-async function onRunComposerInstall() {
-
-    console.log("== onRunComposerInstall ==", patches.value);
-
-    const result = await window.backendAPI.runCommand("composer update --lock && composer install", toRaw(props.project), toRaw(props.environment));
-    console.log("result", result);
-
-    // let modules = [];
-
-    // for (let module in patches.value) {
-    //     modules.push(module);
-    // }
-
-    // console.log(modules.join(" "));
-
-    // if (modules.length) {
-    //     const result = await window.backendAPI.runCommand("composer update " + modules.join(" "), toRaw(props.project), toRaw(props.environment));
-    //     console.log("result", result);
-    // }
-}
+const computedPatches = computed(() => patches.value);
 
 async function installPlugin() {
 
@@ -78,11 +67,56 @@ async function onModuleClick(moduleName: string) {
     selectedModule.value = moduleName;
 }
 
+async function onClickModuleApplyPatches(moduleName: string) {
+    console.log("==== onClickModuleApplyPatches ====", moduleName);
+
+    applicationStore.setLoader(true, useInternationalization('loaders.uninstalling_patches_plugin').value);
+    const command = `composer reinstall ${moduleName}`;
+    const result = await window.backendAPI.runCommand(command, toRaw(props.project), toRaw(props.environment));
+
+    console.log("result", result);
+
+    showSnackbar.value = true;
+
+    if (result.success) {
+        snackbarValue.value = useInternationalization('snackbars.patch_applied_correctly').value;
+    } else {
+        snackbarValue.value = useInternationalization('snackbars.patch_problems_applying').value;
+    }
+
+    applicationStore.setLoader(false, '');
+}
+
 function onClickModuleDelete(moduleName: string) {
     console.log("==== onClickModuleDelete ====", moduleName);
 
-    selectedModule.value = "";
-    showEditModuleModal.value = true;
+    // selectedModule.value = "";
+    clickedDeleteModuleName.value = moduleName;
+    showCancelAcceptModalDeleteModule.value = true;
+}
+
+async function onDeleteModule() {
+
+    // Gets raw values of patches and module name
+    const originalPatches = JSON.parse(JSON.stringify(patches.value));
+    const moduleName = toRaw(clickedDeleteModuleName.value);
+
+    // Deletes the path from the object
+    delete originalPatches[moduleName];
+
+    applicationStore.setLoader(true, useInternationalization('loaders.uninstalling_patches_plugin').value);
+    const result = await window.backendAPI.updatePatches(originalPatches, toRaw(props.environment));
+
+    showSnackbar.value = true;
+
+    if (result.success) {
+        patches.value = originalPatches;
+        snackbarValue.value = useInternationalization('snackbars.patch_applied_correctly').value;
+    } else {
+        snackbarValue.value = useInternationalization('snackbars.patch_problems_applying').value;
+    }
+
+    applicationStore.setLoader(false, '');
 }
 
 function onClickModuleEdit(moduleName: string) {
@@ -94,10 +128,11 @@ function onClickModuleEdit(moduleName: string) {
 }
 
 function onClickPatchDelete(moduleName: string) {
-    console.log("==== onClickPatchDelete ====", moduleName);
+    // console.log("==== onClickPatchDelete ====", moduleName);
 
-    selectedPatch.value = "";
-    showEditPatchModal.value = true;
+    // selectedPatch.value = "";
+    // showEditPatchModal.value = true;
+
 }
 
 function onClickPatchEdit(patchName: string) {
@@ -107,6 +142,12 @@ function onClickPatchEdit(patchName: string) {
     selectedPatch.value = patchName;
     showEditPatchModal.value = true;
 }
+
+function onNewPatch() {
+    console.log("==== onNewPatch ====");
+    showNewModulePatchModal.value = true;
+}
+
 
 onMounted(async () => {
 
@@ -132,23 +173,40 @@ onMounted(async () => {
 
 <template>
 
+    <CancelAcceptModal :title="useInternationalization('titles.delete_group').value"
+        :content="useInternationalization('labels.do_you_want_to_delete_group').value"
+        v-model:show="showCancelAcceptModalDeleteModule" @onAccept="onDeleteModule" />
+
+    <NewModulePatchModal v-model:show="showNewModulePatchModal" v-model:patches="patches" :environment="environment"
+        :project="project" :selectedModule="selectedModule" />
+
     <EditModuleModal v-model:show="showEditModuleModal" :environment="environment" :project="project" :patches="patches"
         :selectedModule="selectedModule" />
 
     <EditPatchModal v-model:show="showEditPatchModal" :environment="environment" :project="project" :patches="patches"
         :selectedModule="selectedModule" :selectedPatch="selectedPatch" />
 
+    <Snackbar :content="snackbarValue" v-model:show="showSnackbar" />
+
     <div class="flex flex-row gap-4 h-full">
         <Card classes="h-full">
             <template #title>
                 <h2 class="mb-2 text-xl font-bold"> {{ useInternationalization('toolbar.patch') }} </h2>
             </template>
+            <template #menu>
+                <!-- <ButtonIcon v-on:click.stop.prevent="new(_moduleName)"
+                                            icon="patch" type="tertiary" /> -->
+
+                <Button v-on:click.stop.prevent="onNewPatch" :text="useInternationalization('buttons.add_module')"
+                    type="tertiary" icon="plus" class="w-fit" />
+            </template>
             <template #content>
+
                 <Checkbox v-model="pluginIsInstalled" @click="installPlugin"
                     :label="useInternationalization('labels.patches_plugin')" />
 
                 <div class="my-4">
-                    <template v-for="(patchList, _moduleName) in patches" :key="_moduleName">
+                    <template v-for="(patchList, _moduleName) in computedPatches" :key="_moduleName">
                         <div class="border-b border-slate-200 dark:border-slate-900 select-none">
                             <!-- {{ patchList }} -->
 
@@ -171,8 +229,14 @@ onMounted(async () => {
                                 </div>
                                 <div class="flex flex-row gap-1 items-center">
 
+                                    <Tooltip :content="useInternationalization('buttons.open_website')">
+                                        <ButtonIcon v-on:click.stop.prevent="onClickModuleApplyPatches(_moduleName)"
+                                            icon="patch" type="tertiary" />
+                                    </Tooltip>
+
                                     <ButtonIcon v-on:click.stop.prevent="onClickModuleEdit(_moduleName)" icon="edit"
                                         type="tertiary" />
+
                                     <ButtonIcon v-on:click.stop="onClickModuleDelete(_moduleName)" icon="delete"
                                         type="tertiary" />
                                 </div>
@@ -204,18 +268,27 @@ onMounted(async () => {
                                                 icon="delete" type="tertiary" />
                                         </div>
                                     </div>
-
                                 </template>
+                                <div @click="showNewEnvironmentModal = true" class="
+                                    flex
+                                    flex-row 
+                                    justify-items-center 
+                                    items-center 
+                                    py-3 
+                                    pl-14 
+                                    pr-3
+                                    hover:bg-blue-50 dark:hover:bg-slate-900
+                                    hover:text-blue-500
+                                    cursor-pointer">
+                                    <Icon name="plus" class="mr-2" />
+                                    <span class="font-normal">{{ useInternationalization('buttons.add_environment')
+                                        }}</span>
+                                </div>
                             </div>
                         </div>
                     </template>
                 </div>
             </template>
-            <template #footer>
-                <Button :text="useInternationalization('buttons.run_composer_install')" @click="onRunComposerInstall();"
-                    :disabled="!pluginIsInstalled" class="mr-2 disabled:opacity-75" />
-            </template>
         </Card>
     </div>
 </template>
-<style></style>
