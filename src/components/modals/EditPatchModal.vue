@@ -71,15 +71,15 @@ async function onSave() {
         <Modal @show="emit('update:show', false)" v-if="props.show" closable="true">
 
             <template #title>
-                <h2 class="mb-2 text-xl font-bold"> {{ useInternationalization('titles.edit_patch_module') }} </h2>
+                <h2 class="mb-2 text-xl font-bold"> {{ useInternationalization('titles.edit_patch') }} </h2>
             </template>
             <template #content>
-                <Input :label="useInternationalization('labels.patch_name')" v-model="payload.name"
-                    :message="useInternationalization('messages.application_name_min_chars')"
+                <Input :label="useInternationalization('labels.description')" v-model="payload.name"
+                    :message="useInternationalization('messages.description_min_chars')"
                     :validator="$formValidation.name" />
 
-                <Input :label="useInternationalization('labels.patch_file')" v-model="payload.file"
-                    :message="useInternationalization('messages.application_name_min_chars')"
+                <Input :label="useInternationalization('labels.path')" v-model="payload.file"
+                    :message="useInternationalization('messages.description_min_chars')"
                     :validator="$formValidation.file" />
             </template>
             <template #footer>

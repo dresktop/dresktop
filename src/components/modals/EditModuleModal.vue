@@ -90,15 +90,14 @@ async function onSave() {
         <Modal @show="emit('update:show', false)" v-if="props.show" closable="true">
 
             <template #title>
-                <h2 class="mb-2 text-xl font-bold"> {{ useInternationalization('titles.edit_patch_module') }} </h2>
+                <h2 class="mb-2 text-xl font-bold"> {{ useInternationalization('titles.edit_module') }} </h2>
             </template>
             <template #content>
                 <!-- <Input v-if="project" :label="useInternationalization('labels.application_name')" v-model="payload.name"
                     :message="useInternationalization('messages.application_name_min_chars')"
                     :validator="$formValidation.name" /> -->
-                <Input v-if="project" :label="useInternationalization('labels.patch_module_name')"
-                    v-model="payload.name" :message="useInternationalization('messages.application_name_min_chars')"
-                    :validator="$formValidation.name" />
+                <Input v-if="project" :label="useInternationalization('labels.name')" v-model="payload.name"
+                    :message="useInternationalization('messages.name_min_chars')" :validator="$formValidation.name" />
             </template>
             <template #footer>
                 <Button :text="useInternationalization('buttons.edit')" @click="onSave(); emit('update:show', false)"

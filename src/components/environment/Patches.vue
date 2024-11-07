@@ -3,7 +3,8 @@ import { ref, toRaw, onMounted, computed } from 'vue';
 import useInternationalization from '../../composables/translation';
 import { useApplicationStore } from './../../store/application';
 import EditPatchModal from './../modals/EditPatchModal.vue';
-import NewModulePatchModal from '../modals/NewModulePatchModal.vue';
+import NewModuleModal from '../modals/NewModuleModal.vue';
+import NewPatchModal from '../modals/NewPatchModal.vue';
 import EditModuleModal from './../modals/EditModuleModal.vue';
 import Icon from './../../components/Icon.vue';
 import ButtonIcon from './../../components/ButtonIcon.vue';
@@ -23,7 +24,8 @@ const pluginIsInstalled = ref(false);
 const patchDisplayed = ref('');
 const showEditPatchModal = ref(false);
 const showEditModuleModal = ref(false);
-const showNewModulePatchModal = ref(false);
+const showNewModuleModal = ref(false);
+const showNewPatchModal = ref(false);
 const selectedPatch = ref();
 const selectedModule = ref();
 const environment = computed(() => props.environment);
@@ -31,7 +33,9 @@ const project = computed(() => props.project);
 const showSnackbar = ref(false);
 const snackbarValue = ref("");
 const showCancelAcceptModalDeleteModule = ref(false);
+const showCancelAcceptModalDeletePatch = ref(false);
 const clickedDeleteModuleName = ref();
+const clickedDeletePatchDescription = ref();
 
 const computedPatches = computed(() => patches.value);
 
@@ -127,12 +131,43 @@ function onClickModuleEdit(moduleName: string) {
     showEditModuleModal.value = true;
 }
 
-function onClickPatchDelete(moduleName: string) {
-    // console.log("==== onClickPatchDelete ====", moduleName);
+function onClickPatchDelete(patchDescription: string) {
+    console.log("==== onClickPatchDelete #1 ====", selectedModule.value);
+    console.log("==== onClickPatchDelete #2 ====", patchDescription);
 
-    // selectedPatch.value = "";
-    // showEditPatchModal.value = true;
+    clickedDeletePatchDescription.value = patchDescription;
+    showCancelAcceptModalDeletePatch.value = true;
+}
 
+async function onDeletePatch() {
+
+    // Gets raw values of patches and module name
+    const originalPatches = JSON.parse(JSON.stringify(patches.value));
+    const moduleName = toRaw(selectedModule.value);
+    const patchDescription = toRaw(clickedDeletePatchDescription.value);
+
+    console.log("xxxxxx #1", originalPatches);
+    console.log("xxxxxx #2", moduleName);
+    console.log("xxxxxx #3", patchDescription);
+
+    // Deletes the path from the object
+    delete originalPatches[moduleName][patchDescription];
+
+    console.log("xxxxxx #4", originalPatches);
+
+    applicationStore.setLoader(true, useInternationalization('loaders.uninstalling_patches_plugin').value);
+    const result = await window.backendAPI.updatePatches(originalPatches, toRaw(props.environment));
+
+    showSnackbar.value = true;
+
+    if (result.success) {
+        patches.value = originalPatches;
+        snackbarValue.value = useInternationalization('snackbars.patch_applied_correctly').value;
+    } else {
+        snackbarValue.value = useInternationalization('snackbars.patch_problems_applying').value;
+    }
+
+    applicationStore.setLoader(false, '');
 }
 
 function onClickPatchEdit(patchName: string) {
@@ -143,9 +178,14 @@ function onClickPatchEdit(patchName: string) {
     showEditPatchModal.value = true;
 }
 
-function onNewPatch() {
+function onNewModule() {
+    console.log("==== onNewModule ====");
+    showNewModuleModal.value = true;
+}
+
+function onNewPatch(moduleName: string) {
     console.log("==== onNewPatch ====");
-    showNewModulePatchModal.value = true;
+    showNewPatchModal.value = true;
 }
 
 
@@ -173,11 +213,18 @@ onMounted(async () => {
 
 <template>
 
-    <CancelAcceptModal :title="useInternationalization('titles.delete_group').value"
-        :content="useInternationalization('labels.do_you_want_to_delete_group').value"
+    <CancelAcceptModal :title="useInternationalization('titles.delete_module').value"
+        :content="useInternationalization('labels.do_you_want_to_delete_module').value"
         v-model:show="showCancelAcceptModalDeleteModule" @onAccept="onDeleteModule" />
 
-    <NewModulePatchModal v-model:show="showNewModulePatchModal" v-model:patches="patches" :environment="environment"
+    <CancelAcceptModal :title="useInternationalization('titles.delete_patch').value"
+        :content="useInternationalization('labels.do_you_want_to_delete_patch').value"
+        v-model:show="showCancelAcceptModalDeletePatch" @onAccept="onDeletePatch" />
+
+    <NewModuleModal v-model:show="showNewModuleModal" v-model:patches="patches" :environment="environment"
+        :project="project" />
+
+    <NewPatchModal v-model:show="showNewPatchModal" v-model:patches="patches" :environment="environment"
         :project="project" :selectedModule="selectedModule" />
 
     <EditModuleModal v-model:show="showEditModuleModal" :environment="environment" :project="project" :patches="patches"
@@ -194,10 +241,7 @@ onMounted(async () => {
                 <h2 class="mb-2 text-xl font-bold"> {{ useInternationalization('toolbar.patch') }} </h2>
             </template>
             <template #menu>
-                <!-- <ButtonIcon v-on:click.stop.prevent="new(_moduleName)"
-                                            icon="patch" type="tertiary" /> -->
-
-                <Button v-on:click.stop.prevent="onNewPatch" :text="useInternationalization('buttons.add_module')"
+                <Button v-on:click.stop.prevent="onNewModule" :text="useInternationalization('buttons.add_module')"
                     type="tertiary" icon="plus" class="w-fit" />
             </template>
             <template #content>
@@ -208,7 +252,6 @@ onMounted(async () => {
                 <div class="my-4">
                     <template v-for="(patchList, _moduleName) in computedPatches" :key="_moduleName">
                         <div class="border-b border-slate-200 dark:border-slate-900 select-none">
-                            <!-- {{ patchList }} -->
 
                             <div @click="onModuleClick(_moduleName)" class="
                             flex
@@ -224,21 +267,29 @@ onMounted(async () => {
                             hover:text-blue-500
                             cursor-pointer">
                                 <div class="flex flex-row justify-items-center items-center">
-                                    <Icon :name="true ? 'arrowDown' : 'arrowRight'" class="mr-2" />
+                                    <Icon :name="patchDisplayed == _moduleName ? 'arrowDown' : 'arrowRight'"
+                                        class="mr-2" />
                                     <span class="font-normal">{{ _moduleName }}</span>
                                 </div>
                                 <div class="flex flex-row gap-1 items-center">
 
-                                    <Tooltip :content="useInternationalization('buttons.open_website')">
-                                        <ButtonIcon v-on:click.stop.prevent="onClickModuleApplyPatches(_moduleName)"
-                                            icon="patch" type="tertiary" />
+                                    <Tooltip :content="useInternationalization('tooltips.edit')">
+                                        <ButtonIcon v-on:click.stop.prevent="onClickModuleEdit(_moduleName)" icon="edit"
+                                            type="tertiary" />
                                     </Tooltip>
 
-                                    <ButtonIcon v-on:click.stop.prevent="onClickModuleEdit(_moduleName)" icon="edit"
-                                        type="tertiary" />
+                                    <Tooltip :content="useInternationalization('tooltips.delete')">
+                                        <ButtonIcon v-on:click.stop="onClickModuleDelete(_moduleName)" icon="delete"
+                                            type="tertiary" />
+                                    </Tooltip>
 
-                                    <ButtonIcon v-on:click.stop="onClickModuleDelete(_moduleName)" icon="delete"
-                                        type="tertiary" />
+                                    <Tooltip :content="useInternationalization('tooltips.run_patches')">
+                                        <div class="my-2 cursor-pointer rounded p-2 text-slate-500 hover:bg-green-100 hover:text-green-600 dark:hover:bg-green-950"
+                                            v-on:click.stop.prevent="onClickModuleApplyPatches(_moduleName)">
+                                            <Icon class="h-4 w-4" name="patch" />
+                                        </div>
+                                    </Tooltip>
+
                                 </div>
                             </div>
                             <div v-if="patchDisplayed == _moduleName">
@@ -262,14 +313,18 @@ onMounted(async () => {
                                             </div>
                                         </div>
                                         <div class="flex flex-row gap-1">
-                                            <ButtonIcon v-on:click.prevent="onClickPatchEdit(patchDescription)"
-                                                icon="edit" type="tertiary" />
-                                            <ButtonIcon v-on:click.prevent="onClickPatchDelete(patchDescription)"
-                                                icon="delete" type="tertiary" />
+                                            <Tooltip :content="useInternationalization('tooltips.edit')">
+                                                <ButtonIcon v-on:click.prevent="onClickPatchEdit(patchDescription)"
+                                                    icon="edit" type="tertiary" />
+                                            </Tooltip>
+                                            <Tooltip :content="useInternationalization('tooltips.delete')">
+                                                <ButtonIcon v-on:click.prevent="onClickPatchDelete(patchDescription)"
+                                                    icon="delete" type="tertiary" />
+                                            </Tooltip>
                                         </div>
                                     </div>
                                 </template>
-                                <div @click="showNewEnvironmentModal = true" class="
+                                <div @click="onNewPatch(_moduleName)" class="
                                     flex
                                     flex-row 
                                     justify-items-center 
@@ -281,7 +336,7 @@ onMounted(async () => {
                                     hover:text-blue-500
                                     cursor-pointer">
                                     <Icon name="plus" class="mr-2" />
-                                    <span class="font-normal">{{ useInternationalization('buttons.add_environment')
+                                    <span class="font-normal">{{ useInternationalization('buttons.add_patch')
                                         }}</span>
                                 </div>
                             </div>

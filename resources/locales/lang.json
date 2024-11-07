@@ -86,7 +86,15 @@
                 "sync": "Synchronize",
                 "powered_on": "Powered On",
                 "powered_off": "Powered Off",
-                "applications": "Applications"
+                "applications": "Applications",
+                "add_module": "Add Module",
+                "add_patch": "Add Patch",
+                "add": "Add"
+            },
+            "tooltips": {
+                "edit": "Edit",
+                "delete": "Delete",
+                "run_patches": "Run patches"
             },
             "titles": {
                 "edit": "Edit",
@@ -106,7 +114,10 @@
                 "delete_environment": "Delete Environment",
                 "delete_application": "Delete Application",
                 "delete_group": "Delete Group",
-                "edit_patch_module": "Edit Patch Module Name"
+                "edit_patch": "Edit Patch",
+                "add_module": "Add Module",
+                "add_patch": "Add Patch",
+                "edit_module": "Edit Module"
             },
             "labels": {
                 "group_name": "Group Name",
@@ -182,11 +193,13 @@
                 "dashboard": "Dashboard",
                 "patches": "Patches",
                 "enabled": "Enabled",
-                "patch_module_name": "Patch Module Name"
+                "description": "Description",
+                "path": "Path"
             },
             "messages": {
                 "group_name_min_chars": "Group name must be at least 3 characters",
                 "name_min_chars": "Name must be at least 3 characters",
+                "description_min_chars": "Description must be at least 3 characters",
                 "application_name_min_chars": "Application name must be at least 3 characters",
                 "application_path": "Select the new Drupal application path. It needs to be empty",
                 "webroot_path": "Read only. Drupal root path",
@@ -284,7 +297,15 @@
                 "sync": "Sincronizar",
                 "powered_on": "Encendido",
                 "powered_off": "Apagado",
-                "applications": "Aplicaciones"
+                "applications": "Aplicaciones",
+                "add_module": "Agregar Módulo",
+                "add_patch": "Agregar Parche",
+                "add": "Agregar"
+            },
+            "tooltips": {
+                "edit": "Editar",
+                "delete": "Eliminar",
+                "run_patches": "Ejecutar parches"
             },
             "titles": {
                 "edit": "Editar",
@@ -304,7 +325,10 @@
                 "delete_environment": "Eliminar Ambiente",
                 "delete_application": "Eliminar Aplicación",
                 "delete_group": "Eliminar Grupo",
-                "edit_patch_module": "Editar Nombre del Módulo de Parches"
+                "edit_patch": "Editar Parche",
+                "add_module": "Agregar Módulo",
+                "add_patch": "Agregar Parche",
+                "edit_module": "Editar Módulo"
             },
             "labels": {
                 "group_name": "Nombre del Grupo",
@@ -380,11 +404,13 @@
                 "dashboard": "Panel",
                 "patches": "Parches",
                 "enabled": "Habilitado",
-                "patch_module_name": "Nombre del Módulo de Parches"
+                "description": "Descripción",
+                "path": "Ruta"
             },
             "messages": {
                 "group_name_min_chars": "El nombre del grupo debe tener al menos 3 caracteres",
                 "name_min_chars": "El nombre debe tener al menos 3 caracteres.",
+                "description_min_chars": "La descripción debe tener al menos 3 caracteres",
                 "application_name_min_chars": "El nombre de la aplicación debe tener al menos 3 caracteres.",
                 "application_path": "Seleccione la nueva ruta para la aplicación. El directorio debe estar vacío",
                 "webroot_path": "Solo lectura. Ruta raíz de Drupal",
@@ -482,7 +508,15 @@
                 "sync": "Synchroniser",
                 "powered_on": "Allumé",
                 "powered_off": "Éteint",
-                "applications": "Applications"
+                "applications": "Applications",
+                "add_module": "Ajouter un module",
+                "add_patch": "Ajouter un correctif",
+                "add": "Ajouter"
+            },
+            "tooltips": {
+                "edit": "Modifier",
+                "delete": "Supprimer",
+                "run_patches": "Exécuter les correctifs"
             },
             "titles": {
                 "edit": "Éditer",
@@ -502,7 +536,10 @@
                 "delete_environment": "Supprimer l'Environnement",
                 "delete_application": "Supprimer l'Application",
                 "delete_group": "Supprimer le Groupe",
-                "edit_patch_module": "Modifier le nom du module de correctifs"
+                "edit_patch": "Modifier le correctif",
+                "add_module": "Ajouter un module",
+                "add_patch": "Ajouter un correctif",
+                "edit_module": "Modifier le module"
             },
             "labels": {
                 "group_name": "Nom du Groupe",
@@ -578,11 +615,13 @@
                 "dashboard": "Tableau de bord",
                 "patches": "Correctifs",
                 "enabled": "Activé",
-                "patch_module_name": "Nom du module de correctifs"
+                "description": "Description",
+                "path": "Chemin"
             },
             "messages": {
                 "group_name_min_chars": "Le nom du groupe doit comporter au moins 3 caractères",
                 "name_min_chars": "Le nom doit comporter au moins 3 caractères",
+                "description_min_chars": "La description doit comporter au moins 3 caractères",
                 "application_name_min_chars": "Le nom de l'application doit comporter au moins 3 caractères",
                 "application_path": "Sélectionnez le chemin de la nouvelle application Drupal. Il doit être vide",
                 "webroot_path": "Lecture seule. Chemin racine de Drupal",
@@ -680,7 +719,15 @@
                 "sync": "Synchronisieren",
                 "powered_on": "Eingeschaltet",
                 "powered_off": "Ausgeschaltet",
-                "applications": "Anwendungen"
+                "applications": "Anwendungen",
+                "add_module": "Modul hinzufügen",
+                "add_patch": "Patch hinzufügen",
+                "add": "Hinzufügen"
+            },
+            "tooltips": {
+                "edit": "Bearbeiten",
+                "delete": "Löschen",
+                "run_patches": "Patches ausführen"
             },
             "titles": {
                 "edit": "Bearbeiten",
@@ -700,7 +747,10 @@
                 "delete_environment": "Umgebung löschen",
                 "delete_application": "Anwendung löschen",
                 "delete_group": "Gruppe löschen",
-                "edit_patch_module": "Patch-Modulnamen bearbeiten"
+                "edit_patch": "Patch bearbeiten",
+                "add_module": "Modul hinzufügen",
+                "add_patch": "Patch hinzufügen",
+                "edit_module": "Modul bearbeiten"
             },
             "labels": {
                 "group_name": "Gruppenname",
@@ -776,11 +826,13 @@
                 "dashboard": "Dashboard",
                 "patches": "Patches",
                 "enabled": "Aktiviert",
-                "patch_module_name": "Patch-Modulname"
+                "description": "Beschreibung",
+                "path": "Pfad"
             },
             "messages": {
                 "group_name_min_chars": "Der Gruppenname muss mindestens 3 Zeichen enthalten",
                 "name_min_chars": "Der Name muss mindestens 3 Zeichen enthalten",
+                "description_min_chars": "Die Beschreibung muss mindestens 3 Zeichen lang sein",
                 "application_name_min_chars": "Der Name der Anwendung muss mindestens 3 Zeichen enthalten",
                 "application_path": "Wählen Sie den Pfad der neuen Drupal-Anwendung. Er muss leer sein",
                 "webroot_path": "Schreibgeschützt. Drupal-Root-Pfad",
@@ -878,7 +930,15 @@
                 "sync": "Synchroniseren",
                 "powered_on": "Ingeschakeld",
                 "powered_off": "Uitgeschakeld",
-                "applications": "Applicaties"
+                "applications": "Applicaties",
+                "add_module": "Module toevoegen",
+                "add_patch": "Patch toevoegen",
+                "add": "Toevoegen"
+            },
+            "tooltips": {
+                "edit": "Bewerken",
+                "delete": "Verwijderen",
+                "run_patches": "Patches uitvoeren"
             },
             "titles": {
                 "edit": "Bewerken",
@@ -898,7 +958,10 @@
                 "delete_environment": "Omgeving verwijderen",
                 "delete_application": "Applicatie verwijderen",
                 "delete_group": "Groep verwijderen",
-                "edit_patch_module": "Patchmodulenaam bewerken"
+                "edit_patch": "Patch bewerken",
+                "add_module": "Module toevoegen",
+                "add_patch": "Patch toevoegen",
+                "edit_module": "Module bewerken"
             },
             "labels": {
                 "group_name": "Groepsnaam",
@@ -974,11 +1037,13 @@
                 "dashboard": "Dashboard",
                 "patches": "Patches",
                 "enabled": "Ingeschakeld",
-                "patch_module_name": "Patchmodulenaam"
+                "description": "Beschrijving",
+                "path": "Pad"
             },
             "messages": {
                 "group_name_min_chars": "Groepsnaam moet minimaal 3 tekens bevatten",
                 "name_min_chars": "Naam moet minimaal 3 tekens bevatten",
+                "description_min_chars": "De beschrijving moet minimaal 3 tekens bevatten",
                 "application_name_min_chars": "Applicatienaam moet minimaal 3 tekens bevatten",
                 "application_path": "Selecteer het pad van de nieuwe Drupal-applicatie. Het moet leeg zijn",
                 "webroot_path": "Alleen-lezen. Drupal rootpad",
@@ -1076,7 +1141,15 @@
                 "sync": "Sincronizar",
                 "powered_on": "Ligado",
                 "powered_off": "Desligado",
-                "applications": "Aplicações"
+                "applications": "Aplicações",
+                "add_module": "Adicionar Módulo",
+                "add_patch": "Adicionar Patch",
+                "add": "Adicionar"
+            },
+            "tooltips": {
+                "edit": "Editar",
+                "delete": "Excluir",
+                "run_patches": "Executar patches"
             },
             "titles": {
                 "edit": "Editar",
@@ -1096,7 +1169,10 @@
                 "delete_environment": "Excluir Ambiente",
                 "delete_application": "Excluir Aplicação",
                 "delete_group": "Excluir Grupo",
-                "edit_patch_module": "Editar Nome do Módulo de Patches"
+                "edit_patch": "Editar Patch",
+                "add_module": "Adicionar Módulo",
+                "add_patch": "Adicionar Patch",
+                "edit_module": "Editar Módulo"
             },
             "labels": {
                 "group_name": "Nome do Grupo",
@@ -1172,11 +1248,13 @@
                 "dashboard": "Painel",
                 "patches": "Patches",
                 "enabled": "Habilitado",
-                "patch_module_name": "Nome do Módulo de Patches"
+                "description": "Descrição",
+                "path": "Caminho"
             },
             "messages": {
                 "group_name_min_chars": "O nome do grupo deve ter pelo menos 3 caracteres",
                 "name_min_chars": "O nome deve ter pelo menos 3 caracteres",
+                "description_min_chars": "A descrição deve ter pelo menos 3 caracteres",
                 "application_name_min_chars": "O nome da aplicação deve ter pelo menos 3 caracteres",
                 "application_path": "Selecione o caminho da nova aplicação Drupal. Ele deve estar vazio",
                 "webroot_path": "Somente leitura. Caminho raiz do Drupal",
@@ -1274,7 +1352,15 @@
                 "sync": "सिंक्रनाइज़ करें",
                 "powered_on": "चालू",
                 "powered_off": "बंद",
-                "applications": "एप्लिकेशन"
+                "applications": "एप्लिकेशन",
+                "add_module": "मॉड्यूल जोड़ें",
+                "add_patch": "पैच जोड़ें",
+                "add": "जोड़ें"
+            },
+            "tooltips": {
+                "edit": "संपादित करें",
+                "delete": "हटाएं",
+                "run_patches": "पैच चलाएं"
             },
             "titles": {
                 "edit": "संपादित करें",
@@ -1294,7 +1380,10 @@
                 "delete_environment": "पर्यावरण हटाएं",
                 "delete_application": "एप्लिकेशन हटाएं",
                 "delete_group": "समूह हटाएं",
-                "edit_patch_module": "पैच मॉड्यूल का नाम संपादित करें"
+                "edit_patch": "पैच संपादित करें",
+                "add_module": "मॉड्यूल जोड़ें",
+                "add_patch": "पैच जोड़ें",
+                "edit_module": "मॉड्यूल संपादित करें"
             },
             "labels": {
                 "group_name": "समूह का नाम",
@@ -1370,11 +1459,13 @@
                 "dashboard": "डैशबोर्ड",
                 "patches": "पैच",
                 "enabled": "सक्रिय",
-                "patch_module_name": "पैच मॉड्यूल का नाम"
+                "description": "विवरण",
+                "path": "पथ"
             },
             "messages": {
                 "group_name_min_chars": "समूह का नाम कम से कम 3 अक्षरों का होना चाहिए",
                 "name_min_chars": "नाम कम से कम 3 अक्षरों का होना चाहिए",
+                "description_min_chars": "विवरण कम से कम 3 वर्णों का होना चाहिए",
                 "application_name_min_chars": "एप्लिकेशन का नाम कम से कम 3 अक्षरों का होना चाहिए",
                 "application_path": "नई Drupal एप्लिकेशन का पथ चुनें। इसे खाली होना चाहिए",
                 "webroot_path": "केवल पढ़ने के लिए। Drupal का रूट पथ",

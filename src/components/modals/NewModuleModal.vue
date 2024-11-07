@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, toRaw, computed, watch } from 'vue';
+import { ref, toRaw, computed } from 'vue';
 import useInternationalization from '../../composables/translation';
 import { useVuelidate } from '@vuelidate/core'
 import { required, minLength, maxLength, helpers } from '@vuelidate/validators'
@@ -58,6 +58,10 @@ async function onSave() {
     emit('update:show', false);
 }
 
+function clearPayload() {
+    payload.value.name = "";
+}
+
 </script>
 
 <template>
@@ -65,21 +69,20 @@ async function onSave() {
         enter-to-class="opacity-100" leave-active-class="duration-200 ease-out" leave-from-class="opacity-100"
         leave-to-class="transform opacity-0">
 
-        <Modal @show="emit('update:show', false)" v-if="props.show" closable="true">
+        <Modal @show="clearPayload(); emit('update:show', false)" v-if="props.show" closable="true">
 
             <template #title>
-                <h2 class="mb-2 text-xl font-bold"> {{ useInternationalization('titles.edit_patch_module') }} </h2>
+                <h2 class="mb-2 text-xl font-bold"> {{ useInternationalization('titles.add_module') }} </h2>
             </template>
             <template #content>
                 <!-- <Input v-if="project" :label="useInternationalization('labels.application_name')" v-model="payload.name"
                     :message="useInternationalization('messages.application_name_min_chars')"
                     :validator="$formValidation.name" /> -->
-                <Input v-if="project" :label="useInternationalization('labels.patch_module_name')"
-                    v-model="payload.name" :message="useInternationalization('messages.application_name_min_chars')"
-                    :validator="$formValidation.name" />
+                <Input v-if="project" :label="useInternationalization('labels.name')" v-model="payload.name"
+                    :message="useInternationalization('messages.name_min_chars')" :validator="$formValidation.name" />
             </template>
             <template #footer>
-                <Button :text="useInternationalization('buttons.edit')" @click="onSave(); emit('update:show', false)"
+                <Button :text="useInternationalization('buttons.add')" @click="onSave(); emit('update:show', false)"
                     :disabled="$formValidation.$invalid" class="mr-2 disabled:opacity-75" />
                 <Button @click="emit('update:show', false)" :text="useInternationalization('buttons.cancel')"
                     type="secondary" />
