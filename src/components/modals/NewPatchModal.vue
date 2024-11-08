@@ -2,7 +2,7 @@
 import { ref, toRaw, computed } from 'vue';
 import useInternationalization from '../../composables/translation';
 import { useVuelidate } from '@vuelidate/core'
-import { required, minLength, maxLength } from '@vuelidate/validators'
+import { required, minLength, maxLength, helpers } from '@vuelidate/validators'
 
 import Modal from './../Modal.vue';
 import Button from './../Button.vue';
@@ -18,11 +18,21 @@ const payload = ref({
     path: ""
 });
 
+const noDuplicateEntriesMessage = useInternationalization('messages.no_duplicate_entries_allowed');
+
+const moduleNameRepeated = helpers.withMessage(
+    noDuplicateEntriesMessage.value,
+    (value: any) => {
+        return !patches.value[props.selectedModule][value];
+    }
+);
+
 const rules = {
     description: {
         required,
         minLength: minLength(3),
         maxLength: maxLength(128),
+        moduleNameRepeated,
         $autoDirty: true
     },
     path: {
@@ -41,14 +51,7 @@ async function onSave() {
 
     const updatedPatches = JSON.parse(JSON.stringify(patches.value));
 
-    console.log("payloadFormatted", payloadFormatted);
-    console.log("updatedPatches#1", updatedPatches);
-    console.log("selectedModule", props.selectedModule);
-
     updatedPatches[props.selectedModule][payloadFormatted.description] = payloadFormatted.path;
-
-    console.log("updatedPatches#2", updatedPatches);
-
 
     const result = await window.backendAPI.updatePatches(updatedPatches, toRaw(props.environment));
 
@@ -57,6 +60,8 @@ async function onSave() {
         // Emit the updated patches back to the parent
         emit('update:patches', updatedPatches);
     }
+
+    clearPayload();
 
     emit('update:show', false);
 }
@@ -87,7 +92,7 @@ function clearPayload() {
                     :validator="$formValidation.path" />
             </template>
             <template #footer>
-                <Button :text="useInternationalization('buttons.edit')" @click="onSave(); emit('update:show', false)"
+                <Button :text="useInternationalization('buttons.add')" @click="onSave(); emit('update:show', false)"
                     :disabled="$formValidation.$invalid" class="mr-2 disabled:opacity-75" />
                 <Button @click="emit('update:show', false)" :text="useInternationalization('buttons.cancel')"
                     type="secondary" />

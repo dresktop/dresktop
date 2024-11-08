@@ -2,7 +2,7 @@
 import { ref, toRaw, computed, watch } from 'vue';
 import useInternationalization from '../../composables/translation';
 import { useVuelidate } from '@vuelidate/core';
-import { required, minLength, maxLength } from '@vuelidate/validators';
+import { required, minLength, maxLength, helpers } from '@vuelidate/validators';
 
 import Modal from './../Modal.vue';
 import Button from './../Button.vue';
@@ -16,26 +16,36 @@ const selectedModule = computed(() => props.selectedModule);
 const selectedPatch = computed(() => props.selectedPatch);
 
 const payload = ref({
-    name: "",
-    file: ""
+    description: "",
+    path: ""
 });
+
+const noDuplicateEntriesMessage = useInternationalization('messages.no_duplicate_entries_allowed');
+
+const moduleNameRepeated = helpers.withMessage(
+    noDuplicateEntriesMessage.value,
+    (value: any) => {
+        return !patches.value[props.selectedModule][value] || selectedPatch.value == payload.value.description;
+    }
+);
 
 // Watch for changes in selectedModule and selectedPatch to update payload accordingly
 watch([selectedModule, selectedPatch], ([newModule, newPatch]) => {
     if (newModule && newPatch) {
-        payload.value.name = newPatch;
-        payload.value.file = patches.value[newModule][newPatch];
+        payload.value.description = newPatch;
+        payload.value.path = patches.value[newModule][newPatch];
     }
 }, { immediate: true });
 
 const rules = {
-    name: {
+    description: {
         required,
         minLength: minLength(3),
         maxLength: maxLength(128),
-        $autoDirty: true
+        $autoDirty: true,
+        moduleNameRepeated
     },
-    file: {
+    path: {
         required,
         $autoDirty: true
     }
@@ -50,10 +60,10 @@ async function onSave() {
     const selectedPatchRaw = toRaw(selectedPatch.value);
 
     // Update the patch name and the file
-    patches.value[selectedModuleRaw][payloadFormatted.name] = payloadFormatted.file;
+    patches.value[selectedModuleRaw][payloadFormatted.description] = payloadFormatted.path;
 
     // If the name has changed, remove the old patch entry
-    if (payloadFormatted.name !== selectedPatchRaw) {
+    if (payloadFormatted.description !== selectedPatchRaw) {
         delete patches.value[selectedModuleRaw][selectedPatchRaw];
     }
 
@@ -74,13 +84,13 @@ async function onSave() {
                 <h2 class="mb-2 text-xl font-bold"> {{ useInternationalization('titles.edit_patch') }} </h2>
             </template>
             <template #content>
-                <Input :label="useInternationalization('labels.description')" v-model="payload.name"
+                <Input :label="useInternationalization('labels.description')" v-model="payload.description"
                     :message="useInternationalization('messages.description_min_chars')"
-                    :validator="$formValidation.name" />
+                    :validator="$formValidation.description" />
 
-                <Input :label="useInternationalization('labels.path')" v-model="payload.file"
+                <Input :label="useInternationalization('labels.path')" v-model="payload.path"
                     :message="useInternationalization('messages.description_min_chars')"
-                    :validator="$formValidation.file" />
+                    :validator="$formValidation.path" />
             </template>
             <template #footer>
                 <Button :text="useInternationalization('buttons.edit')" @click="onSave(); emit('update:show', false)"

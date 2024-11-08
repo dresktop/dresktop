@@ -18,10 +18,14 @@ const payload = ref({
     name: selectedModule.value,
 });
 
-// Watch for changes in selectedModule and update payload.name accordingly
-watch(selectedModule, (newVal) => {
-    payload.value.name = newVal;
+// Watch for changes in 'show' to reset the payload.name value whenever the modal is opened
+watch(() => props.show, (newVal) => {
+    if (newVal) {
+        // Reset payload.name to selectedModule.value every time the modal is shown
+        payload.value.name = selectedModule.value;
+    }
 });
+
 // Assuming the key for the translation is 'validation.moduleNameFormat'
 const moduleNameFormatMessage = useInternationalization('messages.patch_module_format');
 
@@ -34,12 +38,22 @@ const moduleNameFormat = helpers.withMessage(
     }
 );
 
+const noDuplicateEntriesMessage = useInternationalization('messages.no_duplicate_entries_allowed');
+
+const moduleNameRepeated = helpers.withMessage(
+    noDuplicateEntriesMessage.value,
+    (value: any) => {
+        return !patches.value[value] || selectedModule.value == payload.value.name;
+    }
+);
+
 const rules = {
     name: {
         required,
         minLength: minLength(3),
         maxLength: maxLength(128),
         moduleNameFormat,
+        moduleNameRepeated,
         $autoDirty: true
     },
 }
@@ -47,23 +61,6 @@ const rules = {
 const $formValidation = useVuelidate(rules, payload);
 
 async function onSave() {
-
-    // const payloadFormatted = toRaw(payload.value);
-    // const selectedModuleRaw = toRaw(selectedModule.value);
-
-    // // If the patch name has changed, update the name and remove the old patch entry
-    // if (payloadFormatted.name !== selectedModuleRaw) {
-    //     // Rename "drupal/module_one" to "drupal/module_test"
-    //     patches.value[payloadFormatted.name] = patches.value[selectedModuleRaw];
-    //     delete patches.value[selectedModuleRaw];
-    // } else {
-    //     // Update the patch without renaming if the names are the same
-    //     patches.value[selectedModuleRaw] = payloadFormatted.file;
-    // }
-
-    // // Emit event to close the modal or perform further actions
-    // emit('update:show', false);
-
 
     const payloadFormatted = toRaw(payload.value);
 
@@ -93,9 +90,6 @@ async function onSave() {
                 <h2 class="mb-2 text-xl font-bold"> {{ useInternationalization('titles.edit_module') }} </h2>
             </template>
             <template #content>
-                <!-- <Input v-if="project" :label="useInternationalization('labels.application_name')" v-model="payload.name"
-                    :message="useInternationalization('messages.application_name_min_chars')"
-                    :validator="$formValidation.name" /> -->
                 <Input v-if="project" :label="useInternationalization('labels.name')" v-model="payload.name"
                     :message="useInternationalization('messages.name_min_chars')" :validator="$formValidation.name" />
             </template>

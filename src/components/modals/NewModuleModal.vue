@@ -29,12 +29,22 @@ const moduleNameFormat = helpers.withMessage(
     }
 );
 
+const noDuplicateEntriesMessage = useInternationalization('messages.no_duplicate_entries_allowed');
+
+const moduleNameRepeated = helpers.withMessage(
+    noDuplicateEntriesMessage.value,
+    (value: any) => {
+        return !patches.value[value];
+    }
+);
+
 const rules = {
     name: {
         required,
         minLength: minLength(3),
         maxLength: maxLength(128),
         moduleNameFormat,
+        moduleNameRepeated,
         $autoDirty: true
     },
 }
@@ -54,6 +64,8 @@ async function onSave() {
         // Emit the updated patches back to the parent
         emit('update:patches', updatedPatches);
     }
+
+    clearPayload();
 
     emit('update:show', false);
 }

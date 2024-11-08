@@ -43,8 +43,6 @@ async function installPlugin() {
 
     const install = !toRaw(pluginIsInstalled.value);
 
-    console.log("== installPlugin ==", install);
-
     if (install) {
         applicationStore.setLoader(true, useInternationalization('loaders.installing_patches_plugin').value);
         const installCommand = `composer config --no-plugins allow-plugins.cweagans/composer-patches true && composer require cweagans/composer-patches`;
@@ -72,9 +70,8 @@ async function onModuleClick(moduleName: string) {
 }
 
 async function onClickModuleApplyPatches(moduleName: string) {
-    console.log("==== onClickModuleApplyPatches ====", moduleName);
 
-    applicationStore.setLoader(true, useInternationalization('loaders.uninstalling_patches_plugin').value);
+    applicationStore.setLoader(true, useInternationalization('loaders.applying_patches_plugin').value);
     const command = `composer reinstall ${moduleName}`;
     const result = await window.backendAPI.runCommand(command, toRaw(props.project), toRaw(props.environment));
 
@@ -92,7 +89,6 @@ async function onClickModuleApplyPatches(moduleName: string) {
 }
 
 function onClickModuleDelete(moduleName: string) {
-    console.log("==== onClickModuleDelete ====", moduleName);
 
     // selectedModule.value = "";
     clickedDeleteModuleName.value = moduleName;
@@ -108,33 +104,25 @@ async function onDeleteModule() {
     // Deletes the path from the object
     delete originalPatches[moduleName];
 
-    applicationStore.setLoader(true, useInternationalization('loaders.uninstalling_patches_plugin').value);
+    applicationStore.setLoader(true, useInternationalization('loaders.deleting_module').value);
     const result = await window.backendAPI.updatePatches(originalPatches, toRaw(props.environment));
-
-    showSnackbar.value = true;
 
     if (result.success) {
         patches.value = originalPatches;
-        snackbarValue.value = useInternationalization('snackbars.patch_applied_correctly').value;
     } else {
-        snackbarValue.value = useInternationalization('snackbars.patch_problems_applying').value;
+        showSnackbar.value = true;
+        snackbarValue.value = useInternationalization('snackbars.module_problems_deleting').value;
     }
 
     applicationStore.setLoader(false, '');
 }
 
 function onClickModuleEdit(moduleName: string) {
-    console.log("==== onClickModuleEdit1 ====", moduleName);
-    console.log("==== onClickModuleEdit2 ====", patches.value);
-
     selectedModule.value = moduleName;
     showEditModuleModal.value = true;
 }
 
 function onClickPatchDelete(patchDescription: string) {
-    console.log("==== onClickPatchDelete #1 ====", selectedModule.value);
-    console.log("==== onClickPatchDelete #2 ====", patchDescription);
-
     clickedDeletePatchDescription.value = patchDescription;
     showCancelAcceptModalDeletePatch.value = true;
 }
@@ -146,48 +134,34 @@ async function onDeletePatch() {
     const moduleName = toRaw(selectedModule.value);
     const patchDescription = toRaw(clickedDeletePatchDescription.value);
 
-    console.log("xxxxxx #1", originalPatches);
-    console.log("xxxxxx #2", moduleName);
-    console.log("xxxxxx #3", patchDescription);
-
     // Deletes the path from the object
     delete originalPatches[moduleName][patchDescription];
 
-    console.log("xxxxxx #4", originalPatches);
-
-    applicationStore.setLoader(true, useInternationalization('loaders.uninstalling_patches_plugin').value);
+    applicationStore.setLoader(true, useInternationalization('loaders.deleting_patch').value);
     const result = await window.backendAPI.updatePatches(originalPatches, toRaw(props.environment));
-
-    showSnackbar.value = true;
 
     if (result.success) {
         patches.value = originalPatches;
-        snackbarValue.value = useInternationalization('snackbars.patch_applied_correctly').value;
     } else {
-        snackbarValue.value = useInternationalization('snackbars.patch_problems_applying').value;
+        showSnackbar.value = true;
+        snackbarValue.value = useInternationalization('snackbars.patch_problems_deleting').value;
     }
 
     applicationStore.setLoader(false, '');
 }
 
 function onClickPatchEdit(patchName: string) {
-    console.log("==== onClickPatchEdit1 ====", patchName);
-    console.log("==== onClickPatchEdit2 ====", patches.value[patchName]);
-
     selectedPatch.value = patchName;
     showEditPatchModal.value = true;
 }
 
 function onNewModule() {
-    console.log("==== onNewModule ====");
     showNewModuleModal.value = true;
 }
 
-function onNewPatch(moduleName: string) {
-    console.log("==== onNewPatch ====");
+function onNewPatch() {
     showNewPatchModal.value = true;
 }
-
 
 onMounted(async () => {
 

@@ -16,7 +16,9 @@
                 "group_cannot_be_deleted": "The group cannot be deleted because there are applications associated with it.",
                 "password_copied": "Password copied",
                 "patch_applied_correctly": "The patches have been applied correctly",
-                "patch_problems_applying": "Problems applying patches"
+                "patch_problems_applying": "Problems applying patches",
+                "patch_problems_deleting": "Problems deleting the patch",
+                "module_problems_deleting": "Problems deleting the module"
             },
             "loaders": {
                 "caddy_message": "Checking Caddy",
@@ -39,7 +41,10 @@
                 "downloading_drupal": "Downloading Drupal",
                 "deleting_group": "Deleting group",
                 "installing_patches_plugin": "Installing the patches plugin",
-                "uninstalling_patches_plugin": "Uninstalling the patches plugin"
+                "uninstalling_patches_plugin": "Uninstalling the patches plugin",
+                "applying_patches_plugin": "Applying the patches",
+                "deleting_module": "Deleting the module",
+                "deleting_patch": "Deleting the patch"
             },
             "settings": {
                 "ssh_key_path": "Ssh key path",
@@ -117,7 +122,9 @@
                 "edit_patch": "Edit Patch",
                 "add_module": "Add Module",
                 "add_patch": "Add Patch",
-                "edit_module": "Edit Module"
+                "edit_module": "Edit Module",
+                "delete_module": "Delete Module",
+                "delete_patch": "Delete Patch"
             },
             "labels": {
                 "group_name": "Group Name",
@@ -185,6 +192,8 @@
                 "do_you_want_to_delete_environment": "Do you want to delete the environment?",
                 "do_you_want_to_delete_application": "Do you want to delete the application?",
                 "do_you_want_to_delete_group": "Do you want to delete the group?",
+                "do_you_want_to_delete_module": "Do you want to delete the module?",
+                "do_you_want_to_delete_patch": "Do you want to delete the patch?",
                 "no_project": "No projects could be found",
                 "drupal_auto_install": "Drupal Auto Install",
                 "password": "Password",
@@ -206,7 +215,8 @@
                 "import_application_root": "Select the application root folder you want to import.",
                 "database_path": "Full path of the file. Allowed formats .sql and .gz",
                 "database_path_download": "Path where the database dump will be downloaded",
-                "patch_module_format": "The name must be in the format drupal/module_name"
+                "patch_module_format": "The name must be in the format drupal/module_name",
+                "no_duplicate_entries_allowed": "No duplicate entries are allowed"
             }
         }
     },
@@ -227,7 +237,9 @@
                 "group_cannot_be_deleted": "El grupo no puede ser eliminado porque hay aplicaciones asociadas a él.",
                 "password_copied": "Contraseña copiada",
                 "patch_applied_correctly": "Los parches se han aplicado correctamente",
-                "patch_problems_applying": "Problemas al aplicar los parches"
+                "patch_problems_applying": "Problemas al aplicar los parches",
+                "patch_problems_deleting": "Problemas al eliminar el parche",
+                "module_problems_deleting": "Problemas al eliminar el módulo"
             },
             "loaders": {
                 "caddy_message": "Verificando Caddy",
@@ -250,7 +262,10 @@
                 "downloading_drupal": "Descargando Drupal",
                 "deleting_group": "Eliminando el grupo",
                 "installing_patches_plugin": "Instalando el plugin de parches",
-                "uninstalling_patches_plugin": "Desinstalando el plugin de parches"
+                "uninstalling_patches_plugin": "Desinstalando el plugin de parches",
+                "applying_patches_plugin": "Aplicando los parches",
+                "deleting_module": "Eliminando el módulo",
+                "deleting_patch": "Eliminando el parche"
             },
             "settings": {
                 "ssh_key_path": "Ruta de la clave SSH",
@@ -328,7 +343,9 @@
                 "edit_patch": "Editar Parche",
                 "add_module": "Agregar Módulo",
                 "add_patch": "Agregar Parche",
-                "edit_module": "Editar Módulo"
+                "edit_module": "Editar Módulo",
+                "delete_module": "Eliminar Módulo",
+                "delete_patch": "Eliminar Parche"
             },
             "labels": {
                 "group_name": "Nombre del Grupo",
@@ -396,6 +413,8 @@
                 "do_you_want_to_delete_environment": "¿Deseas eliminar el ambiente?",
                 "do_you_want_to_delete_application": "¿Deseas eliminar la aplicación?",
                 "do_you_want_to_delete_group": "¿Deseas eliminar el grupo?",
+                "do_you_want_to_delete_module": "¿Deseas eliminar el módulo?",
+                "do_you_want_to_delete_patch": "¿Deseas eliminar el parche?",
                 "no_project": "No se pudieron encontrar proyectos",
                 "drupal_auto_install": "Instalación Automática de Drupal",
                 "password": "Contraseña",
@@ -417,7 +436,8 @@
                 "import_application_root": "Seleccione el directorio raíz para la applicación que desea importar",
                 "database_path": "Ruta completa del archivo. Formatos permitidos: .sql y .gz",
                 "database_path_download": "Ruta donde se descargará el volcado de la base de datos",
-                "patch_module_format": "El nombre debe estar en el formato drupal/nombre_del_módulo"
+                "patch_module_format": "El nombre debe estar en el formato drupal/nombre_del_módulo",
+                "no_duplicate_entries_allowed": "No se permiten entradas duplicadas"
             }
         }
     },
@@ -438,7 +458,9 @@
                 "group_cannot_be_deleted": "Le groupe ne peut pas être supprimé car des applications y sont associées.",
                 "password_copied": "Mot de passe copié",
                 "patch_applied_correctly": "Les correctifs ont été appliqués correctement",
-                "patch_problems_applying": "Problèmes lors de l'application des correctifs"
+                "patch_problems_applying": "Problèmes lors de l'application des correctifs",
+                "patch_problems_deleting": "Problèmes lors de la suppression du correctif",
+                "module_problems_deleting": "Problèmes lors de la suppression du module"
             },
             "loaders": {
                 "caddy_message": "Vérification de Caddy",
@@ -461,7 +483,10 @@
                 "downloading_drupal": "Téléchargement de Drupal",
                 "deleting_group": "Suppression du groupe",
                 "installing_patches_plugin": "Installation du plugin de correctifs",
-                "uninstalling_patches_plugin": "Désinstallation du plugin de correctifs"
+                "uninstalling_patches_plugin": "Désinstallation du plugin de correctifs",
+                "applying_patches_plugin": "Application des correctifs",
+                "deleting_module": "Suppression du module",
+                "deleting_patch": "Suppression du correctif"
             },
             "settings": {
                 "ssh_key_path": "Chemin de la clé SSH",
@@ -539,7 +564,9 @@
                 "edit_patch": "Modifier le correctif",
                 "add_module": "Ajouter un module",
                 "add_patch": "Ajouter un correctif",
-                "edit_module": "Modifier le module"
+                "edit_module": "Modifier le module",
+                "delete_module": "Supprimer le module",
+                "delete_patch": "Supprimer le correctif"
             },
             "labels": {
                 "group_name": "Nom du Groupe",
@@ -604,9 +631,11 @@
                 "import_datatabase": "Importer la base de données",
                 "export_datatabase": "Exporter la base de données",
                 "switch_code": "Changer de code",
-                "do_you_want_to_delete_environment": "Voulez-vous supprimer l'environnement ?",
-                "do_you_want_to_delete_application": "Voulez-vous supprimer l'application ?",
-                "do_you_want_to_delete_group": "Voulez-vous supprimer le groupe ?",
+                "do_you_want_to_delete_environment": "Voulez-vous supprimer l'environnement?",
+                "do_you_want_to_delete_application": "Voulez-vous supprimer l'application?",
+                "do_you_want_to_delete_group": "Voulez-vous supprimer le groupe?",
+                "do_you_want_to_delete_module": "Voulez-vous supprimer le module?",
+                "do_you_want_to_delete_patch": "Voulez-vous supprimer le correctif?",
                 "no_project": "Aucun projet trouvé",
                 "drupal_auto_install": "Installation Automatique de Drupal",
                 "password": "Mot de passe",
@@ -628,7 +657,8 @@
                 "import_application_root": "Sélectionnez le dossier racine de l'application à importer.",
                 "database_path": "Chemin complet du fichier. Formats autorisés : .sql et .gz",
                 "database_path_download": "Chemin où le dump de la base de données sera téléchargé",
-                "patch_module_format": "Le nom doit être au format drupal/nom_du_module"
+                "patch_module_format": "Le nom doit être au format drupal/nom_du_module",
+                "no_duplicate_entries_allowed": "Les entrées en double ne sont pas autorisées"
             }
         }
     },
@@ -649,7 +679,9 @@
                 "group_cannot_be_deleted": "Die Gruppe kann nicht gelöscht werden, da Anwendungen damit verbunden sind.",
                 "password_copied": "Passwort kopiert",
                 "patch_applied_correctly": "Die Patches wurden korrekt angewendet",
-                "patch_problems_applying": "Probleme beim Anwenden der Patches"
+                "patch_problems_applying": "Probleme beim Anwenden der Patches",
+                "patch_problems_deleting": "Probleme beim Löschen des Patches",
+                "module_problems_deleting": "Probleme beim Löschen des Moduls"
             },
             "loaders": {
                 "caddy_message": "Überprüfung von Caddy",
@@ -672,7 +704,10 @@
                 "downloading_drupal": "Drupal wird heruntergeladen",
                 "deleting_group": "Die Gruppe wird gelöscht",
                 "installing_patches_plugin": "Das Patches-Plugin wird installiert",
-                "uninstalling_patches_plugin": "Das Patches-Plugin wird deinstalliert"
+                "uninstalling_patches_plugin": "Das Patches-Plugin wird deinstalliert",
+                "applying_patches_plugin": "Patches werden angewendet",
+                "deleting_module": "Modul wird gelöscht",
+                "deleting_patch": "Patch wird gelöscht"
             },
             "settings": {
                 "ssh_key_path": "SSH-Schlüsselpfad",
@@ -750,7 +785,9 @@
                 "edit_patch": "Patch bearbeiten",
                 "add_module": "Modul hinzufügen",
                 "add_patch": "Patch hinzufügen",
-                "edit_module": "Modul bearbeiten"
+                "edit_module": "Modul bearbeiten",
+                "delete_module": "Modul löschen",
+                "delete_patch": "Patch löschen"
             },
             "labels": {
                 "group_name": "Gruppenname",
@@ -818,6 +855,8 @@
                 "do_you_want_to_delete_environment": "Möchten Sie die Umgebung löschen?",
                 "do_you_want_to_delete_application": "Möchten Sie die Anwendung löschen?",
                 "do_you_want_to_delete_group": "Möchten Sie die Gruppe löschen?",
+                "do_you_want_to_delete_module": "Möchten Sie das Modul löschen?",
+                "do_you_want_to_delete_patch": "Möchten Sie den Patch löschen?",
                 "no_project": "Es konnten keine Projekte gefunden werden",
                 "drupal_auto_install": "Drupal Automatische Installation",
                 "password": "Passwort",
@@ -839,7 +878,8 @@
                 "import_application_root": "Wählen Sie den Root-Ordner der zu importierenden Anwendung.",
                 "database_path": "Vollständiger Pfad der Datei. Zulässige Formate: .sql und .gz",
                 "database_path_download": "Pfad, in dem das Datenbank-Dump heruntergeladen wird",
-                "patch_module_format": "Der Name muss im Format drupal/modulname sein"
+                "patch_module_format": "Der Name muss im Format drupal/modulname sein",
+                "no_duplicate_entries_allowed": "Doppelte Einträge sind nicht erlaubt"
             }
         }
     },
@@ -860,7 +900,9 @@
                 "group_cannot_be_deleted": "De groep kan niet worden verwijderd omdat er applicaties aan verbonden zijn.",
                 "password_copied": "Wachtwoord gekopieerd",
                 "patch_applied_correctly": "De patches zijn correct toegepast",
-                "patch_problems_applying": "Problemen met het toepassen van patches"
+                "patch_problems_applying": "Problemen met het toepassen van patches",
+                "patch_problems_deleting": "Problemen bij het verwijderen van de patch",
+                "module_problems_deleting": "Problemen bij het verwijderen van het module"
             },
             "loaders": {
                 "caddy_message": "Caddy controleren",
@@ -883,7 +925,10 @@
                 "downloading_drupal": "Drupal wordt gedownload",
                 "deleting_group": "De groep wordt verwijderd",
                 "installing_patches_plugin": "De patches-plugin wordt geïnstalleerd",
-                "uninstalling_patches_plugin": "De patches-plugin wordt verwijderd"
+                "uninstalling_patches_plugin": "De patches-plugin wordt verwijderd",
+                "applying_patches_plugin": "Patches worden toegepast",
+                "deleting_module": "Module wordt verwijderd",
+                "deleting_patch": "Patch wordt verwijderd"
             },
             "settings": {
                 "ssh_key_path": "SSH-sleutelpad",
@@ -961,7 +1006,9 @@
                 "edit_patch": "Patch bewerken",
                 "add_module": "Module toevoegen",
                 "add_patch": "Patch toevoegen",
-                "edit_module": "Module bewerken"
+                "edit_module": "Module bewerken",
+                "delete_module": "Module verwijderen",
+                "delete_patch": "Patch verwijderen"
             },
             "labels": {
                 "group_name": "Groepsnaam",
@@ -1029,6 +1076,8 @@
                 "do_you_want_to_delete_environment": "Wilt u de omgeving verwijderen?",
                 "do_you_want_to_delete_application": "Wilt u de applicatie verwijderen?",
                 "do_you_want_to_delete_group": "Wilt u de groep verwijderen?",
+                "do_you_want_to_delete_module": "Wilt u het module verwijderen?",
+                "do_you_want_to_delete_patch": "Wilt u de patch verwijderen?",
                 "no_project": "Er konden geen projecten worden gevonden",
                 "drupal_auto_install": "Drupal Automatische Installatie",
                 "password": "Wachtwoord",
@@ -1050,7 +1099,8 @@
                 "import_application_root": "Selecteer de rootmap van de te importeren applicatie.",
                 "database_path": "Volledig pad van het bestand. Toegestane formaten: .sql en .gz",
                 "database_path_download": "Pad waar het databasebestand wordt gedownload",
-                "patch_module_format": "De naam moet in het formaat drupal/module_naam zijn"
+                "patch_module_format": "De naam moet in het formaat drupal/module_naam zijn",
+                "no_duplicate_entries_allowed": "Geen dubbele invoer toegestaan"
             }
         }
     },
@@ -1071,7 +1121,9 @@
                 "group_cannot_be_deleted": "O grupo não pode ser excluído porque há aplicações associadas a ele.",
                 "password_copied": "Senha copiada",
                 "patch_applied_correctly": "Os patches foram aplicados corretamente",
-                "patch_problems_applying": "Problemas ao aplicar os patches"
+                "patch_problems_applying": "Problemas ao aplicar os patches",
+                "patch_problems_deleting": "Problemas ao excluir o patch",
+                "module_problems_deleting": "Problemas ao excluir o módulo"
             },
             "loaders": {
                 "caddy_message": "Verificando Caddy",
@@ -1094,7 +1146,10 @@
                 "downloading_drupal": "Baixando o Drupal",
                 "deleting_group": "Excluindo o grupo",
                 "installing_patches_plugin": "Instalando o plugin de patches",
-                "uninstalling_patches_plugin": "Desinstalando o plugin de patches"
+                "uninstalling_patches_plugin": "Desinstalando o plugin de patches",
+                "applying_patches_plugin": "Aplicando os patches",
+                "deleting_module": "Excluindo o módulo",
+                "deleting_patch": "Excluindo o patch"
             },
             "settings": {
                 "ssh_key_path": "Caminho da chave SSH",
@@ -1172,7 +1227,9 @@
                 "edit_patch": "Editar Patch",
                 "add_module": "Adicionar Módulo",
                 "add_patch": "Adicionar Patch",
-                "edit_module": "Editar Módulo"
+                "edit_module": "Editar Módulo",
+                "delete_module": "Excluir Módulo",
+                "delete_patch": "Excluir Patch"
             },
             "labels": {
                 "group_name": "Nome do Grupo",
@@ -1240,6 +1297,8 @@
                 "do_you_want_to_delete_environment": "Deseja excluir o ambiente?",
                 "do_you_want_to_delete_application": "Deseja excluir a aplicação?",
                 "do_you_want_to_delete_group": "Deseja excluir o grupo?",
+                "do_you_want_to_delete_module": "Deseja excluir o módulo?",
+                "do_you_want_to_delete_patch": "Deseja excluir o patch?",
                 "no_project": "Nenhum projeto foi encontrado",
                 "drupal_auto_install": "Instalação Automática do Drupal",
                 "password": "Senha",
@@ -1261,7 +1320,8 @@
                 "import_application_root": "Selecione a pasta raiz da aplicação que deseja importar.",
                 "database_path": "Caminho completo do arquivo. Formatos permitidos: .sql e .gz",
                 "database_path_download": "Caminho onde o dump do banco de dados será baixado",
-                "patch_module_format": "O nome deve estar no formato drupal/nome_do_módulo"
+                "patch_module_format": "O nome deve estar no formato drupal/nome_do_módulo",
+                "no_duplicate_entries_allowed": "Não são permitidas entradas duplicadas"
             }
         }
     },
@@ -1282,7 +1342,9 @@
                 "group_cannot_be_deleted": "समूह को हटाया नहीं जा सकता क्योंकि इससे जुड़े एप्लिकेशन हैं।",
                 "password_copied": "पासवर्ड कॉपी हो गया",
                 "patch_applied_correctly": "पैच सही तरीके से लागू किए गए हैं",
-                "patch_problems_applying": "पैच लागू करने में समस्या"
+                "patch_problems_applying": "पैच लागू करने में समस्या",
+                "patch_problems_deleting": "पैच हटाने में समस्या",
+                "module_problems_deleting": "मॉड्यूल हटाने में समस्या"
             },
             "loaders": {
                 "caddy_message": "कैडी की जांच हो रही है",
@@ -1305,7 +1367,10 @@
                 "downloading_drupal": "Drupal को डाउनलोड किया जा रहा है",
                 "deleting_group": "समूह को हटाया जा रहा है",
                 "installing_patches_plugin": "पैच प्लगइन स्थापित किया जा रहा है",
-                "uninstalling_patches_plugin": "पैच प्लगइन को अनइंस्टॉल किया जा रहा है"
+                "uninstalling_patches_plugin": "पैच प्लगइन को अनइंस्टॉल किया जा रहा है",
+                "applying_patches_plugin": "पैच लागू किए जा रहे हैं",
+                "deleting_module": "मॉड्यूल हटाया जा रहा है",
+                "deleting_patch": "पैच हटाया जा रहा है"
             },
             "settings": {
                 "ssh_key_path": "SSH कुंजी पथ",
@@ -1383,7 +1448,9 @@
                 "edit_patch": "पैच संपादित करें",
                 "add_module": "मॉड्यूल जोड़ें",
                 "add_patch": "पैच जोड़ें",
-                "edit_module": "मॉड्यूल संपादित करें"
+                "edit_module": "मॉड्यूल संपादित करें",
+                "delete_module": "मॉड्यूल हटाएं",
+                "delete_patch": "पैच हटाएं"
             },
             "labels": {
                 "group_name": "समूह का नाम",
@@ -1451,6 +1518,8 @@
                 "do_you_want_to_delete_environment": "क्या आप पर्यावरण को हटाना चाहते हैं?",
                 "do_you_want_to_delete_application": "क्या आप एप्लिकेशन को हटाना चाहते हैं?",
                 "do_you_want_to_delete_group": "क्या आप समूह को हटाना चाहते हैं?",
+                "do_you_want_to_delete_module": "क्या आप मॉड्यूल को हटाना चाहते हैं?",
+                "do_you_want_to_delete_patch": "क्या आप पैच को हटाना चाहते हैं?",
                 "no_project": "कोई प्रोजेक्ट नहीं मिल सका",
                 "drupal_auto_install": "Drupal स्वत: इंस्टॉल",
                 "password": "पासवर्ड",
@@ -1472,7 +1541,8 @@
                 "import_application_root": "उस एप्लिकेशन की रूट फ़ोल्डर चुनें जिसे आप आयात करना चाहते हैं।",
                 "database_path": "फ़ाइल का पूर्ण पथ। अनुमति प्राप्त प्रारूप: .sql और .gz",
                 "database_path_download": "वह पथ जहाँ डेटाबेस डंप डाउनलोड किया जाएगा",
-                "patch_module_format": "नाम इस प्रारूप में होना चाहिए drupal/module_name"
+                "patch_module_format": "नाम इस प्रारूप में होना चाहिए drupal/module_name",
+                "no_duplicate_entries_allowed": "डुप्लिकेट प्रविष्टियां अनुमति नहीं हैं"
             }
         }
     }
